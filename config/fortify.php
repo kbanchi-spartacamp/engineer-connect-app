@@ -142,4 +142,8 @@ return [
         ]),
     ],
 
+    'users' => [
+        'user', 'mentor'
+    ],
+
 ];
