@@ -4,6 +4,16 @@
 
 https://docs.google.com/spreadsheets/d/1sApnnnyDDyOA4j_rF3ROKEGo5Ro-AXdlQvV2XLD911g/edit#gid=0
 
+## プレゼンテーション
+
+* beatiful ai
+
+https://www.beautiful.ai/player/-Mo8HOIMT-libUBNeq4e
+
+* prott
+
+https://prottapp.com/p/eef3b3
+
 ## 環境構築
 
 * Clone & Sail Up
