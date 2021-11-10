@@ -82,4 +82,9 @@ class MentorController extends Controller
     {
         //
     }
+
+    public function dashboard(Request $request)
+    {
+        return view('auth.mentor.dashboard');
+    }
 }
