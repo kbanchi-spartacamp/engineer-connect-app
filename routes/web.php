@@ -29,4 +29,6 @@ Route::get('users/{user_id}/mentors/{mentor_id}/message', [
 
 Route::resource('mentor_schedules.reservations', App\Http\Controllers\ReservationController::class);
 
-Route::resource('mentor_skills', App\Http\Controllers\MentorSkillController::class);
+Route::resource('mentors.mentor_skills', App\Http\Controllers\MentorSkillController::class);
+
+Route::resource('mentors', App\Http\Controllers\MentorController::class);

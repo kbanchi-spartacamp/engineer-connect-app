@@ -14,7 +14,7 @@ class MentorScheduleController extends Controller
      */
     public function index()
     {
-        //
+        return view('mentor_schedules.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class MentorScheduleController extends Controller
      */
     public function create()
     {
-        //
+        return view('mentor_schedules.create');
     }
 
     /**

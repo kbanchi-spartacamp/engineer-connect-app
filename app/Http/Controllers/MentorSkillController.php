@@ -24,7 +24,7 @@ class MentorSkillController extends Controller
      */
     public function create()
     {
-        //
+        return view('mentors.mentor_skills.create');
     }
 
     /**

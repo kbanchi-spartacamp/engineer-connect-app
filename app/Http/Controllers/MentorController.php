@@ -46,7 +46,7 @@ class MentorController extends Controller
      */
     public function show(Mentor $mentor)
     {
-        //
+        return view('mentors.show');
     }
 
     /**

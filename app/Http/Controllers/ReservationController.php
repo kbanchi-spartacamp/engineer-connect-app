@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MentorSchedule;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,9 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(MentorSchedule $mentorSchedule)
     {
-        //
+        return view('mentor_schedules.reservations.index');
     }
 
     /**
@@ -24,7 +25,7 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        //
+        return view('mentor_schedules.reservations.create');
     }
 
     /**
@@ -44,9 +45,9 @@ class ReservationController extends Controller
      * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function show(Reservation $reservation)
+    public function show(MentorSchedule $mentorSchedule, Reservation $reservation)
     {
-        //
+        return view('mentor_schedules.reservations.show');
     }
 
     /**
