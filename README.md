@@ -43,6 +43,7 @@ credential.jsonをengineer-connect-app/配下に配置してください
 sail artisan migrate:fresh
 sail artisan db:seed
 sail artisan db:seed --class SkillCategorySeeder
+sail artisan db:seed --class MentorSkillSeeder
 sail artisan db:seed --class MentorScheduleSeeder
 sail artisan db:seed --class ReservationSeeder
 sail artisan db:seed --class BookmarkSeeder
