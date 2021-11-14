@@ -36,3 +36,16 @@ $ sail artisan migrate:fresh --seed
 * GCPのcredential
 
 credential.jsonをengineer-connect-app/配下に配置してください
+
+## DBリフレッシュ
+
+```
+sail artisan migrate:fresh
+sail artisan db:seed
+sail artisan db:seed --class SkillCategorySeeder
+sail artisan db:seed --class MentorScheduleSeeder
+sail artisan db:seed --class ReservationSeeder
+sail artisan db:seed --class BookmarkSeeder
+sail artisan db:seed --class MessageSeeder
+sail artisan db:seed --class ReviewSeeder
+```

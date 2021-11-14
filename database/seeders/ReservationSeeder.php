@@ -14,6 +14,12 @@ class ReservationSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $param = [
+            [
+                'user_id' => 1,
+                'mentor_schedule_id' => 1,
+            ],
+        ];
+        DB::table('reservations')->insert($param);
     }
 }
