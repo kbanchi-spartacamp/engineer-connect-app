@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class MentorSkill extends Model
 {
     use HasFactory;
+
+    public function skill_category()
+    {
+        return $this->belongsTo(SkillCategory::class);
+    }
 }

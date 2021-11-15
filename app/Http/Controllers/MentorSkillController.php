@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\MentorSkill;
+use App\Models\SkillCategory;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Consts\MentorConst;
+use App\Models\Mentor;
 
 class MentorSkillController extends Controller
 {
@@ -24,7 +29,10 @@ class MentorSkillController extends Controller
      */
     public function create()
     {
-        return view('mentors.mentor_skills.create');
+        // $mentorSkils = MentorSkill::all();
+        $mentorSkill = new MentorSkill();
+        $skill_categories = SkillCategory::all();
+        return view('mentors.mentor_skills.create', compact('mentorSkill', 'skill_categories'));
     }
 
     /**
@@ -35,7 +43,12 @@ class MentorSkillController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $mentorSkill = new MentorSkill();
+        $mentorSkill->mentor_id = Auth::guard(MentorConst::GUARD)->user()->id;
+        $mentorSkill->skill_category_id = $request->skill_category_id;
+        $mentorSkill->experience_year = $request->experience_year;
+        $mentorSkill->save();
+        return redirect()->route('mentors.mentor_skills.create', Auth::guard(MentorConst::GUARD)->user());
     }
 
     /**
@@ -57,7 +70,7 @@ class MentorSkillController extends Controller
      */
     public function edit(MentorSkill $mentorSkill)
     {
-        //
+        return view('mentors.mentor_skills.edit', compact('mentorSkill'));
     }
 
     /**
@@ -80,6 +93,7 @@ class MentorSkillController extends Controller
      */
     public function destroy(MentorSkill $mentorSkill)
     {
-        //
+        $mentorSkill->delete();
+        return redirect('mentors/{mentor}/mentor_skills/create');
     }
 }

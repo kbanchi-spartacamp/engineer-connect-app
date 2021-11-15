@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MentorSchedule;
+use App\Models\SkillCategory;
 use Illuminate\Http\Request;
 
 class MentorScheduleController extends Controller
@@ -24,6 +25,7 @@ class MentorScheduleController extends Controller
      */
     public function create()
     {
+        
         return view('mentor_schedules.create');
     }
 

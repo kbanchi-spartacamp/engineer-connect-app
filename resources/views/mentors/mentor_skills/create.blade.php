@@ -1,9 +1,55 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                mentors.mentor_skills.create
+            <div>
+                <img src="{{ $user->profile_photo_url }}">
             </div>
+            <div>
+                <div>
+                    @foreach($user->mentor_skills as $mentor_skill)
+                    {{ $mentor_skill->skill_category->name}}
+                    @endforeach
+                </div>
+                <div>
+                    @foreach($user->mentor_skills as $mentor_skill)
+                    {{ $mentor_skill->experience_year }}
+                    @endforeach
+                </div>
+                <form action="{{ route('mentors.mentor_skills.destroy',$user,$user->mentor_skills) }}" method="post" class="w-full sm:w-32">
+                    {{-- ↑　がエラーでます。 {mentor_skil}の表し方に苦戦しております。--}}
+                    @csrf
+                    @method('DELETE')
+                    <input type="submit" value="削除" onclick="if(!confirm('削除しますか？')){return false};">
+                </form>
+            </div>
+
+            <form action="{{ route('mentors.mentor_skills.store', $user) }}" method="POST"
+                class="rounded pt-3 pb-8 mb-4">
+                @csrf
+                <div>
+                    <label>
+                        対応スキル
+                    </label>
+                    <select name="skill_category_id">
+                        <option disabled selected value="">選択してください</option>
+                        @foreach($skill_categories as $skill_category)
+                        <option value="{{ $skill_category->id }}" @if($skill_category->id == old('skill_category'))
+                            selected
+                            @endif>{{ $skill_category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label>
+                        対応年数
+                    </label>
+                    <input type="text" name="experience_year" required placeholder="対応年数"
+                        value="{{ old('experience_year') }}">
+                </div>
         </div>
+        <a href="">戻る</a>
+        <input type="submit" value="更新">
+        </form>
+    </div>
     </div>
 </x-app-layout>

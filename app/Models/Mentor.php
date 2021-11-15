@@ -59,4 +59,9 @@ class Mentor extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function mentor_skills()
+    {
+        return $this->hasMany(MentorSkill::class);
+    }
 }
