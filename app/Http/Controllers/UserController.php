@@ -85,6 +85,7 @@ class UserController extends Controller
 
     public function dashboard(Request $request)
     {
+        
         return view('auth.user.dashboard');
     }
 }
