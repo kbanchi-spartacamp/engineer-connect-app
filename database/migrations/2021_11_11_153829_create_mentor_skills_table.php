@@ -23,6 +23,7 @@ class CreateMentorSkillsTable extends Migration
                 ->constrained('skill_categories')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+            $table->integer('experience_year');
             $table->timestamps();
         });
     }
