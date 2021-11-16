@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Consts\MentorConst;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class MentorScheduleController extends Controller
 {
@@ -76,7 +77,7 @@ class MentorScheduleController extends Controller
 
         $mentorSchedule = new MentorSchedule();
         $mentorSchedules = MentorSchedule::all();
-        return view('mentor_schedules.create', compact('mentorSchedule','times','open_times', 'mentorSchedules'));
+        return view('mentor_schedules.create', compact('mentorSchedule', 'times', 'open_times', 'mentorSchedules'));
     }
 
     /**
@@ -87,21 +88,38 @@ class MentorScheduleController extends Controller
      */
     public function store(Request $request)
     {
-         {{ dd($request->start_time); }}
-        while ($request->start_time < $request->end_time) {
-            $time = // $request->start_timeに30分ずつ足していきたい。
+        $today_start_time = $request->today_start_time;
+        $today_end_time = $request->today_end_time;
+        $day_of_week = $request->day_of_week;
+        $open_time = $request->open_time;
+        $end_time = $request->end_time;
+
+        if (!empty($today_start_time) && !empty($today_end_time)) {
+            $start_time = new Carbon($today_start_time);
+            $end_time = new Carbon($today_end_time);
+            DB::beginTransaction();
+            try {
+                while ($start_time < $end_time) {
+                    $mentorSchedule = new MentorSchedule();
+                    $mentorSchedule->mentor_id = Auth::guard(MentorConst::GUARD)->user()->id;
+                    $mentorSchedule->day = now();
+                    $mentorSchedule->day_of_week = null;
+                    $mentorSchedule->start_time = $start_time;
+                    $mentorSchedule->regular_type = 1;
+
+                    $mentorSchedule->save();
+
+                    $start_time = $start_time->addMinute(30);
+                }
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return back()->withInput()
+                    ->withErrors('登録でエラーが発生しました');
+            }
         }
 
-
-
-        $mentorSchedule = new MentorSchedule();
-        $mentorSchedule->mentor_id = Auth::guard(MentorConst::GUARD)->user()->id;
-        $mentorSchedule->day =$request->day;
-        $mentorSchedule->day_of_week = $request->day_of_week;
-        $mentorSchedule->start_time = $time;
-        $mentorSchedule->regular_type = $request->regular_type;
-        $mentorSchedule->save();
-        return redirect()->route('mentor_schedules.create', Auth::guard(MentorConst::GUARD)->user());
+        return redirect()->route('mentor_schedules.create');
     }
 
     /**
