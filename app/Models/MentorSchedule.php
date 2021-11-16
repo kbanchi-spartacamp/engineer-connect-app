@@ -8,5 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class MentorSchedule extends Model
 {
     use HasFactory;
-    
+
+    public function mentor()
+    {
+        return $this->belongsTo(Mentor::class);
+    }
 }
