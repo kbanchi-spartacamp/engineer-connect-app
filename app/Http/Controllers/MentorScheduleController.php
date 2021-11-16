@@ -47,8 +47,26 @@ class MentorScheduleController extends Controller
      */
     public function create()
     {
+        $date = now();
+        $start_time = $date->addMinutes(30 - $date->minute % 30);
+        $end_time = new Carbon('24:00:00');
+        $times = [];
+        while ($start_time < $end_time) {
+            $times[] = $start_time->format('H:i');
+            $start_time = $start_time->addMinute(30);
+        }
+
+        $start = new Carbon('00:00:00');
+        $generally_time = $start->addMinutes($start->minute % 30);
+        $open_times = [];
+        while ($generally_time < $end_time) {
+            $open_times[] = $generally_time->format('H:i');
+            $generally_time = $generally_time->addMinute(30);
+        }
+
         $mentorSchedule = new MentorSchedule();
-        return view('mentor_schedules.create', compact('mentorSchedule'));
+        $mentorSchedules = MentorSchedule::all();
+        return view('mentor_schedules.create', compact('mentorSchedule','times','open_times', 'mentorSchedules'));
     }
 
     /**
@@ -59,11 +77,18 @@ class MentorScheduleController extends Controller
      */
     public function store(Request $request)
     {
+         {{ dd($request->start_time); }}
+        while ($request->start_time < $request->end_time) {
+            $time = // $request->start_timeに30分ずつ足していきたい。
+        }
+
+
+
         $mentorSchedule = new MentorSchedule();
         $mentorSchedule->mentor_id = Auth::guard(MentorConst::GUARD)->user()->id;
-        $mentorSchedule->day = $request->day;
+        $mentorSchedule->day =$request->day;
         $mentorSchedule->day_of_week = $request->day_of_week;
-        $mentorSchedule->start_time = $request->start_time;
+        $mentorSchedule->start_time = $time;
         $mentorSchedule->regular_type = $request->regular_type;
         $mentorSchedule->save();
         return redirect()->route('mentor_schedules.create', Auth::guard(MentorConst::GUARD)->user());
