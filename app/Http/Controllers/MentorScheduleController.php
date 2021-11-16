@@ -74,7 +74,7 @@ class MentorScheduleController extends Controller
             $open_times[] = $generally_time->format('H:i');
             $generally_time = $generally_time->addMinute(30);
         }
-        
+
         $mentorIrregularSchedules = MentorSchedule::where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
             ->where('regular_type', 1)
             ->whereDate('day', now())
