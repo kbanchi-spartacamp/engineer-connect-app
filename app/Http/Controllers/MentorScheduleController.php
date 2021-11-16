@@ -119,6 +119,31 @@ class MentorScheduleController extends Controller
             }
         }
 
+        if (!empty($day_of_week) && !empty($open_time) && !empty($end_time)) {
+            $start_time = new Carbon($open_time);
+            $end_time = new Carbon($end_time);
+            DB::beginTransaction();
+            try {
+                while ($start_time < $end_time) {
+                    $mentorSchedule = new MentorSchedule();
+                    $mentorSchedule->mentor_id = Auth::guard(MentorConst::GUARD)->user()->id;
+                    $mentorSchedule->day = null;
+                    $mentorSchedule->day_of_week = $day_of_week;
+                    $mentorSchedule->start_time = $start_time;
+                    $mentorSchedule->regular_type = 0;
+
+                    $mentorSchedule->save();
+
+                    $start_time = $start_time->addMinute(30);
+                }
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return back()->withInput()
+                    ->withErrors('登録でエラーが発生しました');
+            }
+        }
+
         return redirect()->route('mentor_schedules.create');
     }
 
