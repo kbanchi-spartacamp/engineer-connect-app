@@ -17,15 +17,18 @@ class MentorSkillSeeder extends Seeder
         $param = [
             [
                 'mentor_id' => 1,
-                'skill_category_id' => 1
+                'skill_category_id' => 1,
+                'experience_year' => 3
             ],
             [
                 'mentor_id' => 1,
-                'skill_category_id' => 2
+                'skill_category_id' => 2,
+                'experience_year' => 3
             ],
             [
                 'mentor_id' => 1,
-                'skill_category_id' => 3
+                'skill_category_id' => 3,
+                'experience_year' => 3
             ],
         ];
         DB::table('mentor_skills')->insert($param);
