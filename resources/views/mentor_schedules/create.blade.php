@@ -32,9 +32,9 @@
                     @csrf
                     <p>定期的な予定を登録</p>
                     <select name="day_of_week">
-                        @foreach (App\Consts\DayOfWeekConst::DAY_OF_WEEK_LIST as $day_of_week)
+                        @foreach (DayOfWeekConst::DAY_OF_WEEK_LIST as $day_of_week)
                         <option value="{{ $day_of_week }}" @if ($loop->index == 0) selected @endif>
-                            {{ array_search($day_of_week, App\Consts\DayOfWeekConst::DAY_OF_WEEK_LIST) }}
+                            {{ array_search($day_of_week, DayOfWeekConst::DAY_OF_WEEK_LIST) }}
                         </option>
                         @endforeach
                     </select>
@@ -61,26 +61,27 @@
                         <tr>
                             <th class="px-4 py-2">Timing</th>
                             <th class="px-4 py-2">Start</th>
-                            <th class="px-4 py-2">End</th>
                             <th class="px-4 py-2">-</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($user->mentor_schedules as $mentor_schedule)
-                        @if ($mentor_schedule->regular_type == 1)
+                        @foreach ($mentorRegularSchedules as $mentorRegularSchedule)
                         <tr>
-                            <td class="border px-4 py-2">本日</td>
-                            <td class="border px-4 py-2">{{ $mentor_schedule->start_time }}</td>
-                            <td class="border px-4 py-2">19:30</td>
                             <td class="border px-4 py-2">
-                                <form action="" method="post" class="w-full sm:w-32">
+                                {{ array_search($mentorRegularSchedule->day_of_week, DayOfWeekConst::DAY_OF_WEEK_LIST)
+                                }}
+                            </td>
+                            <td class="border px-4 py-2">
+                                {{ $mentorRegularSchedule->start_time }}</td>
+                            <td class="border px-4 py-2">
+                                <form action="{{ route('mentor_schedules.destroy', $mentorRegularSchedule) }}"
+                                    method="post" class="w-full sm:w-32">
                                     @csrf
                                     @method('DELETE')
                                     <input type="submit" value="削除" onclick="if(!confirm('削除しますか？')){return false};">
                                 </form>
                             </td>
                         </tr>
-                        @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -95,21 +96,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($user->mentor_schedules as $mentor_schedule)
-                        @if ($mentor_schedule->regular_type == 0)
+                        @foreach ($mentorIrregularSchedules as $mentorIrregularSchedules)
                         <tr>
-                            <td class="border px-4 py-2">{{ array_search($mentor_schedule->day_of_week, App\Consts\DayOfWeekConst::DAY_OF_WEEK_LIST) }}</td>
-                            <td class="border px-4 py-2">{{ $mentor_schedule->start_time }}</td>
-                            <td class="border px-4 py-2">19:30</td>
                             <td class="border px-4 py-2">
-                                <form action="" method="post" class="w-full sm:w-32">
+                                {{ $mentorIrregularSchedules->day }}
+                            </td>
+                            <td class="border px-4 py-2">
+                                {{ $mentorIrregularSchedules->start_time }}</td>
+                            <td class="border px-4 py-2">
+                                <form action="{{ route('mentor_schedules.destroy', $mentorIrregularSchedules) }}"
+                                    method="post" class="w-full sm:w-32">
                                     @csrf
                                     @method('DELETE')
                                     <input type="submit" value="削除" onclick="if(!confirm('削除しますか？')){return false};">
                                 </form>
                             </td>
                         </tr>
-                        @endif
                         @endforeach
                     </tbody>
                 </table>

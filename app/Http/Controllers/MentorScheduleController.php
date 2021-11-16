@@ -75,9 +75,15 @@ class MentorScheduleController extends Controller
             $generally_time = $generally_time->addMinute(30);
         }
         
-        $mentorSchedule = new MentorSchedule();
-        $mentorSchedules = MentorSchedule::all();
-        return view('mentor_schedules.create', compact('mentorSchedule', 'times', 'open_times', 'mentorSchedules'));
+        $mentorIrregularSchedules = MentorSchedule::where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
+            ->where('regular_type', 1)
+            ->whereDate('day', now())
+            ->get();
+        $mentorRegularSchedules = MentorSchedule::where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
+            ->where('regular_type', 0)
+            ->get();
+
+        return view('mentor_schedules.create', compact('times', 'open_times', 'mentorIrregularSchedules', 'mentorRegularSchedules'));
     }
 
     /**
@@ -187,9 +193,9 @@ class MentorScheduleController extends Controller
      * @param  \App\Models\MentorSchedule  $mentorSchedule
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Mentor $mentor, MentorSchedule $mentorSchedule)
+    public function destroy(MentorSchedule $mentorSchedule)
     {
         $mentorSchedule->delete();
-        return redirect()->route('mentor_schedules.create', $mentor);
+        return redirect()->route('mentor_schedules.create', $mentorSchedule);
     }
 }
