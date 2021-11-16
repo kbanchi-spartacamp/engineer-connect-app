@@ -65,7 +65,7 @@ class Mentor extends Authenticatable
         return $this->hasMany(MentorSkill::class);
     }
 
-    public function mentor_schedule()
+    public function mentor_schedules()
     {
         return $this->hasMany(MentorSchedule::class);
     }
