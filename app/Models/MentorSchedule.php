@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class MentorSchedule extends Model
 {
     use HasFactory;
+    
 }

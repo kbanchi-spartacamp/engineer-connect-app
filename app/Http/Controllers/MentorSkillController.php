@@ -30,7 +30,6 @@ class MentorSkillController extends Controller
      */
     public function create()
     {
-        // $mentorSkils = MentorSkill::all();
         $mentorSkill = new MentorSkill();
         $skill_categories = SkillCategory::all();
         return view('mentors.mentor_skills.create', compact('mentorSkill', 'skill_categories'));

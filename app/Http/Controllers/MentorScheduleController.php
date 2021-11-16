@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mentor;
 use App\Models\MentorSchedule;
 use App\Models\SkillCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Consts\MentorConst;
 
 class MentorScheduleController extends Controller
 {
@@ -25,8 +28,8 @@ class MentorScheduleController extends Controller
      */
     public function create()
     {
-        
-        return view('mentor_schedules.create');
+        $mentorSchedule = new MentorSchedule();
+        return view('mentor_schedules.create', compact('mentorSchedule'));
     }
 
     /**
@@ -37,7 +40,14 @@ class MentorScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $mentorSchedule = new MentorSchedule();
+        $mentorSchedule->mentor_id = Auth::guard(MentorConst::GUARD)->user()->id;
+        $mentorSchedule->day = $request->day;
+        $mentorSchedule->day_of_week = $request->day_of_week;
+        $mentorSchedule->start_time = $request->start_time;
+        $mentorSchedule->regular_type = $request->regular_type;
+        $mentorSchedule->save();
+        return redirect()->route('mentor_schedules.create', Auth::guard(MentorConst::GUARD)->user());
     }
 
     /**
@@ -80,8 +90,9 @@ class MentorScheduleController extends Controller
      * @param  \App\Models\MentorSchedule  $mentorSchedule
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MentorSchedule $mentorSchedule)
+    public function destroy(Mentor $mentor, MentorSchedule $mentorSchedule)
     {
-        //
+        $mentorSchedule->delete();
+        return redirect()->route('mentor_schedules.create', $mentor);
     }
 }
