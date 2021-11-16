@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Consts\MentorConst;
 use App\Models\Mentor;
+use App\Models\User;
 
 class MentorSkillController extends Controller
 {
@@ -91,9 +92,9 @@ class MentorSkillController extends Controller
      * @param  \App\Models\MentorSkill  $mentorSkill
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MentorSkill $mentorSkill)
+    public function destroy(Mentor $mentor, MentorSkill $mentorSkill)
     {
         $mentorSkill->delete();
-        return redirect('mentors/{mentor}/mentor_skills/create');
+        return redirect()->route('mentors.mentor_skills.create', $mentor);
     }
 }

@@ -2,9 +2,34 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div>
-                <img src="{{ $user->profile_photo_url }}">
+                <img src="{{ $user->profile_photo_url }}" >
             </div>
             <div>
+                <table class="table-auto">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">SkillName</th>
+                            <th class="px-4 py-2">Year</th>
+                            <th class="px-4 py-2">-</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($user->mentor_skills as $mentor_skill)
+                        <tr>
+                            <td class="border px-4 py-2">{{ $mentor_skill->skill_category->name}}</td>
+                            <td class="border px-4 py-2">{{ $mentor_skill->experience_year }}</td>
+                            <td class="border px-4 py-2">
+                                <form action="{{ route('mentors.mentor_skills.destroy',[$user,$mentor_skill]) }}"
+                                    method="post" class="w-full sm:w-32">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="submit" value="削除" onclick="if(!confirm('削除しますか？')){return false};">
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
                 <div>
                     @foreach($user->mentor_skills as $mentor_skill)
                     {{ $mentor_skill->skill_category->name}}
@@ -15,8 +40,10 @@
                     {{ $mentor_skill->experience_year }}
                     @endforeach
                 </div>
-                <form action="{{ route('mentors.mentor_skills.destroy',$user,$user->mentor_skills) }}" method="post" class="w-full sm:w-32">
-                    {{-- ↑　がエラーでます。 {mentor_skil}の表し方に苦戦しております。--}}
+                <form action="{{ route('mentors.mentor_skills.destroy',[$user,$user->mentor_skills[0]]) }}"
+                    method="post" class="w-full sm:w-32">
+                    {{-- ↑　がエラーでます。 {mentor_skil}
+                    の表し方に苦戦しております。--}}
                     @csrf
                     @method('DELETE')
                     <input type="submit" value="削除" onclick="if(!confirm('削除しますか？')){return false};">
