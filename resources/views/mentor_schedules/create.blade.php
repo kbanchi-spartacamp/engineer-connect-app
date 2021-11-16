@@ -91,7 +91,6 @@
                         <tr>
                             <th class="px-4 py-2">Timing</th>
                             <th class="px-4 py-2">Start</th>
-                            <th class="px-4 py-2">End</th>
                             <th class="px-4 py-2">-</th>
                         </tr>
                     </thead>
