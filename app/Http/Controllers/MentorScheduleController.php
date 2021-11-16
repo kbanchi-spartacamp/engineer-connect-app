@@ -77,7 +77,7 @@ class MentorScheduleController extends Controller
      */
     public function store(Request $request)
     {
-         {{ dd($request->start_time); }}
+        {{ dd($request->start_time); }}
         while ($request->start_time < $request->end_time) {
             $time = // $request->start_timeに30分ずつ足していきたい。
         }

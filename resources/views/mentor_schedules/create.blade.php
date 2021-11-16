@@ -8,25 +8,45 @@
                 <div class="flex justify-center mt-1 mb-3">
                     <img src="{{ $user->profile_photo_url }}" class="h-10 w-10 rounded-full object-cover mr-3">
                 </div>
-                <form action="{{ route('mentor_schedules.store', $user) }}" method="POST" class="rounded pt-3 pb-8 ">
+                <form action="{{ route('mentor_schedules.store', $user) }}" method="POST" class="rounded pt-3 pb-8 " >
                     @csrf
-                        <button>本日</button>
-                        <select name = "">
-                        </select>
-                        <label>〜</label>
-                        <select name = "">
-                        </select>
-                        <input type="submit" value="追加">
+                    <button> 本日</button>
+                    <select name="start_time" id="">
+                        @foreach ($times as $time)
+                        <option value="{{ $time }}" @if ($loop->index == 0) selected @endif>{{ $time }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <span>〜</span>
+                    <select name="end_time" id="">
+                        @foreach ($times as $time)
+                        <option value="{{ $time }}" @if ($loop->index == count($times) - 1) selected @endif>{{ $time }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <input type="submit" value="追加">
                 </form>
                 <form action="{{ route('mentor_schedules.store', $user) }}" method="POST" class="rounded pt-3 pb-8 ">
                     @csrf
-                    <select name="">
+                    <select name="day_of_week">
                         <option disabled selected value="">曜日</option>
+                        @foreach(array_keys(DayOfWeekConst::DAY_OF_WEEK_LIST) as $day_of_week)
+                        <option value="{{ $day_of_week }}" @if ($loop->index == 0) selected @endif>{{ $day_of_week }}</option>
+                        @endforeach
+                        </option>
                     </select>
-                    <select name="">
+                    <select name="" id="">
+                        @foreach ($open_times as $time)
+                        <option value="{{ $time }}" @if ($loop->index == 0) selected @endif>{{ $time }}
+                        </option>
+                        @endforeach
                     </select>
                     <label>〜</label>
-                    <select name="">
+                    <select name="" id="">
+                        @foreach ($open_times as $time)
+                        <option value="{{ $time }}" @if ($loop->index == count($times) - 1) selected @endif>{{ $time }}
+                        </option>
+                        @endforeach
                     </select>
                     <input type="submit" value="追加">
                 </form>
