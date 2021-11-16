@@ -40,14 +40,6 @@
                     {{ $mentor_skill->experience_year }}
                     @endforeach
                 </div>
-                <form action="{{ route('mentors.mentor_skills.destroy',[$user,$user->mentor_skills[0]]) }}"
-                    method="post" class="w-full sm:w-32">
-                    {{-- ↑　がエラーでます。 {mentor_skil}
-                    の表し方に苦戦しております。--}}
-                    @csrf
-                    @method('DELETE')
-                    <input type="submit" value="削除" onclick="if(!confirm('削除しますか？')){return false};">
-                </form>
             </div>
 
             <form action="{{ route('mentors.mentor_skills.store', $user) }}" method="POST"
