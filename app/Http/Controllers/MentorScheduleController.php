@@ -17,7 +17,7 @@ class MentorScheduleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $dates = [];
         $date = now();
@@ -37,7 +37,17 @@ class MentorScheduleController extends Controller
             $start_time = $start_time->addMinute(30);
         }
 
-        return view('mentor_schedules.index', compact('dates', 'skillCategories', 'times'));
+        $query = Mentor::query();
+        $skillCategoryId = $request->skill_category_id;
+        if (!empty($skillCategoryId)) {
+            $query->whereHas('mentor_skills', function ($q) use ($skillCategoryId) {
+                $q->where('skill_category_id', $skillCategoryId);
+            });
+        }
+        $mentors = $query->get();
+        // dd($mentors);
+
+        return view('mentor_schedules.index', compact('dates', 'skillCategories', 'times', 'mentors'));
     }
 
     /**
