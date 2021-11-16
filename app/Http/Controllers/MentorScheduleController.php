@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MentorSchedule;
 use App\Models\SkillCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class MentorScheduleController extends Controller
 {
@@ -15,7 +16,25 @@ class MentorScheduleController extends Controller
      */
     public function index()
     {
-        return view('mentor_schedules.index');
+        $dates = [];
+        $date = now();
+        for ($i = 0; $i < 7; $i++) {
+            $dates[] = $date->formatLocalized('%m/%d(%a)');
+            $date = $date->addDay();
+        }
+
+        $skillCategories = SkillCategory::all();
+
+        $date = now();
+        $start_time = $date->addMinutes(30 - $date->minute % 30);
+        $end_time = new Carbon('24:00:00');
+        $times = [];
+        while ($start_time < $end_time) {
+            $times[] = $start_time->format('H:i');
+            $start_time = $start_time->addMinute(30);
+        }
+
+        return view('mentor_schedules.index', compact('dates', 'skillCategories', 'times'));
     }
 
     /**
@@ -25,7 +44,7 @@ class MentorScheduleController extends Controller
      */
     public function create()
     {
-        
+
         return view('mentor_schedules.create');
     }
 
