@@ -74,7 +74,7 @@ class MentorScheduleController extends Controller
             $open_times[] = $generally_time->format('H:i');
             $generally_time = $generally_time->addMinute(30);
         }
-
+        
         $mentorSchedule = new MentorSchedule();
         $mentorSchedules = MentorSchedule::all();
         return view('mentor_schedules.create', compact('mentorSchedule', 'times', 'open_times', 'mentorSchedules'));
