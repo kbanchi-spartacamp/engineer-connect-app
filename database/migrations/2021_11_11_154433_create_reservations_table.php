@@ -19,10 +19,12 @@ class CreateReservationsTable extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreignId('mentor_schedule_id')
-                ->constrained('mentor_schedules')
+            $table->foreignId('mentor_id')
+                ->constrained('mentors')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+            $table->date('day');
+            $table->time('start_time');
             $table->timestamps();
         });
     }
