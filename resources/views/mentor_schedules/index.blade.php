@@ -6,7 +6,8 @@
                     <ul class="flex">
                         <li class="ml-10">
                             @foreach ($dates as $date)
-                                <a href="" class="text-3xl hover:text-blue-500">{{ $date }}</a>
+                                <a href="/mentor_schedules?day={{ $date->format('m-d') }}&day_of_week={{ $date->formatLocalized('%a') }}"
+                                    class="text-3xl hover:text-blue-500">{{ $date->formatLocalized('%m/%d(%a)') }}</a>
                             @endforeach
                         </li>
                     </ul>

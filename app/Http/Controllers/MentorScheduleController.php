@@ -23,7 +23,7 @@ class MentorScheduleController extends Controller
         $dates = [];
         $date = now();
         for ($i = 0; $i < 7; $i++) {
-            $dates[] = $date->formatLocalized('%m/%d(%a)');
+            $dates[] = $date->copy();
             $date = $date->addDay();
         }
 
@@ -40,9 +40,23 @@ class MentorScheduleController extends Controller
 
         $query = Mentor::query();
         $skillCategoryId = $request->skill_category_id;
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
         if (!empty($skillCategoryId)) {
             $query->whereHas('mentor_skills', function ($q) use ($skillCategoryId) {
                 $q->where('skill_category_id', $skillCategoryId);
+            });
+        }
+        if (!empty($startTime) && !empty($endTime)) {
+            $startTime = new Carbon($startTime);
+            $endTime = new Carbon($endTime);
+            $param = [
+                'startTime' => $startTime,
+                'endTime' => $endTime
+            ];
+            $query->whereHas('mentor_schedules', function ($q) use ($param) {
+                $q->where('start_time', '>=', $param['startTime'])
+                    ->where('start_time', '<=', $param['endTime']);
             });
         }
         $mentors = $query->get();
@@ -79,7 +93,7 @@ class MentorScheduleController extends Controller
             ->where('regular_type', 1)
             ->whereDate('day', now())
             ->get();
-            
+
         $mentorRegularSchedules = MentorSchedule::where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
             ->where('regular_type', 0)
             ->get();
