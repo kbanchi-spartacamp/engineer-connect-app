@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Mentor;
 use Illuminate\Http\Request;
 
 class MentorController extends Controller
@@ -14,7 +15,8 @@ class MentorController extends Controller
      */
     public function index()
     {
-        //
+        $mentors = Mentor::all();
+        return $mentors;
     }
 
     /**

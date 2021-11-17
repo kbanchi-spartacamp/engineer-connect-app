@@ -19,7 +19,8 @@ class MentorScheduleController extends Controller
      */
     public function index()
     {
-        //
+        $mentorSchedules = MentorSchedule::all();
+        return $mentorSchedules;
     }
 
     /**
@@ -87,7 +88,6 @@ class MentorScheduleController extends Controller
         }
 
         return $mentorSchedule;
-
     }
 
     /**
