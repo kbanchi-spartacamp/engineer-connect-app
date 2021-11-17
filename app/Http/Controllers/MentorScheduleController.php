@@ -79,6 +79,7 @@ class MentorScheduleController extends Controller
             ->where('regular_type', 1)
             ->whereDate('day', now())
             ->get();
+            
         $mentorRegularSchedules = MentorSchedule::where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
             ->where('regular_type', 0)
             ->get();
