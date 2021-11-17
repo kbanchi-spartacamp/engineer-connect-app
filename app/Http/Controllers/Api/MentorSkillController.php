@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\MentorSkill;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Mentor;
+use App\Consts\MentorConst;
 
 class MentorSkillController extends Controller
 {
@@ -25,7 +29,13 @@ class MentorSkillController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $mentorSkill = new MentorSkill();
+        $mentorSkill->mentor_id = Auth::guard(MentorConst::GUARD)->user()->id;
+        $mentorSkill->skill_category_id = $request->skill_category_id;
+        $mentorSkill->experience_year = $request->experience_year;
+        $mentorSkill->save();
+
+        return $mentorSkill;
     }
 
     /**
@@ -59,6 +69,8 @@ class MentorSkillController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $mentorSkill = MentorSkill::find($id);
+        $mentorSkill->delete();
+        return $mentorSkill;
     }
 }
