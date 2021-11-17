@@ -16,7 +16,7 @@ class ReservationController extends Controller
     public function index(MentorSchedule $mentorSchedule)
     {
         $reservations = Reservation::all();
-        return view('mentor_schedules.reservations.index',compact('reservations'));
+        return view('reservations.index',compact('reservations'));
     }
 
     /**
@@ -26,7 +26,7 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        return view('mentor_schedules.reservations.create');
+        return view('reservations.create');
     }
 
     /**
@@ -48,7 +48,7 @@ class ReservationController extends Controller
      */
     public function show(MentorSchedule $mentorSchedule, Reservation $reservation)
     {
-        return view('mentor_schedules.reservations.show');
+        return view('reservations.show');
     }
 
     /**

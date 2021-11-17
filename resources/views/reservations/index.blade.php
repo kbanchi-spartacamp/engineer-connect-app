@@ -7,10 +7,13 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div>
                     @foreach($reservations as $reservation)
-                    <div>
-                        <img src= "{{ $reservation->user->profile_photo_url}}">
+                    <div class = "container flex ">
+                        <img src="{{ $reservation->user->profile_photo_url}}" class="rounded-full mr-3">
+                        {{ $reservation->day->format('n/j') }}
+                        {{ substr($reservation->start_time,0,5) }}
+                        <label>〜</label>
+                        <a href="">メッセージ</a>
                     </div>
-                    
                     @endforeach
                 </div>
             </div>
