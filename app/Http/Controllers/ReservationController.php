@@ -15,7 +15,8 @@ class ReservationController extends Controller
      */
     public function index(MentorSchedule $mentorSchedule)
     {
-        return view('mentor_schedules.reservations.index');
+        $reservations = Reservation::all();
+        return view('mentor_schedules.reservations.index',compact('reservations'));
     }
 
     /**
