@@ -8,8 +8,7 @@
                     </li>
                     <li><a class="hover:text-blue-500 text-green-500 font-bold" href="/mentor/profile">メンタープロフィール</a>
                     </li>
-                    <li><a class="hover:text-blue-500 text-green-500 font-bold"
-                            href="/mentor_schedules/1/reservations">予約一覧</a></li>
+                    <li><a class="hover:text-blue-500 text-green-500 font-bold" href="/reservations">予約一覧</a></li>
                     <li><a class="hover:text-blue-500 text-green-500 font-bold"
                             href="/mentors/1/mentor_skills/create">スキル設定</a></li>
                     <li><a class="hover:text-blue-500 text-green-500 font-bold"

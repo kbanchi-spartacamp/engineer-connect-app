@@ -21,13 +21,11 @@ require __DIR__ . '/auth.php';
 
 Route::resource('mentor_schedules', App\Http\Controllers\MentorScheduleController::class);
 
-Route::resource('mentor_schedules.reservations', App\Http\Controllers\ReservationController::class);
+Route::resource('reservations', App\Http\Controllers\ReservationController::class);
 
 Route::get('users/{user_id}/mentors/{mentor_id}/message', [
     App\Http\Controllers\MessageController::class, 'index'
 ]);
-
-Route::resource('mentor_schedules.reservations', App\Http\Controllers\ReservationController::class);
 
 Route::resource('mentors.mentor_skills', App\Http\Controllers\MentorSkillController::class);
 
