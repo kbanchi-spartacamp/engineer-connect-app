@@ -9,6 +9,11 @@ class MentorSchedule extends Model
 {
     use HasFactory;
 
+    protected $dates = [
+        'day',
+        'start_time',
+    ];
+
     public function mentor()
     {
         return $this->belongsTo(Mentor::class);

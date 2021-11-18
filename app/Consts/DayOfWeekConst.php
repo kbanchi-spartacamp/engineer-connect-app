@@ -20,4 +20,13 @@ class DayOfWeekConst
         '金曜' => self::FRIDAY,
         '土曜' => self::SATURDAY,
     ];
+    const DAY_OF_WEEK_LIST_EN = [
+        'Sun' => self::SUNDAY,
+        'Mon' => self::MONDAY,
+        'Tue' => self::TUESDAY,
+        'Wed' => self::WEDNESDAY,
+        'Thu' => self::THURSDAY,
+        'Fri' => self::FRIDAY,
+        'Sat' => self::SATURDAY,
+    ];
 }

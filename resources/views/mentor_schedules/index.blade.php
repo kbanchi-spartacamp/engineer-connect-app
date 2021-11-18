@@ -6,8 +6,16 @@
                     <ul class="flex">
                         <li class="ml-10">
                             @foreach ($dates as $date)
-                                <a href="/mentor_schedules?day={{ $date->format('m-d') }}&day_of_week={{ $date->formatLocalized('%a') }}"
+                                @if ((strpos(url()->full(), 'day=' . $date->format('Y-m-d'))) ||
+                                (!strpos(url()->full(), 'day=') && ($date->format('Y-m-d') == now()->format('Y-m-d'))))
+                                <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['day' => $date->format('Y-m-d'), 'day_of_week' => $date->formatLocalized('%a')])) }}"
+                                    class="text-3xl text-green-500 hover:text-blue-500">{{ $date->formatLocalized('%m/%d(%a)') }}</a>
+                                <input type="hidden" name="day" value="{{ $date->format('Y-m-d') }}">
+                                <input type="hidden" name="day_of_week" value="{{ $date->formatLocalized('%a') }}">
+                            @else
+                                <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['day' => $date->format('Y-m-d'), 'day_of_week' => $date->formatLocalized('%a')])) }}"
                                     class="text-3xl hover:text-blue-500">{{ $date->formatLocalized('%m/%d(%a)') }}</a>
+                            @endif
                             @endforeach
                         </li>
                     </ul>
@@ -38,10 +46,13 @@
                                 </select>
                             </div>
                             <div class="m-4">
-                                <input type="submit" value="ブックマーク"
-                                    class="w-full sm:w-40 bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32">
-                                <input type="submit" value="ブックマークを取り消す"
-                                    class="w-full sm:w-60 bg-gradient-to-r from-pink-500 to-purple-600 hover:bg-gradient-to-l hover:from-purple-500 hover:to-pink-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32">
+                                @if (strpos(url()->full(), 'bookmark=' . 'true'))
+                                    <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'false'])) }}"
+                                        class="text-3xl text-green-500 hover:text-blue-500">ブックマーク</a>
+                                @else
+                                    <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'true'])) }}"
+                                        class="text-3xl hover:text-blue-500">ブックマーク</a>
+                                @endif
                             </div>
                             <div class="m-4">
                                 <input type="submit" value="検索"
@@ -73,18 +84,10 @@
                                             </div>
                                         </div>
                                         <div class="flex">
-                                            <a href=""
-                                                class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-4 px-5 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 mx-2">18:00</a>
-                                            <a href=""
-                                                class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-4 px-5 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 mx-2">18:30</a>
-                                            <a href=""
-                                                class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-4 px-5 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 mx-2">19:00</a>
-                                            <a href=""
-                                                class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-4 px-5 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 mx-2">19:30</a>
-                                            <a href=""
-                                                class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-4 px-5 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 mx-2">20:00</a>
-                                            <a href=""
-                                                class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-4 px-5 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 mx-2">20:30</a>
+                                            @foreach ($mentor->mentor_schedules as $mentor_schedule)
+                                                <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                    class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-4 px-5 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 mx-2">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
