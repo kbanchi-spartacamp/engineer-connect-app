@@ -9,6 +9,7 @@ use App\Models\SkillCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Consts\MentorConst;
+use App\Consts\UserConst;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -93,6 +94,15 @@ class MentorScheduleController extends Controller
                 $q->orWhere('day_of_week', $param['dayOfWeek'])
                     ->where('start_time', '>=', $param['startTime'])
                     ->where('start_time', '<=', $param['endTime']);
+            });
+        }
+        // ブックマーク
+        if (!empty($bookmark) && ($bookmark == 'true')) {
+            $param = [
+                'user_id' => Auth::guard(UserConst::GUARD)->user()->id,
+            ];
+            $query->whereHas('bookmarks', function ($q) use ($param) {
+                $q->where('user_id', $param['user_id']);
             });
         }
         // データの取得

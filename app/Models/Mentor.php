@@ -69,4 +69,9 @@ class Mentor extends Authenticatable
     {
         return $this->hasMany(MentorSchedule::class);
     }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
 }
