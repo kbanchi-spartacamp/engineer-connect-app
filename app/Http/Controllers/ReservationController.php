@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mentor;
+use App\Models\SkillCategory;
 use App\Models\MentorSchedule;
 use App\Models\Reservation;
+use Illuminate\Support\Facades\Auth;
+use App\Consts\MentorConst;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ReservationController extends Controller
 {
@@ -24,9 +29,13 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('reservations.create');
+    public function create(Request $request)
+    {   
+        
+        $mentorScheduleId = $request->mentor_schedule_id;
+        $day = $request->day;
+        $mentorSchedule = MentorSchedule::find($mentorScheduleId);
+        return view('reservations.create', compact('mentorSchedule', 'day'));
     }
 
     /**
@@ -37,7 +46,11 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $reservation = new Reservation();
+        $reservation->mentor_id = Auth::guard(MentorConst::GUARD)->user()->id;
+        $reservation->skill_category_id = $request->skill_category_id;
+        $reservation->experience_year = $request->experience_year;
+        $reservation->save();
     }
 
     /**
