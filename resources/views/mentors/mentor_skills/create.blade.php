@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-12">
+    <div class="py-12 ">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-center mb-6">
                 <h2>スキル設定画面</h2>
@@ -36,7 +36,6 @@
                         </tbody>
                     </table>
                 </div>
-
                 <div class="flex justify-center">
                     <form action="{{ route('mentors.mentor_skills.store', $user) }}" method="POST"
                         class="rounded pt-3 pb-8 ">
@@ -63,17 +62,15 @@
                                 value="{{ old('experience_year') }}" class="rounded">
                         </div>
                 </div>
-
                 <div class="flex justify-center mb-5">
                     <a href=""
                         class="mr-4 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                         戻る
                     </a>
                     <input type="submit" value="更新"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        class="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
