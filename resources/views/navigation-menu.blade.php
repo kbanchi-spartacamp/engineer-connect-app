@@ -11,6 +11,18 @@
                 </div>
 
                 <!-- Navigation Links -->
+                <div class="space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('welcome') }}" :active="request()->routeIs('welcome')">
+                        {{ __('ABOUT THIS APP') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('welcome') }}" :active="request()->routeIs('welcome')">
+                        {{ __('利用規約') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('mentor_schedules.index') }}"
+                        :active="request()->routeIs('mentor_schedules.index')">
+                        {{ __('相談する') }}
+                    </x-jet-nav-link>
+                </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -19,11 +31,13 @@
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                <button
-                                    class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ $user->profile_photo_url }}"
-                                        alt="{{ $user->name }}" />
-                                </button>
+                                @auth
+                                    <button
+                                        class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                        <img class="h-8 w-8 rounded-full object-cover"
+                                            src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}" />
+                                    </button>
+                                @endauth
                             @else
                                 <span class="inline-flex rounded-md">
                                     @auth
@@ -49,21 +63,26 @@
                                 {{ __('Manage Account') }}
                             </div>
 
-                            <x-jet-dropdown-link href="{{ route($prefix . 'profile.show') }}">
-                                {{ __('Profile') }}
-                            </x-jet-dropdown-link>
+                            @auth
+                                <x-jet-dropdown-link href="{{ route($prefix . 'profile.show') }}">
+                                    {{ __('Profile') }}
+                                </x-jet-dropdown-link>
+                            @endauth
 
                             <div class="border-t border-gray-100"></div>
 
                             <!-- Authentication -->
-                            <form method="POST" action="{{ route($prefix . 'logout') }}">
-                                @csrf
+                            @auth
+                                <form method="POST" action="{{ route($prefix . 'logout') }}">
+                                    @csrf
 
-                                <x-jet-dropdown-link href="{{ route($prefix . 'logout') }}" onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                    {{ __('Log Out') }}
-                                </x-jet-dropdown-link>
-                            </form>
+                                    <x-jet-dropdown-link href="{{ route($prefix . 'logout') }}"
+                                        onclick="event.preventDefault();
+                                                                                                                                                                                                    this.closest('form').submit();">
+                                        {{ __('Log Out') }}
+                                    </x-jet-dropdown-link>
+                                </form>
+                            @endauth
                         </x-slot>
                     </x-jet-dropdown>
                 </div>
@@ -88,9 +107,11 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route($prefix . 'dashboard') }}"
-                :active="request()->routeIs($prefix . 'dashboard')">
-                {{ __('Dashboard') }}
+            <x-jet-responsive-nav-link href="/">
+                {{ __('ABOUT US') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="/">
+                {{ __('LEGAL') }}
             </x-jet-responsive-nav-link>
         </div>
 
@@ -98,10 +119,12 @@
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                    <div class="flex-shrink-0 mr-3">
-                        <img class="h-10 w-10 rounded-full object-cover" src="{{ $user->profile_photo_url }}"
-                            alt="{{ $user->name }}" />
-                    </div>
+                    @auth
+                        <div class="flex-shrink-0 mr-3">
+                            <img class="h-10 w-10 rounded-full object-cover" src="{{ $user->profile_photo_url }}"
+                                alt="{{ $user->name }}" />
+                        </div>
+                    @endauth
                 @endif
 
                 <div>
@@ -114,20 +137,25 @@
 
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
-                <x-jet-responsive-nav-link href="{{ route($prefix . 'profile.show') }}"
-                    :active="request()->routeIs($prefix . 'profile.show')">
-                    {{ __('Profile') }}
-                </x-jet-responsive-nav-link>
+                @auth
+                    <x-jet-responsive-nav-link href="{{ route($prefix . 'profile.show') }}"
+                        :active="request()->routeIs($prefix . 'profile.show')">
+                        {{ __('Profile') }}
+                    </x-jet-responsive-nav-link>
+                @endauth
 
                 <!-- Authentication -->
-                <form method="POST" action="{{ route($prefix . 'logout') }}">
-                    @csrf
+                @auth
+                    <form method="POST" action="{{ route($prefix . 'logout') }}">
+                        @csrf
 
-                    <x-jet-responsive-nav-link href="{{ route($prefix . 'logout') }}" onclick="event.preventDefault();
-                                    this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-jet-responsive-nav-link>
-                </form>
+                        <x-jet-responsive-nav-link href="{{ route($prefix . 'logout') }}"
+                            onclick="event.preventDefault();
+                                                                                                                                                                    this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </x-jet-responsive-nav-link>
+                    </form>
+                @endauth
 
                 <!-- Team Management -->
             </div>
