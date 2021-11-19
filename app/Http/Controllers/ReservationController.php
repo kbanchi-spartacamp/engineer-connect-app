@@ -7,7 +7,7 @@ use App\Models\SkillCategory;
 use App\Models\MentorSchedule;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
-use App\Consts\MentorConst;
+use App\Consts\UserConst;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -47,10 +47,14 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         $reservation = new Reservation();
-        $reservation->mentor_id = Auth::guard(MentorConst::GUARD)->user()->id;
-        $reservation->skill_category_id = $request->skill_category_id;
-        $reservation->experience_year = $request->experience_year;
+        $reservation->user_id = Auth::guard(UserConst::GUARD)->user()->id;
+        $reservation->mentor_id = $request->mentor_id;
+        $reservation->day = $request->day;
+        $reservation->start_time = $request->start_time;
         $reservation->save();
+
+        return redirect()
+            ->route('reservations.show', Auth::guard(UserConst::GUARD)->user());
     }
 
     /**
@@ -61,7 +65,10 @@ class ReservationController extends Controller
      */
     public function show(MentorSchedule $mentorSchedule, Reservation $reservation)
     {
-        return view('reservations.show');
+        $mentorScheduleId = $reservation->mentor_schedule_id;
+        $day = $reservation->day;
+        $mentorSchedule = MentorSchedule::find($mentorScheduleId);
+        return view('reservations.show', compact('reservation', 'day', 'mentorSchedule'));
     }
 
     /**
