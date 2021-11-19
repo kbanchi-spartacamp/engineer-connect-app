@@ -36,11 +36,6 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="flex mt-1 mb-3">
-                        <h3 class="text-lg h-10 leading-10">対応スキル:{{ $skillCategory->name }}</h3>
-                    </div> --}}
-
-                    {{-- 空き状況 --}}
                 </article>
             </div>
         </div>
