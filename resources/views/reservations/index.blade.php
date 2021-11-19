@@ -5,17 +5,24 @@
                 <h2>予約一覧画面</h2>
             </div>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div>
                     @foreach($reservations as $reservation)
-                    <div class = "container flex ">
-                        <img src="{{ $reservation->user->profile_photo_url}}" class="rounded-full mr-3">
-                        {{ $reservation->day->format('n/j') }}
-                        {{ substr($reservation->start_time,0,5) }}
-                        <label>〜</label>
-                        <a href="">メッセージ</a>
+                    <div class="container flex justify-center mx-auto">
+                        <img src="{{ $reservation->user->profile_photo_url}}" class="rounded-full w-1/7">
+                        <label class="flex justify-center items-center text-center w-1/4 text-3xl">
+                            {{ $reservation->day->format('n/j') }}
+                        </label>
+                        <label class="flex justify-center items-center text-center w-1/4 text-3xl">
+                            {{ substr($reservation->start_time,0,5) }}  〜
+                        </label>
+                        {{-- <label class="flex justify-center items-center text-center">
+                            〜
+                        </label> --}}
+                        <a href=""class="flex justify-center items-center text-center w-1/4 text-3xl" >
+                            メッセージ
+                        </a>
                     </div>
+                    <hr class="border-2">
                     @endforeach
-                </div>
             </div>
         </div>
     </div>
