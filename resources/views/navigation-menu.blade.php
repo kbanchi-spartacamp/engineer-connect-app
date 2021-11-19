@@ -12,17 +12,32 @@
 
                 <!-- Navigation Links -->
                 <div class="space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
-                        {{ __('ABOUT THIS APP') }}
-                    </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('legal') }}" :active="request()->routeIs('legal')">
-                        {{ __('利用規約') }}
-                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('mentor_schedules.index') }}"
                         :active="request()->routeIs('mentor_schedules.index')">
                         {{ __('相談する') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('legal') }}" :active="request()->routeIs('legal')">
+                        {{ __('利用ガイド') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('legal') }}" :active="request()->routeIs('legal')">
+                        {{ __('利用規約') }}
+                    </x-jet-nav-link>
                 </div>
+            </div>
+
+            <div class="flex justify-end flex-wrap content-center">
+                <!-- Navigation Links -->
+                @auth
+                @else
+                    <div class="m-2">
+                        <a href="{{ route('user.login') }}"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{{ __('Login') }}</a>
+                    </div>
+                    <div class="m-2">
+                        <a href="{{ route('user.register') }}"
+                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">{{ __('アカウント登録') }}</a>
+                    </div>
+                @endauth
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -78,7 +93,7 @@
 
                                     <x-jet-dropdown-link href="{{ route($prefix . 'logout') }}"
                                         onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                        this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                                                                this.closest('form').submit();">
                                         {{ __('Log Out') }}
                                     </x-jet-dropdown-link>
                                 </form>
@@ -107,11 +122,15 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
-                {{ __('ABOUT US') }}
+            <x-jet-responsive-nav-link href="{{ route('mentor_schedules.index') }}"
+                :active="request()->routeIs('mentor_schedules.index')">
+                {{ __('相談する') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('legal') }}" :active="request()->routeIs('legal')">
-                {{ __('LEGAL') }}
+                {{ __('利用ガイド') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('legal') }}" :active="request()->routeIs('legal')">
+                {{ __('利用規約') }}
             </x-jet-responsive-nav-link>
         </div>
 
@@ -151,7 +170,7 @@
 
                         <x-jet-responsive-nav-link href="{{ route($prefix . 'logout') }}"
                             onclick="event.preventDefault();
-                                                                                                                                                                                                                                        this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                                this.closest('form').submit();">
                             {{ __('Log Out') }}
                         </x-jet-responsive-nav-link>
                     </form>
