@@ -14,9 +14,6 @@
                         <label class="flex justify-center items-center text-center w-1/4 text-3xl">
                             {{ substr($reservation->start_time,0,5) }}  〜
                         </label>
-                        {{-- <label class="flex justify-center items-center text-center">
-                            〜
-                        </label> --}}
                         <a href=""class="flex justify-center items-center text-center w-1/4 text-3xl" >
                             メッセージ
                         </a>
