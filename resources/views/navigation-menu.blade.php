@@ -12,10 +12,31 @@
 
                 <!-- Navigation Links -->
                 <div class="space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('mentor_schedules.index') }}"
-                        :active="request()->routeIs('mentor_schedules.index')">
-                        {{ __('相談する') }}
-                    </x-jet-nav-link>
+                    @if (Auth::guard(UserConst::GUARD)->check())
+                        <x-jet-nav-link href="{{ route('mentor_schedules.index') }}"
+                            :active="request()->routeIs('mentor_schedules.index')">
+                            {{ __('相談する') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('reservations.index') }}"
+                            :active="request()->routeIs('reservations.index')">
+                            {{ __('予約一覧') }}
+                        </x-jet-nav-link>
+                    @endif
+                    @if (Auth::guard(MentorConst::GUARD)->check())
+                        <x-jet-nav-link href="{{ route('reservations.index') }}"
+                            :active="request()->routeIs('reservations.index')">
+                            {{ __('予約一覧') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('mentor_schedules.create') }}"
+                            :active="request()->routeIs('mentor_schedules.create')">
+                            {{ __('スケジュール登録') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link
+                            href="{{ route('mentors.mentor_skills.create', Auth::guard(MentorConst::GUARD)->user()) }}"
+                            :active="request()->routeIs('mentors.mentor_skills.create')">
+                            {{ __('スキル登録') }}
+                        </x-jet-nav-link>
+                    @endif
                     <x-jet-nav-link href="{{ route('legal') }}" :active="request()->routeIs('legal')">
                         {{ __('利用ガイド') }}
                     </x-jet-nav-link>
@@ -27,8 +48,7 @@
 
             <div class="flex justify-end flex-wrap content-center">
                 <!-- Navigation Links -->
-                @auth
-                @else
+                @if (!Auth::guard(UserConst::GUARD)->check() && !Auth::guard(MentorConst::GUARD)->check())
                     <div class="m-2">
                         <a href="{{ route('user.login') }}"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{{ __('Login') }}</a>
@@ -37,10 +57,10 @@
                         <a href="{{ route('user.register') }}"
                             class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">{{ __('アカウント登録') }}</a>
                     </div>
-                @endauth
+                @endif
             </div>
 
-            @auth
+            @if (Auth::guard(UserConst::GUARD)->check() || Auth::guard(MentorConst::GUARD)->check())
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
                     <!-- Settings Dropdown -->
                     <div class="ml-3 relative">
@@ -87,7 +107,7 @@
 
                                     <x-jet-dropdown-link href="{{ route($prefix . 'logout') }}"
                                         onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                                                    this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                                this.closest('form').submit();">
                                         {{ __('Log Out') }}
                                     </x-jet-dropdown-link>
                                 </form>
@@ -95,10 +115,10 @@
                         </x-jet-dropdown>
                     </div>
                 </div>
-            @endauth
+            @endif
 
             <!-- Hamburger -->
-            @auth
+            @if (Auth::guard(UserConst::GUARD)->check() || Auth::guard(MentorConst::GUARD)->check())
                 <div class="-mr-2 flex items-center sm:hidden">
                     <button @click="open = ! open"
                         class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition">
@@ -107,16 +127,17 @@
                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16M4 18h16" />
                             <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden"
-                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
-            @endauth
+            @endif
         </div>
     </div>
 
     <!-- Responsive Navigation Menu -->
-    @auth
+    @if (Auth::guard(UserConst::GUARD)->check() || Auth::guard(MentorConst::GUARD)->check())
         <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
             <div class="pt-2 pb-3 space-y-1">
                 <x-jet-responsive-nav-link href="{{ route('mentor_schedules.index') }}"
@@ -167,7 +188,7 @@
 
                             <x-jet-responsive-nav-link href="{{ route($prefix . 'logout') }}"
                                 onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                    this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-jet-responsive-nav-link>
                         </form>
@@ -177,5 +198,5 @@
                 </div>
             </div>
         </div>
-    @endauth
+    @endif
 </nav>

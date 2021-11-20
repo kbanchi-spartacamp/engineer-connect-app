@@ -62,7 +62,12 @@ class FortifyServiceProvider extends ServiceProvider
             Fortify::viewPrefix('auth.' . $user . '.');
             config(['fortify.guard' => Str::plural($user)]);
             // ダッシュボードの切り替え
-            config(['fortify.home' => '/' . $user . RouteServiceProvider::HOME]);
+            // config(['fortify.home' => '/' . $user . RouteServiceProvider::HOME]);
+            if ($user == 'user') {
+                config(['fortify.home' => RouteServiceProvider::USER_HOME]);
+            } else {
+                config(['fortify.home' => RouteServiceProvider::MENTOR_HOME]);
+            }
         }
 
         // ユーザー毎に登録用のクラスを分岐
