@@ -6,7 +6,7 @@
             </div>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 @foreach ($reservations as $reservation)
-                    <div class="container flex justify-center mx-auto">
+                    <div class="container flex justify-center mx-auto my-2">
                         @if (Auth::guard(UserConst::GUARD)->check())
                             <img src="{{ $reservation->mentor->profile_photo_url }}"
                                 class="rounded-full w-1/7 mr-4 ml-10">
@@ -25,6 +25,7 @@
                             メッセージ
                         </a>
                     </div>
+                    <hr class="boild">
                 @endforeach
             </div>
         </div>

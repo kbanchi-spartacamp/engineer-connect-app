@@ -84,6 +84,8 @@ class MessageController extends Controller
                 ->withErrors('エラーが発生しました');
         }
 
+        $request->session()->regenerateToken();
+
         return redirect()
             ->route('users.mentors.messages.index', [$user, $mentor])
             ->with('notice', 'Send Message');
