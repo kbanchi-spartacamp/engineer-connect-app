@@ -25,3 +25,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::apiResource('mentors.mentor_skills', App\Http\Controllers\Api\MentorSkillController::class);
     Route::apiResource('mentors', App\Http\Controllers\Api\MentorController::class);
 });
+
+Route::post('/user/register', [App\Http\Controllers\Api\UserRegisterController::class, 'register']);
+Route::post('/user/login', [App\Http\Controllers\Api\UserLoginController::class, 'login']);
+Route::post('/mentor/register', [App\Http\Controllers\Api\MentorRegisterController::class, 'register']);
+Route::post('/mentor/login', [App\Http\Controllers\Api\MentorLoginController::class, 'login']);
