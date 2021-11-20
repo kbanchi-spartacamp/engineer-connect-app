@@ -18,10 +18,10 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(MentorSchedule $mentorSchedule)
+    public function index(MentorSchedule $mentorSchedule, Reservation $reservation, Mentor $mentor)
     {
         $reservations = Reservation::all();
-        return view('reservations.index',compact('reservations'));
+        return view('reservations.index',compact('reservations','mentor','reservation'));
     }
 
     /**

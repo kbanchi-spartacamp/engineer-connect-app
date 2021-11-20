@@ -3,7 +3,6 @@
         <div class="flex justify-center text-3xl">以下のスケジュールで予約しました</div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                mentors.show
                 <article class="mb-4">
                     <div class='container mx-auto'>
                         <div class="flex justify-center">

@@ -12,9 +12,9 @@
                             {{ $reservation->day->format('n/j') }}
                         </label>
                         <label class="flex justify-center items-center text-center w-1/4 text-3xl mr-4">
-                            {{ substr($reservation->start_time,0,5) }}  〜
+                            {{ $reservation->start_time->format('G:i') }}  〜
                         </label>
-                        <a href=""class="flex justify-center items-center text-center bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded" >
+                        <a href="{{ route('users.mentors.messages.index',[$reservation->user,$user]) }}"class="flex justify-center items-center text-center bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded" >
                             メッセージ
                         </a>
                     </div>

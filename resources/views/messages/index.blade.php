@@ -39,8 +39,8 @@
                 @endif
                 @endforeach
             </div>
-            <form action="{{ route('users.mentors.messages.store', [$mentor, $messages->first()->user]) }}"
-                method="POST" class="rounded pt-3 pb-8 mb-4">
+            <form action="{{ route('users.mentors.messages.store', $messengers) }}" method="POST"
+                class="rounded pt-3 pb-8 mb-4">
                 @csrf
                 <input type="text" name="message"
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-pink-600 w-full py-2 px-3"
@@ -50,3 +50,4 @@
             </form>
         </div>
     </div>
+</x-app-layout>
