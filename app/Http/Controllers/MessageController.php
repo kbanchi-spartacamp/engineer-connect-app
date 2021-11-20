@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mentor;
 use App\Models\Message;
-use Illuminate\Http\Request;
-use App\Consts\MessageConst;
 use App\Consts\UserConst;
 use App\Consts\MentorConst;
-use Illuminate\Support\Facades\DB;
-use App\Models\Mentor;
+use App\Consts\MessageConst;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
@@ -19,11 +18,11 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user, Mentor $mentor)
+    public function index(Mentor $mentor, User $user)
     {
         $params = [
-            'user_id' => $user->id,
             'mentor_id' => $mentor->id,
+            'user_id' => $user->id,
         ];
         $messages = Message::search($params)
             ->oldest()->get();
@@ -39,7 +38,7 @@ class MessageController extends Controller
             $send_by = MessageConst::SEND_BY_MENTOR;
         }
 
-        return view('messages.index', compact('jobOffer', 'messages', 'partner', 'send_by'));
+        return view('messages.index', compact('mentor', 'messages', 'partner', 'send_by'));
     }
 
     /**
@@ -47,9 +46,32 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request, Mentor $mentor, User $user)
     {
-        //
+        $message = new Message();
+        $message->message = $request->message;
+        $message->mentor_id = $mentor->id;
+        $message->user_id = $user->id;
+        if (Auth::guard(UserConst::GUARD)->check()) {
+            $message->send_by = MessageConst::SEND_BY_USER;
+        }
+        if (Auth::guard(MentorConst::GUARD)->check()) {
+            $message->send_by = MessageConst::SEND_BY_MENTOR;
+        }
+
+        DB::beginTransaction();
+        try {
+            $message->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->withInput()
+                ->withErrors('エラーが発生しました');
+        }
+
+        return redirect()
+            ->route('mentors.users.messages.index', [$mentor, $user])
+            ->with('notice', 'Send Message');
     }
 
     /**
@@ -82,7 +104,7 @@ class MessageController extends Controller
         }
 
         return redirect()
-            ->route('users.mentors.messages.index', [$user,$mentor])
+            ->route('users.mentors.messages.index', [$user, $mentor])
             ->with('notice', 'Send Message');
     }
 
