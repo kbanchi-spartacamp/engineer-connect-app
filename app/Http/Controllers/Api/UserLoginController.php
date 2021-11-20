@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Consts\UserConst;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,7 @@ class UserLoginController extends Controller
             'password' => 'required'
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::guard(UserConst::GUARD)->attempt($credentials)) {
             $user = User::whereEmail($request->email)->first();
 
             $user->tokens()->delete();
