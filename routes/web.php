@@ -29,8 +29,8 @@ require __DIR__ . '/auth.php';
 
 Route::resource('mentor_schedules', App\Http\Controllers\MentorScheduleController::class);
 
-Route::resource('reservations', App\Http\Controllers\ReservationController::class);
-
+Route::resource('reservations', App\Http\Controllers\ReservationController::class)
+->middleware(['auth:users,mentors']);
 // Route::get('users/{user_id}/mentors/{mentor_id}/message', [
 //     App\Http\Controllers\MessageController::class, 'index'
 // ]);

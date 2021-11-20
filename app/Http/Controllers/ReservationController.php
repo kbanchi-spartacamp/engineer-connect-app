@@ -11,6 +11,7 @@ use App\Consts\UserConst;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
+
 class ReservationController extends Controller
 {
     /**
@@ -20,6 +21,7 @@ class ReservationController extends Controller
      */
     public function index(MentorSchedule $mentorSchedule, Reservation $reservation, Mentor $mentor)
     {
+        
         $reservations = Reservation::all();
         return view('reservations.index',compact('reservations','mentor','reservation'));
     }
