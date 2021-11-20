@@ -11,6 +11,7 @@ class Reservation extends Model
 
     protected $dates = [
         'day',
+        'start_time',
     ];
     
     public function user()
