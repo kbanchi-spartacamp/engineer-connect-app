@@ -30,8 +30,8 @@ class ReservationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {   
-        
+    {
+
         $mentorScheduleId = $request->mentor_schedule_id;
         $day = $request->day;
         $mentorSchedule = MentorSchedule::find($mentorScheduleId);
@@ -63,13 +63,13 @@ class ReservationController extends Controller
      * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function show(MentorSchedule $mentorSchedule, Reservation $reservation)
+    public function show(MentorSchedule $mentorSchedule, Reservation $reservation, Mentor $mentor)
     {
         $mentorSchedule->mentor_id = $reservation->mentor_id;
         $mentorScheduleId = $reservation->mentor_schedule_id;
         $day = $reservation->day;
         $mentorSchedule = MentorSchedule::find($mentorScheduleId);
-        return view('reservations.show', compact('reservation', 'day', 'mentorSchedule'));
+        return view('reservations.show', compact('reservation', 'day', 'mentorSchedule','mentor'));
     }
 
     /**

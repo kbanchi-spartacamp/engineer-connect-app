@@ -31,9 +31,13 @@ Route::resource('mentor_schedules', App\Http\Controllers\MentorScheduleControlle
 
 Route::resource('reservations', App\Http\Controllers\ReservationController::class);
 
-Route::get('users/{user_id}/mentors/{mentor_id}/message', [
-    App\Http\Controllers\MessageController::class, 'index'
-]);
+// Route::get('users/{user_id}/mentors/{mentor_id}/message', [
+//     App\Http\Controllers\MessageController::class, 'index'
+// ]);
+
+Route::resource('users.mentors.messages', App\Http\Controllers\MessageController::class)
+    ->only(['index', 'store'])
+    ->middleware(['auth:users,mentors']);
 
 Route::resource('mentors.mentor_skills', App\Http\Controllers\MentorSkillController::class);
 
