@@ -39,15 +39,25 @@
                 @endif
                 @endforeach
             </div>
-            <form action="{{ route('users.mentors.messages.store', $messengers) }}" method="POST"
-                class="rounded pt-3 pb-8 mb-4">
+            <form action="{{ route('users.mentors.messages.store', $messengers) }}" method="POST" onsubmit="checkDoubleSubmit(document.getElementById('sendBtn'))"
+                class="rounded pt-3 pb-8 mb-4 ">
                 @csrf
                 <input type="text" name="message"
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-pink-600 w-full py-2 px-3"
                     required placeholder="Message" value="{{ old('message') }}">
-                <input type="submit" value="Send"
+                <input type="submit" value="Send" name="sendBtn"
                     class="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500">
             </form>
         </div>
     </div>
+    <script>
+        function checkDoubleSubmit(obj) {
+                if (obj.disabled) {
+                    return false;
+                } else {
+                    obj.disabled = true;
+                    return true;
+                }
+            }
+    </script>
 </x-app-layout>
