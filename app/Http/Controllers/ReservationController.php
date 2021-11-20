@@ -54,7 +54,7 @@ class ReservationController extends Controller
         $reservation->save();
 
         return redirect()
-            ->route('reservations.show', Auth::guard(UserConst::GUARD)->user());
+            ->route('reservations.show', $reservation);
     }
 
     /**
@@ -65,6 +65,7 @@ class ReservationController extends Controller
      */
     public function show(MentorSchedule $mentorSchedule, Reservation $reservation)
     {
+        $mentorSchedule->mentor_id = $reservation->mentor_id;
         $mentorScheduleId = $reservation->mentor_schedule_id;
         $day = $reservation->day;
         $mentorSchedule = MentorSchedule::find($mentorScheduleId);
