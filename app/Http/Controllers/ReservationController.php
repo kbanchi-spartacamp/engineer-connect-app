@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Consts\MentorConst;
 use App\Models\Mentor;
 use App\Models\SkillCategory;
 use App\Models\MentorSchedule;
@@ -19,11 +20,16 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(MentorSchedule $mentorSchedule, Reservation $reservation, Mentor $mentor)
+    public function index()
     {
-        
-        $reservations = Reservation::all();
-        return view('reservations.index',compact('reservations','mentor','reservation'));
+        $query = Reservation::query();
+        if (Auth::guard(UserConst::GUARD)->check()) {
+            $query->where('user_id', Auth::guard(UserConst::GUARD)->user()->id);
+        } else {
+            $query->where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id);
+        }
+        $reservations = $query->get();
+        return view('reservations.index', compact('reservations'));
     }
 
     /**
@@ -71,7 +77,7 @@ class ReservationController extends Controller
         $mentorScheduleId = $reservation->mentor_schedule_id;
         $day = $reservation->day;
         $mentorSchedule = MentorSchedule::find($mentorScheduleId);
-        return view('reservations.show', compact('reservation', 'day', 'mentorSchedule','mentor'));
+        return view('reservations.show', compact('reservation', 'day', 'mentorSchedule', 'mentor'));
     }
 
     /**
