@@ -10,7 +10,7 @@
             </div>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="flex justify-center mt-4 mb-5 ">
-                    <img src="{{ $user->profile_photo_url }}" class="rounded-full object-cover w-1/7 ">
+                    <img src="{{ $user->profile_photo_url }}" class="rounded-full object-cover w-20 h-20 ">
                 </div>
                 <form action="{{ route('mentor_schedules.store') }}" method="POST" class="rounded pb-4 ">
                     @csrf

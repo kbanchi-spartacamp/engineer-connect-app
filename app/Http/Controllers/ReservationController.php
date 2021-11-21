@@ -27,7 +27,7 @@ class ReservationController extends Controller
         $messages = [
             'profile' => '',
             'skill_create' => '',
-            'schedule_create' => '',
+            'schedule_create' => ''
         ];
         $today = date("Y-m-d");
 
@@ -35,6 +35,10 @@ class ReservationController extends Controller
         if (Auth::guard(UserConst::GUARD)->check()) {
             $query->where('user_id', Auth::guard(UserConst::GUARD)->user()->id)
                 ->where('day', '>=', $today);
+            if (empty($query->id)) {
+                $messages['reservation'] = '予定が入っていません。';
+            }
+            dd($query->id);
         } else {
             $query->where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id);
             $mentor = Mentor::find(Auth::guard(MentorConst::GUARD)->user()->id);
@@ -49,6 +53,8 @@ class ReservationController extends Controller
             if (empty($mentorSchedule)) {
                 $messages['schedule_create'] = '対応スケジュールが登録されていません。スケジュール登録をしてください。';
             }
+            // $reservation = Reservation::find(Auth::guard(MentorConst::GUARD)->user()->id);
+
             $query->where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
                 ->where('day', '>=', $today);
         }
