@@ -49,3 +49,15 @@ Route::resource('mentors.mentor_skills', App\Http\Controllers\MentorSkillControl
 
 Route::resource('mentors', App\Http\Controllers\MentorController::class)
     ->middleware('auth:users,mentors');
+
+Route::post('/stripe/payment', [
+    App\Http\Controllers\StripePaymentsController::class, 'payment'
+])->name('payment');
+
+Route::get('/stripe/complete', [
+    App\Http\Controllers\StripePaymentsController::class, '‘complete’'
+])->name('complete');
+
+Route::get('/stripe', [
+    App\Http\Controllers\StripePaymentsController::class, 'index'
+])->name('index');

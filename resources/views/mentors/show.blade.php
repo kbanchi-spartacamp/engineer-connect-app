@@ -24,10 +24,19 @@
                             <input type="submit" value="お気に入り"
                                 class="w-full sm:w-40 bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32">
                         </div>
+                        <div class="m-4 content">
+                            <form action="{{ route('payment') }}" method="post">
+                                {{ csrf_field() }}
+                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="{{ env('STRIPE_KEY') }}"
+                                                                data-amount="500" data-name="Stripe Demo" data-label="決済をする"
+                                                                data-description="Online course about integrating Stripe"
+                                                                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                                                data-locale="auto" data-currency="JPY">
+                                </script>
+                            </form>
+                        </div>
                     </div>
-<<<<<<< HEAD
                     <p class="text-gray-1000 text-base">自己紹介:{!! nl2br(e($mentor->plofile)) !!}</p>
-
                     <div>
                         @foreach ($dates as $date)
                             <a href="" class="text-3xl hover:text-blue-500">{{ $date }}</a>
@@ -36,55 +45,53 @@
                             <option value="{{ $time }}" @if ($loop->index == 0) selected @endif>{{ $time }}
                             </option>
                         @endforeach
-=======
-                    <div class="flex justify-end">
-                        <div class="m-4">
-                            @if (strpos(url()->full(), 'bookmark=' . 'true'))
-                                <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'false'])) }}"
-                                    class="text-3xl text-green-500 hover:text-blue-500">ブックマーク</a>
-                            @else
-                                <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'true'])) }}"
-                                    class="text-2xl hover:text-blue-500">ブックマーク</a>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="m-4">
-                        <div>
-                            <h2 class="text-2xl">対応スキル</h2>
-                            @foreach ($mentor->mentor_skills as $mentor_skill)
-                                <p class="flex text-gray-1000">{{ $mentor_skill->skill_category->name }}</p>
-                            @endforeach
-                        </div>
-                        <div>
-                            <h2 class="text-2xl">自己紹介</h2>
-                            <p class="text-gray-1000 text-base">{!! nl2br(e($mentor->profile)) !!}</p>
-                        </div>
-                        <div class="shadow-xl sm:rounded-lg">
-                            <div>
-                                <h2 class="text-2xl">空き状況</h2>
+                        <div class="flex justify-end">
+                            <div class="m-4">
+                                @if (strpos(url()->full(), 'bookmark=' . 'true'))
+                                    <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'false'])) }}"
+                                        class="text-3xl text-green-500 hover:text-blue-500">ブックマーク</a>
+                                @else
+                                    <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'true'])) }}"
+                                        class="text-2xl hover:text-blue-500">ブックマーク</a>
+                                @endif
                             </div>
-                            <table>
-                                <tr>
-                                    @foreach ($dates as $date)
-                                        <th>
-                                            <a href="" class="text-2xl hover:text-blue-500">{{ $date }}</a>
-                                        </th>
-                                    @endforeach
-                                </tr>
+                        </div>
+                        <div class="m-4">
+                            <div>
+                                <h2 class="text-2xl">対応スキル</h2>
+                                @foreach ($mentor->mentor_skills as $mentor_skill)
+                                    <p class="flex text-gray-1000">{{ $mentor_skill->skill_category->name }}</p>
+                                @endforeach
+                            </div>
+                            <div>
+                                <h2 class="text-2xl">自己紹介</h2>
+                                <p class="text-gray-1000 text-base">{!! nl2br(e($mentor->profile)) !!}</p>
+                            </div>
+                            <div class="shadow-xl sm:rounded-lg">
+                                <div>
+                                    <h2 class="text-2xl">空き状況</h2>
+                                </div>
+                                <table>
+                                    <tr>
+                                        @foreach ($dates as $date)
+                                            <th>
+                                                <a href="" class="text-2xl hover:text-blue-500">{{ $date }}</a>
+                                            </th>
+                                        @endforeach
+                                    </tr>
                                     @foreach ($mentor->mentor_schedules as $mentor_schedule)
                                         <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
                                             class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-2 px-4 py-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500">{{ $mentor_schedule->start_time->format('H:i') }}</a>
                                     @endforeach
-                            </table>
-                            <div>
-                            </div>
-                            <div class="flex justify-between items-center">
+                                </table>
                                 <div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
->>>>>>> b90e28e (メンター詳細画面途中)
-                    </div>
                 </article>
             </div>
             <div class="m-4">
