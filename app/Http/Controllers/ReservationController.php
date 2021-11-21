@@ -13,6 +13,8 @@ use App\Models\MentorSkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
 
 class ReservationController extends Controller
 {
@@ -102,6 +104,15 @@ class ReservationController extends Controller
             return back()->withInput()
                 ->withErrors('エラーが発生しました');
         }
+
+        // $mentor = Mentor::find($reservation->mentor_id);
+        // $to = [
+        //     [
+        //         'email' => $mentor->email,
+        //         'name' => 'New Reservation',
+        //     ]
+        // ];
+        // Mail::to($to)->send(new SendMail());
 
         return redirect()
             ->route('reservations.show', $reservation)

@@ -91,14 +91,16 @@
                                     <div class="flex justify-between items-center">
                                         <div class="mt-4 flex items-center space-x-4 py-6">
                                             <div>
-                                                <img src="{{ $mentor->profile_photo_url }}"
-                                                    class="rounded-full w-20 h-20 mr-4 ml-10">
+                                                <a href="{{ route('mentors.show', $mentor) }}">
+                                                    <img src="{{ $mentor->profile_photo_url }}"
+                                                        class="rounded-full w-20 h-20 mr-4 ml-10">
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="flex">
                                             @if (empty($searchParam['day']) || empty($searchParam['day_of_week']))
                                                 @foreach ($mentor->my_schedules(now(), DayOfWeekConst::DAY_OF_WEEK_LIST_EN[now()->formatLocalized('%a')]) as $mentor_schedule)
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ now()->format('Y-m-d') }}"
                                                         class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-4 px-5 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 mx-2">{{ $mentor_schedule->start_time->format('H:i') }}</a>
                                                 @endforeach
                                             @else
