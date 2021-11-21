@@ -128,6 +128,18 @@ class MentorScheduleController extends Controller
      */
     public function create()
     {
+        $query = MentorSchedule::query();
+        $query->where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
+            ->where('regular_type', '0')
+            ->where('day_of_week', '<>', null);
+        $regular_mentorSchedules = $query->get();
+
+        $query = MentorSchedule::query();
+        $query->where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
+            ->where('regular_type', '1')
+            ->where('day', '>=', date("Y-m-d"));
+        $irregular_mentorSchedules = $query->get();
+
         $date = now();
         $start_time = $date->addMinutes(30 - $date->minute % 30);
         $end_time = new Carbon('24:00:00');
@@ -154,7 +166,7 @@ class MentorScheduleController extends Controller
             ->where('regular_type', 0)
             ->get();
 
-        return view('mentor_schedules.create', compact('times', 'open_times', 'mentorIrregularSchedules', 'mentorRegularSchedules'));
+        return view('mentor_schedules.create', compact('times', 'open_times', 'mentorIrregularSchedules', 'mentorRegularSchedules', 'regular_mentorSchedules', 'irregular_mentorSchedules'));
     }
 
     /**

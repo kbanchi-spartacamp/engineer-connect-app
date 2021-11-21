@@ -31,9 +31,9 @@
                                     <td class="px-4 w-1/4">
                                         <select name="today_start_time" class="text-center rounded w-full ">
                                             @foreach ($times as $time)
-                                                <option value="{{ $time }}" @if ($loop->index == 0) selected @endif>
-                                                    {{ $time }}
-                                                </option>
+                                            <option value="{{ $time }}" @if ($loop->index == 0) selected @endif>
+                                                {{ $time }}
+                                            </option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -43,9 +43,9 @@
                                     <td class="px-4 w-1/4">
                                         <select name="today_end_time" class="text-center rounded w-full">
                                             @foreach ($times as $time)
-                                                <option value="{{ $time }}" @if ($loop->index == 0) selected @endif>
-                                                    {{ $time }}
-                                                </option>
+                                            <option value="{{ $time }}" @if ($loop->index == 0) selected @endif>
+                                                {{ $time }}
+                                            </option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -68,18 +68,18 @@
                                     <td class="px-4 w-1/4">
                                         <select name="day_of_week" class="text-center rounded w-full">
                                             @foreach (DayOfWeekConst::DAY_OF_WEEK_LIST as $day_of_week)
-                                                <option value="{{ $day_of_week }}" @if ($loop->index == 0) selected @endif>
-                                                    {{ array_search($day_of_week, DayOfWeekConst::DAY_OF_WEEK_LIST) }}
-                                                </option>
+                                            <option value="{{ $day_of_week }}" @if ($loop->index == 0) selected @endif>
+                                                {{ array_search($day_of_week, DayOfWeekConst::DAY_OF_WEEK_LIST) }}
+                                            </option>
                                             @endforeach
                                         </select>
                                     </td>
                                     <td class="px-4 w-1/4">
                                         <select name="open_time" class="text-center rounded w-full">
                                             @foreach ($open_times as $time)
-                                                <option value="{{ $time }}" @if ($loop->index == 0) selected @endif>
-                                                    {{ $time }}
-                                                </option>
+                                            <option value="{{ $time }}" @if ($loop->index == 0) selected @endif>
+                                                {{ $time }}
+                                            </option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -89,9 +89,9 @@
                                     <td class="px-4 w-1/4">
                                         <select name="end_time" class="text-center rounded w-full">
                                             @foreach ($open_times as $time)
-                                                <option value="{{ $time }}" @if ($loop->index == 0) selected @endif>
-                                                    {{ $time }}
-                                                </option>
+                                            <option value="{{ $time }}" @if ($loop->index == 0) selected @endif>
+                                                {{ $time }}
+                                            </option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -105,8 +105,8 @@
                     </div>
                 </form>
 
-                <p class="flex justify-center mb-2 ">不定期なスケジュール</p>
-
+                <p class="flex justify-center mb-2 ">臨時スケジュール</p>
+                @if (!empty($irregular_mentorSchedules) && $irregular_mentorSchedules->count() > 0 )
                 <div class="flex justify-center">
                     <table class="table-fixed w-5/6 mb-7">
                         <thead>
@@ -118,30 +118,32 @@
                         </thead>
                         <tbody>
                             @foreach ($mentorIrregularSchedules as $mentorIrregularSchedules)
-                                <tr class="border">
-                                    <td class="px-4 py-2">
-                                        {{ $mentorIrregularSchedules->day->format('n/j') }}
-                                    </td>
-                                    <td class="px-4 py-2">
-                                        {{ $mentorIrregularSchedules->start_time }}</td>
-                                    <td class="px-4 py-2 w-full">
-                                        <form
-                                            action="{{ route('mentor_schedules.destroy', $mentorIrregularSchedules) }}"
-                                            method="post" class="w-full ">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="submit" value="削除"
-                                                onclick="if(!confirm('削除しますか？')){return false};"
-                                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">
-                                        </form>
-                                    </td>
-                                </tr>
+                            <tr class="border">
+                                <td class="px-4 py-2">
+                                    {{ $mentorIrregularSchedules->day->format('n/j') }}
+                                </td>
+                                <td class="px-4 py-2">
+                                    {{ $mentorIrregularSchedules->start_time }}</td>
+                                <td class="px-4 py-2 w-full">
+                                    <form action="{{ route('mentor_schedules.destroy', $mentorIrregularSchedules) }}"
+                                        method="post" class="w-full ">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="submit" value="削除" onclick="if(!confirm('削除しますか？')){return false};"
+                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">
+                                    </form>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+                @else
+                <div class="mt-10"></div>
+                @endif
 
-                <p class="flex justify-center mb-2 ">定期的なスケジュール</p>
+                <p class="flex justify-center mb-2 ">定期スケジュール</p>
+                @if (!empty($regular_mentorSchedules) && $regular_mentorSchedules->count() > 0 )
                 <div class="flex justify-center">
                     <table class="table-fixed w-5/6 mb-7">
                         <thead>
@@ -153,28 +155,30 @@
                         </thead>
                         <tbody>
                             @foreach ($mentorRegularSchedules as $mentorRegularSchedule)
-                                <tr>
-                                    <td class="border px-4 py-2">
-                                        {{ array_search($mentorRegularSchedule->day_of_week, DayOfWeekConst::DAY_OF_WEEK_LIST) }}
-                                    </td>
-                                    <td class="border px-4 py-2">
-                                        {{ $mentorRegularSchedule->start_time }}</td>
-                                    <td class="border px-4 py-2 w-full">
-                                        <form
-                                            action="{{ route('mentor_schedules.destroy', $mentorRegularSchedule) }}"
-                                            method="post" class="w-full ">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="submit" value="削除"
-                                                onclick="if(!confirm('削除しますか？')){return false};"
-                                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">
-                                        </form>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td class="border px-4 py-2">
+                                    {{ array_search($mentorRegularSchedule->day_of_week,
+                                    DayOfWeekConst::DAY_OF_WEEK_LIST) }}
+                                </td>
+                                <td class="border px-4 py-2">
+                                    {{ $mentorRegularSchedule->start_time }}</td>
+                                <td class="border px-4 py-2 w-full">
+                                    <form action="{{ route('mentor_schedules.destroy', $mentorRegularSchedule) }}"
+                                        method="post" class="w-full ">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="submit" value="削除" onclick="if(!confirm('削除しますか？')){return false};"
+                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">
+                                    </form>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+                @else
+                <div class="mt-10"></div>
+                @endif
             </div>
         </div>
     </div>

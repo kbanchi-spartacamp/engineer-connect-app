@@ -40,7 +40,6 @@ class ReservationController extends Controller
             if (empty($query->id)) {
                 $messages['reservation'] = '予定が入っていません。';
             }
-            dd($query->id);
         } else {
             $query->where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id);
             $mentor = Mentor::find(Auth::guard(MentorConst::GUARD)->user()->id);
