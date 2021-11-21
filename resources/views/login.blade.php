@@ -10,7 +10,7 @@
                         <div class="max-w-md w-full space-y-8">
                             <div class="text-center text-white">
                                 <h3 class="mt-6 text-2xl font-bold mb-6">
-                                    利用者の方はこちら
+                                    相談者の方はこちら
                                 </h3>
                                 <div>
                                     <a href="{{ route('user.login') }}"

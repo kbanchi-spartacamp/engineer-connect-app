@@ -9,7 +9,7 @@
                     <div class="w-4/5 z-10">
                         <h2 class="text-5xl xl:text-6xl italic mb-6">now conn</h2>
                         <div class="text-5xl sm:text-6xl xl:text-6xl font-bold leading-tight mb-6">
-                            困った「今」、現役エンジニアに。
+                            困った「今」<br>現役エンジニアに。
                         </div>
                         <div class="sm:text-sm xl:text-md text-black-200 font-normal">
                             now conn は、「いま、困っている」エンジニアの悩みを解決するサービスです。</div>

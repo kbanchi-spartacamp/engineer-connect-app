@@ -4,7 +4,7 @@
             <x-jet-authentication-card-logo />
         </x-slot>
 
-        <h2 class="text-center font-medium text-gray-700 mb-4">ユーザアカウント登録</h2>
+        <h2 class="text-center font-medium text-gray-700 mb-4">相談者 アカウント登録</h2>
 
         <x-jet-validation-errors class="mb-4" />
 
@@ -57,7 +57,8 @@
                     {{ __('Already registered?') }}
                 </a>
 
-                <x-jet-button class="ml-4">
+                <x-jet-button
+                    class="ml-4 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:bg-gradient-to-l hover:from-yellow-600 hover:to-yellow-400">
                     {{ __('Register') }}
                 </x-jet-button>
             </div>

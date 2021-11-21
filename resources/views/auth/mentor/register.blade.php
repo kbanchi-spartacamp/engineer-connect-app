@@ -57,7 +57,8 @@
                     {{ __('Already registered?') }}
                 </a>
 
-                <x-jet-button class="ml-4">
+                <x-jet-button
+                    class="ml-4 bg-gradient-to-r from-green-400 to-green-600 hover:bg-gradient-to-l hover:from-green-600 hover:to-green-400">
                     {{ __('Register') }}
                 </x-jet-button>
             </div>

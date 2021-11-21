@@ -35,7 +35,7 @@ Route::get('/register', function () {
 require __DIR__ . '/auth.php';
 
 Route::resource('mentor_schedules', App\Http\Controllers\MentorScheduleController::class)
-    ->middleware('auth:user');
+    ->middleware('auth:users,mentors');
 
 Route::resource('reservations', App\Http\Controllers\ReservationController::class)
     ->middleware(['auth:users,mentors']);
