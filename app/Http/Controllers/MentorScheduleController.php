@@ -46,7 +46,6 @@ class MentorScheduleController extends Controller
             $start_time = $start_time->addMinute(30);
         }
 
-
         // 検索条件を設定
         $skillCategoryId = $request->skill_category_id;
         $startTime = $request->start_time;
@@ -72,29 +71,40 @@ class MentorScheduleController extends Controller
             });
         }
         // 日付条件&開始終了時間条件
-        if (!empty($startTime) && !empty($endTime)) {
-            $startTime = new Carbon($startTime);
-            $endTime = new Carbon($endTime);
-            if (!empty($day) && !empty($dayOfWeek)) {
-                $day = new Carbon($day);
-                $dayOfWeek = DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$dayOfWeek];
+        if (!empty($day) && !empty($dayOfWeek)) {
+            $day = new Carbon($day);
+            $dayOfWeek = DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$dayOfWeek];
+            if (!empty($startTime) && !empty($endTime)) {
+                $startTime = new Carbon($startTime);
+                $endTime = new Carbon($endTime);
+                $param = [
+                    'startTime' => $startTime,
+                    'endTime' => $endTime,
+                    'day' => $day,
+                    'dayOfWeek' => $dayOfWeek
+                ];
+                $query->whereHas('mentor_schedules', function ($q) use ($param) {
+                    $q->where('day', $param['day'])
+                        ->where('start_time', '>=', $param['startTime'])
+                        ->where('start_time', '<=', $param['endTime']);
+                });
+                $query->whereHas('mentor_schedules', function ($q) use ($param) {
+                    $q->orWhere('day_of_week', $param['dayOfWeek'])
+                        ->where('start_time', '>=', $param['startTime'])
+                        ->where('start_time', '<=', $param['endTime']);
+                });
+            } else {
+                $param = [
+                    'day' => $day,
+                    'dayOfWeek' => $dayOfWeek
+                ];
+                $query->whereHas('mentor_schedules', function ($q) use ($param) {
+                    $q->where('day', $param['day']);
+                });
+                $query->whereHas('mentor_schedules', function ($q) use ($param) {
+                    $q->orWhere('day_of_week', $param['dayOfWeek']);
+                });
             }
-            $param = [
-                'startTime' => $startTime,
-                'endTime' => $endTime,
-                'day' => $day,
-                'dayOfWeek' => $dayOfWeek
-            ];
-            $query->whereHas('mentor_schedules', function ($q) use ($param) {
-                $q->where('day', $param['day'])
-                    ->where('start_time', '>=', $param['startTime'])
-                    ->where('start_time', '<=', $param['endTime']);
-            });
-            $query->whereHas('mentor_schedules', function ($q) use ($param) {
-                $q->orWhere('day_of_week', $param['dayOfWeek'])
-                    ->where('start_time', '>=', $param['startTime'])
-                    ->where('start_time', '<=', $param['endTime']);
-            });
         }
         // ブックマーク
         if (!empty($bookmark) && ($bookmark == 'true')) {
@@ -107,7 +117,6 @@ class MentorScheduleController extends Controller
         }
         // データの取得
         $mentors = $query->get();
-
         // 画面遷移
         return view('mentor_schedules.index', compact('dates', 'skillCategories', 'times', 'mentors', 'searchParam'));
     }

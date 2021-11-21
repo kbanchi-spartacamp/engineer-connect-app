@@ -74,4 +74,51 @@ class Mentor extends Authenticatable
     {
         return $this->hasMany(Bookmark::class);
     }
+
+    public function my_schedules($day, $day_of_week)
+    {
+        $query = MentorSchedule::query();
+        $param = [
+            'id' => $this->id,
+            'day' => $day,
+            'day_of_week' => $day_of_week
+        ];
+
+        $query->where(function ($query) use ($param) {
+            $query->where('mentor_id', $param['id']);
+        });
+
+        $query->where(function ($query) use ($param) {
+            $query->where('day', $param['day'])
+                ->orWhere('day_of_week', $param['day_of_week']);
+        });
+        $query->orderBy('start_time');
+        $schedules = $query->get();
+        return $schedules;
+    }
+
+    public function my_review()
+    {
+        $query = Review::query();
+        $param = [
+            'id' => $this->id
+        ];
+
+        $query->where(function ($query) use ($param) {
+            $query->where('mentor_id', $param['id']);
+        });
+
+        $reviews = $query->get();
+
+        $total = 0;
+        foreach ($reviews as $review) {
+            $total = $total + $review->star;
+        }
+
+        if ($reviews->count() == 0) {
+            return 0;
+        }
+
+        return round($total / $reviews->count());
+    }
 }
