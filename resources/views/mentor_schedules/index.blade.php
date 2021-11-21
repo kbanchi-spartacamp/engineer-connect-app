@@ -28,14 +28,15 @@
                             <div class="m-4">
                                 <select name="skill_category_id">
                                     @foreach ($skillCategories as $skillCategory)
-                                        <option value="{{ $skillCategory->id }}">{{ $skillCategory->name }}</option>
+                                        <option value="{{ $skillCategory->id }}" @if ($skillCategory->id == $searchParam['skill_category_id']) selected @endif>
+                                            {{ $skillCategory->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="m-4">
                                 <select name="start_time">
                                     @foreach ($times as $time)
-                                        <option value="{{ $time }}" @if ($loop->index == 0) selected @endif>
+                                        <option value="{{ $time }}" @if ($time == $searchParam['start_time']) selected @else @if (empty($searchParam['start_time']) && $loop->index == 0) selected @endif @endif>
                                             {{ $time }}
                                         </option>
                                     @endforeach
@@ -43,7 +44,7 @@
                                 <span>〜</span>
                                 <select name="end_time">
                                     @foreach ($times as $time)
-                                        <option value="{{ $time }}" @if ($loop->index == count($times) - 1) selected @endif>
+                                        <option value="{{ $time }}" @if ($time == $searchParam['end_time']) selected @else @if (empty($searchParam['end_time']) && $loop->index == count($times) - 1) selected @endif @endif>
                                             {{ $time }}
                                         </option>
                                     @endforeach
@@ -73,22 +74,29 @@
                                 <div class="mt-4">
                                     <div class="flex justify-between text-sm items-center mb-4">
                                         <div class="text-gray-700">
-                                            <div>年齢:20代</div>
-                                            <div>講師歴:3年</div>
                                         </div>
                                         <div class="border border-gray-900 px-2 h-7 leading-7 rounded-full text-right">
-                                            ★★★☆☆</div>
+                                            @if ($mentor->my_review() != 0)
+                                                @foreach (range(1, $mentor->my_review()) as $i)
+                                                    ★
+                                                @endforeach
+                                            @endif
+                                            @foreach (range($mentor->my_review(), 4) as $i)
+                                                ☆
+                                            @endforeach
+                                        </div>
                                     </div>
                                     <h2 class="text-lg text-gray-700 font-semibold">
                                         {{ $mentor->name }}</h2>
                                     <div class="flex justify-between items-center">
                                         <div class="mt-4 flex items-center space-x-4 py-6">
                                             <div>
-                                                <img class="rounded-full object-cover" src="" alt="" />
+                                                <img src="{{ $mentor->profile_photo_url }}"
+                                                    class="rounded-full w-20 h-20 mr-4 ml-10">
                                             </div>
                                         </div>
                                         <div class="flex">
-                                            @foreach ($mentor->mentor_schedules as $mentor_schedule)
+                                            @foreach ($mentor->my_schedules($searchParam['day'], DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$searchParam['day_of_week']]) as $mentor_schedule)
                                                 <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
                                                     class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-4 px-5 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 mx-2">{{ $mentor_schedule->start_time->format('H:i') }}</a>
                                             @endforeach
