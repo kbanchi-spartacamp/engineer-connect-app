@@ -46,7 +46,7 @@
                             {{ __('メンターになる') }}
                         </x-jet-nav-link>
                     @endif
-                    <x-jet-nav-link href="{{ route('legal') }}" :active="request()->routeIs('legal')">
+                    <x-jet-nav-link href="{{ route('guide') }}" :active="request()->routeIs('guide')">
                         {{ __('利用ガイド') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('legal') }}" :active="request()->routeIs('legal')">
@@ -222,7 +222,7 @@
 
                             <x-jet-responsive-nav-link href="{{ route($prefix . 'logout') }}"
                                 onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-jet-responsive-nav-link>
                         </form>

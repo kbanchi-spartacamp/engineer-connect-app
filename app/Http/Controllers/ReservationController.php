@@ -9,6 +9,7 @@ use App\Models\MentorSchedule;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
 use App\Consts\UserConst;
+use App\Models\MentorSkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -22,14 +23,35 @@ class ReservationController extends Controller
      */
     public function index()
     {
+
+        $messages = [
+            'profile' => '',
+            'skill_create' => '',
+            'schedule_create' => '',
+        ];
+
         $query = Reservation::query();
         if (Auth::guard(UserConst::GUARD)->check()) {
             $query->where('user_id', Auth::guard(UserConst::GUARD)->user()->id);
         } else {
             $query->where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id);
+            $mentor = Mentor::find(Auth::guard(MentorConst::GUARD)->user()->id);
+            if (empty($mentor->profile) || empty($mentor->profile_photo_path)) {
+                $messages['profile'] = 'プロフィール(自己紹介・アイコン画像)を設定してください。';
+            }
+            $mentorSkill = MentorSkill::where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)->first();
+            if (empty($mentorSkill)) {
+                $messages['skill_create'] = '対応スキルが登録されていません。スキル登録してください。';
+            }
+            $mentorSchedule = MentorSchedule::where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)->first();
+            if (empty($mentorSchedule)) {
+                $messages['schedule_create'] = '対応スケジュールが登録されていません。スケジュール登録をしてください。';
+            }
         }
         $reservations = $query->get();
-        return view('reservations.index', compact('reservations'));
+
+        return view('reservations.index', compact('reservations'))
+            ->with($messages);
     }
 
     /**

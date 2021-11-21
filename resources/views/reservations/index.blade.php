@@ -1,5 +1,11 @@
 <x-mentor-layout>
     <div class="py-12">
+
+        <x-flash-message :message="$profile" />
+        <x-flash-message :message="$skill_create" />
+        <x-flash-message :message="$schedule_create" />
+        <x-validation-errors :errors="$errors" />
+
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-center mb-6 mr-4">
                 <h2 class="text-wh">予約一覧画面</h2>
