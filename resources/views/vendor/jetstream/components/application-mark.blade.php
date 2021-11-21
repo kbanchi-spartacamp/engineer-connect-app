@@ -1,1 +1,1 @@
-<img src="/images/spartacamp.png" width="50px" height="50px">
+<img src="/images/logo.png" width="80px" height="80px">

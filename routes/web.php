@@ -13,9 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', [App\Http\Controllers\WelcomeController::class, 'index'])
+    ->name('welcome');
 
 Route::get('/about', function () {
     return view('about');
@@ -25,20 +24,28 @@ Route::get('/legal', function () {
     return view('legal');
 })->name('legal');
 
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
+
+Route::get('/register', function () {
+    return view('register');
+})->name('register');
+
 require __DIR__ . '/auth.php';
 
-Route::resource('mentor_schedules', App\Http\Controllers\MentorScheduleController::class);
+Route::resource('mentor_schedules', App\Http\Controllers\MentorScheduleController::class)
+    ->middleware('auth:user');
 
 Route::resource('reservations', App\Http\Controllers\ReservationController::class)
-->middleware(['auth:users,mentors']);
-// Route::get('users/{user_id}/mentors/{mentor_id}/message', [
-//     App\Http\Controllers\MessageController::class, 'index'
-// ]);
+    ->middleware(['auth:users,mentors']);
 
 Route::resource('users.mentors.messages', App\Http\Controllers\MessageController::class)
     ->only(['index', 'store'])
     ->middleware(['auth:users,mentors']);
 
-Route::resource('mentors.mentor_skills', App\Http\Controllers\MentorSkillController::class);
+Route::resource('mentors.mentor_skills', App\Http\Controllers\MentorSkillController::class)
+    ->middleware('auth:mentors');
 
-Route::resource('mentors', App\Http\Controllers\MentorController::class);
+Route::resource('mentors', App\Http\Controllers\MentorController::class)
+    ->middleware('auth:users,mentors');
