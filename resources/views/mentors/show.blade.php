@@ -10,7 +10,7 @@
                     <div class="container mx-auto">
                         <div class="flex justify-center">
                             <div><img src="{{ $mentor->profile_photo_url }}" alt=""
-                                    class="h-55 w-55 rounded-full object-cover mr-3"></div>
+                                    class="h-20 w-20 rounded-full object-cover mr-3"></div>
                         </div>
                         <div class="flex justify-center">
                             <h2 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-1 text-3xl md:text-4xl">
