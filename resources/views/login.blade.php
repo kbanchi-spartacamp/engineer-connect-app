@@ -14,7 +14,7 @@
                                 </h3>
                                 <div>
                                     <a href="{{ route('user.login') }}"
-                                        class="w-full flex justify-center bg-gradient-to-r from-yellow-400 to-yellow-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500">ログイン</a>
+                                        class="w-full flex justify-center bg-gradient-to-r from-yellow-400 to-yellow-600 hover:bg-gradient-to-l hover:from-yellow-600 hover:to-yellow-400 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500">ログイン</a>
                                 </div>
                             </div>
                             <div class="flex items-center justify-center space-x-2">
@@ -26,7 +26,7 @@
                                 </h3>
                                 <div>
                                     <a href="{{ route('mentor.login') }}"
-                                        class="w-full flex justify-center bg-gradient-to-r from-green-400 to-green-600 hover:bg-gradient-to-l hover:from-purple-500 hover:to-pink-600 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500">ログイン</a>
+                                        class="w-full flex justify-center bg-gradient-to-r from-green-400 to-green-600 hover:bg-gradient-to-l hover:from-green-600 hover:to-green-400 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500">ログイン</a>
                                 </div>
                             </div>
                         </div>
