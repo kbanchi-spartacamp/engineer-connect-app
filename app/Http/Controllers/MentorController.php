@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Consts\DayOfWeekConst;
 use App\Models\MentorSchedule;
 use App\Models\SkillCategory;
 use App\Models\Mentor;
+use Illuminate\Support\Facades\Auth;
+use App\Consts\UserConst;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -47,7 +50,7 @@ class MentorController extends Controller
      * @param  \App\Models\Mentor  $mentor
      * @return \Illuminate\Http\Response
      */
-    public function show(Mentor $mentor)
+    public function show(Request $request, Mentor $mentor)
     {
         $dates = [];
         $date = now();
@@ -67,7 +70,78 @@ class MentorController extends Controller
             $start_time = $start_time->addMinute(30);
         }
 
-        return view('mentors.show', compact('mentor', 'dates', 'skillCategories', 'times'));
+        // 検索条件を設定
+        $skillCategoryId = $request->skill_category_id;
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+        $day = $request->day;
+        $dayOfWeek = $request->day_of_week;
+        $bookmark = $request->bookmark;
+        $searchParam = [
+            'skill_category_id'  => $skillCategoryId,
+            'start_time'  => $startTime,
+            'end_time'  => $endTime,
+            'day'  => $day,
+            'day_of_week'  => $dayOfWeek,
+            'bookmark'  => $bookmark,
+        ];
+
+        // メンターおよびスケジュールの情報を取得
+        $query = Mentor::query();
+        // スキルカテゴリー条件
+        if (!empty($skillCategoryId)) {
+            $query->whereHas('mentor_skills', function ($q) use ($skillCategoryId) {
+                $q->where('skill_category_id', $skillCategoryId);
+            });
+        }
+        // 日付条件&開始終了時間条件
+        if (!empty($startTime) && !empty($endTime)) {
+            $startTime = new Carbon($startTime);
+            $endTime = new Carbon($endTime);
+            if (!empty($day) && !empty($dayOfWeek)) {
+                $day = new Carbon($day);
+                $dayOfWeek = DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$dayOfWeek];
+            }
+            $param = [
+                'startTime' => $startTime,
+                'endTime' => $endTime,
+                'day' => $day,
+                'dayOfWeek' => $dayOfWeek
+            ];
+            $query->whereHas('mentor_schedules', function ($q) use ($param) {
+                $q->where('day', $param['day'])
+                    ->where('start_time', '>=', $param['startTime'])
+                    ->where('start_time', '<=', $param['endTime']);
+            });
+            $query->whereHas('mentor_schedules', function ($q) use ($param) {
+                $q->orWhere('day_of_week', $param['dayOfWeek'])
+                    ->where('start_time', '>=', $param['startTime'])
+                    ->where('start_time', '<=', $param['endTime']);
+            });
+        }
+
+        // ブックマーク
+        if (!empty($bookmark) && ($bookmark == 'true')) {
+            $param = [
+                'user_id' => Auth::guard(UserConst::GUARD)->user()->id,
+            ];
+            $query->whereHas('bookmarks', function ($q) use ($param) {
+                $q->where('user_id', $param['user_id']);
+            });
+        }
+        // データの取得
+        $mentors = $query->get();
+
+        //テーブルの時間取得
+
+        //1440をfor文で回す
+        $schedules = [];
+        $schedule = strtotime('00:00');
+        for ($i = 0; $i < 1440; $i += 30) {
+            $schedules[] = $schedule;
+        }
+
+        return view('mentors.show', compact('mentor', 'dates', 'skillCategories', 'times', 'searchParam', 'schedules'));
     }
 
     /**
