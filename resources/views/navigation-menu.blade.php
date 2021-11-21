@@ -37,6 +37,15 @@
                             {{ __('スキル登録') }}
                         </x-jet-nav-link>
                     @endif
+                    @if (!Auth::guard(UserConst::GUARD)->check() && !Auth::guard(MentorConst::GUARD)->check())
+                        <x-jet-nav-link href="{{ route('user.login') }}" :active="request()->routeIs('user.login')">
+                            {{ __('相談する') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('mentor.login') }}"
+                            :active="request()->routeIs('mentor.login')">
+                            {{ __('メンターになる') }}
+                        </x-jet-nav-link>
+                    @endif
                     <x-jet-nav-link href="{{ route('legal') }}" :active="request()->routeIs('legal')">
                         {{ __('利用ガイド') }}
                     </x-jet-nav-link>
@@ -50,11 +59,11 @@
                 <!-- Navigation Links -->
                 @if (!Auth::guard(UserConst::GUARD)->check() && !Auth::guard(MentorConst::GUARD)->check())
                     <div class="m-2">
-                        <a href="{{ route('user.login') }}"
+                        <a href="{{ route('login') }}"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{{ __('Login') }}</a>
                     </div>
                     <div class="m-2">
-                        <a href="{{ route('user.register') }}"
+                        <a href="{{ route('register') }}"
                             class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">{{ __('アカウント登録') }}</a>
                     </div>
                 @endif
@@ -140,16 +149,41 @@
     @if (Auth::guard(UserConst::GUARD)->check() || Auth::guard(MentorConst::GUARD)->check())
         <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
             <div class="pt-2 pb-3 space-y-1">
-                <x-jet-responsive-nav-link href="{{ route('mentor_schedules.index') }}"
-                    :active="request()->routeIs('mentor_schedules.index')">
-                    {{ __('相談する') }}
-                </x-jet-responsive-nav-link>
-                <x-jet-responsive-nav-link href="{{ route('legal') }}" :active="request()->routeIs('legal')">
-                    {{ __('利用ガイド') }}
-                </x-jet-responsive-nav-link>
-                <x-jet-responsive-nav-link href="{{ route('legal') }}" :active="request()->routeIs('legal')">
-                    {{ __('利用規約') }}
-                </x-jet-responsive-nav-link>
+                @if (Auth::guard(UserConst::GUARD)->check())
+                    <x-jet-responsive-nav-link href="{{ route('mentor_schedules.index') }}"
+                        :active="request()->routeIs('mentor_schedules.index')">
+                        {{ __('相談する') }}
+                    </x-jet-responsive-nav-link>
+                    <x-jet-responsive-nav-link href="{{ route('reservations.index') }}"
+                        :active="request()->routeIs('reservations.index')">
+                        {{ __('予約一覧') }}
+                    </x-jet-responsive-nav-link>
+                @endif
+                @if (Auth::guard(MentorConst::GUARD)->check())
+                    <x-jet-responsive-nav-link href="{{ route('reservations.index') }}"
+                        :active="request()->routeIs('reservations.index')">
+                        {{ __('予約一覧') }}
+                    </x-jet-responsive-nav-link>
+                    <x-jet-responsive-nav-link href="{{ route('mentor_schedules.create') }}"
+                        :active="request()->routeIs('mentor_schedules.create')">
+                        {{ __('スケジュール登録') }}
+                    </x-jet-responsive-nav-link>
+                    <x-jet-responsive-nav-link
+                        href="{{ route('mentors.mentor_skills.create', Auth::guard(MentorConst::GUARD)->user()) }}"
+                        :active="request()->routeIs('mentors.mentor_skills.create')">
+                        {{ __('スキル登録') }}
+                    </x-jet-responsive-nav-link>
+                @endif
+                @if (!Auth::guard(UserConst::GUARD)->check() && !Auth::guard(MentorConst::GUARD)->check())
+                    <x-jet-responsive-nav-link href="{{ route('user.login') }}"
+                        :active="request()->routeIs('user.login')">
+                        {{ __('相談する') }}
+                    </x-jet-responsive-nav-link>
+                    <x-jet-responsive-nav-link href="{{ route('mentor.login') }}"
+                        :active="request()->routeIs('mentor.login')">
+                        {{ __('メンターになる') }}
+                    </x-jet-responsive-nav-link>
+                @endif
             </div>
 
             <!-- Responsive Settings Options -->
@@ -188,7 +222,7 @@
 
                             <x-jet-responsive-nav-link href="{{ route($prefix . 'logout') }}"
                                 onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-jet-responsive-nav-link>
                         </form>
