@@ -7,17 +7,22 @@
         <x-validation-errors :errors="$errors" />
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex justify-center mb-6 mr-4">
-                <h2 class="text-wh">予約一覧画面</h2>
+            <div class="flex justify-center mb-6">
+                <h2>予約一覧画面</h2>
             </div>
+            @if ($reservations->count() == 0)
+            <div class="flex justify-center mt-20">
+            <p class="text-xl font-semibold">予約が入っていません。</p>
+            </div>
+            @endif
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 @foreach ($reservations as $reservation)
                 @if($reservation->start_time >= now())
-                <div class="container flex justify-center mx-auto my-2">
+                <div class="container flex justify-center mx-auto my-1">
                     @if (Auth::guard(UserConst::GUARD)->check())
-                    <img src="{{ $reservation->mentor->profile_photo_url }}" class="rounded-full w-1/7 mr-4 ml-10">
+                    <img src="{{ $reservation->mentor->profile_photo_url }}" class="rounded-full mr-4 ml-10 w-12 h-12">
                     @else
-                    <img src="{{ $reservation->user->profile_photo_url }}" class="rounded-full w-1/7 mr-4 ml-10">
+                    <img src="{{ $reservation->user->profile_photo_url }}" class="rounded-full mr-4 ml-10 w-12 h-12">
                     @endif
                     <label class="flex justify-center items-center text-center w-1/4 text-3xl  ">
                         {{ $reservation->day->format('n/j') }}
@@ -35,9 +40,9 @@
                 @else
                 <div class="container flex justify-center mx-auto my-2 bg-gray-500">
                     @if (Auth::guard(UserConst::GUARD)->check())
-                    <img src="{{ $reservation->mentor->profile_photo_url }}" class="rounded-full w-1/7 mr-4 ml-10">
+                    <img src="{{ $reservation->mentor->profile_photo_url }}" class="rounded-full w-12 h-12 mr-4 ml-10">
                     @else
-                    <img src="{{ $reservation->user->profile_photo_url }}" class="rounded-full w-1/7 mr-4 ml-10">
+                    <img src="{{ $reservation->user->profile_photo_url }}" class="rounded-full w-12 h-12 mr-4 ml-10">
                     @endif
                     <label class="flex justify-center items-center text-center w-1/4 text-3xl  ">
                         {{ $reservation->day->format('n/j') }}

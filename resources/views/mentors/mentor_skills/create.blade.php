@@ -10,7 +10,7 @@
             </div>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg pt-3">
                 <div class="flex justify-center mt-1 mb-3">
-                    <img src="{{ $user->profile_photo_url }}" class="rounded-full object-cover w-1/7">
+                    <img src="{{ $user->profile_photo_url }}" class="rounded-full object-cover w-20 h-20">
                 </div>
                 <div class="flex justify-center">
                     <table class="table-fixed w-5/6 mb-7">
