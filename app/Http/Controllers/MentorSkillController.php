@@ -30,9 +30,10 @@ class MentorSkillController extends Controller
      */
     public function create()
     {
+        $mentorSkill_ids = Auth::guard(MentorConst::GUARD)->user()->mentor_skills->pluck("skill_category_id");
+        $unregistered_skill_categories = SkillCategory::whereNotIn('id', $mentorSkill_ids)->get();
         $mentorSkill = new MentorSkill();
-        $skill_categories = SkillCategory::all();
-        return view('mentors.mentor_skills.create', compact('mentorSkill', 'skill_categories'));
+        return view('mentors.mentor_skills.create', compact('mentorSkill', 'unregistered_skill_categories'));
     }
 
     /**

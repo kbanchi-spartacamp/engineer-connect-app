@@ -46,7 +46,7 @@
                             </label>
                             <select name="skill_category_id" class="rounded ml-4 w-6/10">
                                 <option disabled selected value="">選択してください</option>
-                                @foreach ($skill_categories as $skill_category)
+                                @foreach ($unregistered_skill_categories as $skill_category)
                                 <option value="{{ $skill_category->id }}" @if ($skill_category->id ==
                                     old('skill_category'))
                                     selected
