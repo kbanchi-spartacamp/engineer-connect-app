@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Consts\MentorConst;
 use App\Models\Mentor;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class MentorSkillController extends Controller
 {
@@ -48,8 +49,20 @@ class MentorSkillController extends Controller
         $mentorSkill->mentor_id = Auth::guard(MentorConst::GUARD)->user()->id;
         $mentorSkill->skill_category_id = $request->skill_category_id;
         $mentorSkill->experience_year = $request->experience_year;
-        $mentorSkill->save();
-        return redirect()->route('mentors.mentor_skills.create', Auth::guard(MentorConst::GUARD)->user());
+
+        DB::beginTransaction();
+        try {
+            $mentorSkill->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withInput()
+                ->withErrors('エラーが発生しました');
+        }
+
+        return redirect()
+            ->route('mentors.mentor_skills.create', Auth::guard(MentorConst::GUARD)->user())
+            ->with('notice', 'スキルを登録しました');
     }
 
     /**
@@ -94,7 +107,19 @@ class MentorSkillController extends Controller
      */
     public function destroy(Mentor $mentor, MentorSkill $mentorSkill)
     {
-        $mentorSkill->delete();
-        return redirect()->route('mentors.mentor_skills.create', $mentor);
+
+        DB::beginTransaction();
+        try {
+            $mentorSkill->delete();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withInput()
+                ->withErrors('エラーが発生しました');
+        }
+
+        return redirect()
+            ->route('mentors.mentor_skills.create', $mentor)
+            ->with('notice', 'スキルを削除しました');
     }
 }

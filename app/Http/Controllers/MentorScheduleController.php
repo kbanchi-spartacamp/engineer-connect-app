@@ -212,7 +212,7 @@ class MentorScheduleController extends Controller
             }
         }
 
-        return redirect()->route('mentor_schedules.create');
+        return redirect()->route('mentor_schedules.create')->with('notice', '新しいスケジュールを登録しました');;
     }
 
     /**
@@ -257,7 +257,18 @@ class MentorScheduleController extends Controller
      */
     public function destroy(MentorSchedule $mentorSchedule)
     {
-        $mentorSchedule->delete();
-        return redirect()->route('mentor_schedules.create', $mentorSchedule);
+        DB::beginTransaction();
+        try {
+            $mentorSchedule->delete();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withInput()
+                ->withErrors('エラーが発生しました');
+        }
+
+        return redirect()
+            ->route('mentor_schedules.create', $mentorSchedule)
+            ->with('notice', 'スケジュールを削除しました');
     }
 }

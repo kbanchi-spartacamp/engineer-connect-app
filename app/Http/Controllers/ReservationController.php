@@ -12,7 +12,7 @@ use App\Consts\UserConst;
 use App\Models\MentorSkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-
+use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
@@ -86,10 +86,20 @@ class ReservationController extends Controller
         $reservation->mentor_id = $request->mentor_id;
         $reservation->day = $request->day;
         $reservation->start_time = $request->start_time;
-        $reservation->save();
+
+        DB::beginTransaction();
+        try {
+            $reservation->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withInput()
+                ->withErrors('エラーが発生しました');
+        }
 
         return redirect()
-            ->route('reservations.show', $reservation);
+            ->route('reservations.show', $reservation)
+            ->with('notice', '予約情報を登録しました');
     }
 
     /**

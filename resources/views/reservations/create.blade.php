@@ -1,8 +1,11 @@
 <x-app-layout>
     <div class="py-12">
+
+        <x-flash-message :message="session('notice')" />
+        <x-validation-errors :errors="$errors" />
+
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                mentors.show
                 <article class="mb-4">
                     <div class='container mx-auto'>
                         <div class="flex justify-center">
@@ -22,9 +25,11 @@
                                 <div class="m-4">
                                     <form action="{{ route('reservations.store', $user) }}" method="POST">
                                         @csrf
-                                        <input type="hidden" name="mentor_id" value="{{ $mentorSchedule->mentor_id }}">
+                                        <input type="hidden" name="mentor_id"
+                                            value="{{ $mentorSchedule->mentor_id }}">
                                         <input type="hidden" name="day" value="{{ $day }}">
-                                        <input type="hidden" name="start_time" value="{{ $mentorSchedule->start_time }}">
+                                        <input type="hidden" name="start_time"
+                                            value="{{ $mentorSchedule->start_time }}">
                                         <input type="submit" value="予約"
                                             class="w-full sm:w-40 bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32">
                                     </form>

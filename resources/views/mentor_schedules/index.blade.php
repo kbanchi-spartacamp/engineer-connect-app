@@ -1,5 +1,9 @@
 <x-app-layout>
     <div class="py-12">
+
+        <x-flash-message :message="session('notice')" />
+        <x-validation-errors :errors="$errors" />
+
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <form action="{{ route('mentor_schedules.index') }}" method="get">
@@ -87,7 +91,8 @@
                                             @foreach ($mentor->mentor_schedules as $mentor_schedule)
                                                 <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
                                                     class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-4 px-5 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 mx-2">{{ $mentor_schedule->start_time->format('H:i') }}</a>
-                                            @endforeach                                        </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
