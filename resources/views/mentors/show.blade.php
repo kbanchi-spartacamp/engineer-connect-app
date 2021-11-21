@@ -36,15 +36,7 @@
                             </form>
                         </div>
                     </div>
-                    <p class="text-gray-1000 text-base">自己紹介:{!! nl2br(e($mentor->plofile)) !!}</p>
                     <div>
-                        @foreach ($dates as $date)
-                            <a href="" class="text-3xl hover:text-blue-500">{{ $date }}</a>
-                        @endforeach
-                        @foreach ($times as $time)
-                            <option value="{{ $time }}" @if ($loop->index == 0) selected @endif>{{ $time }}
-                            </option>
-                        @endforeach
                         <div class="flex justify-end">
                             <div class="m-4">
                                 @if (strpos(url()->full(), 'bookmark=' . 'true'))
@@ -79,10 +71,14 @@
                                             </th>
                                         @endforeach
                                     </tr>
-                                    @foreach ($mentor->mentor_schedules as $mentor_schedule)
-                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                            class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-2 px-4 py-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500">{{ $mentor_schedule->start_time->format('H:i') }}</a>
-                                    @endforeach
+                                    <tr>
+                                        <td>
+                                            @foreach ($mentor->mentor_schedules as $mentor_schedule)
+                                                <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                    class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-2 px-4 py-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                            @endforeach
+                                        </td>
+                                    </tr>
                                 </table>
                                 <div>
                                 </div>
