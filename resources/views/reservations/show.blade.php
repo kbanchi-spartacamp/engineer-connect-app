@@ -27,7 +27,9 @@
                         </div>
                         <div class="flex justify-center">
                             <a href="{{ route('users.mentors.messages.index', [$user, $reservation->mentor]) }}"
-                                class="w-full sm:w-40 bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32">
+                                class="w-full text-center sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500
+                                hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold cursor-pointer transition ease-in
+                                duration-500 w-full sm:w-32">
                                 メッセージ
                             </a>
                         </div>

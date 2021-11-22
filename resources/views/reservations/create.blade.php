@@ -31,7 +31,7 @@
                                         <input type="hidden" name="start_time"
                                             value="{{ $mentorSchedule->start_time }}">
                                         <input type="submit" value="予約"
-                                            class="w-full sm:w-40 bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32">
+                                            class="w-full sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in duration-500 w-full sm:w-32">
                                     </form>
                                 </div>
                             </div>
@@ -40,8 +40,10 @@
                 </article>
             </div>
             <div class="m-4">
-                <input type="submit" value="戻る"
-                    class="bg-black text-white font-bold py-5 px-10 rounded-full shadow-xl hover:bg-gray-dark hover:text-white">
+                <a href="{{ route('mentor_schedules.index') }}"
+                    class="bg-transparent text-white bg-black hover:text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
+                戻る
+                </a>
             </div>
         </div>
     </div>

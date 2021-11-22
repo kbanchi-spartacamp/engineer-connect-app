@@ -14,6 +14,7 @@
                 </div>
                 <div class="flex justify-center">
                     <table class="table-fixed w-5/6 mb-7">
+                        @if(!empty($mentor_skills) && $mentor_skills->count() > 0)
                         <thead>
                             <tr>
                                 <th class="px-4 py-2 w-1/6 text-left">SkillName</th>
@@ -21,8 +22,9 @@
                                 <th class="px-4 py-2 w-1/6"></th>
                             </tr>
                         </thead>
+                        @endif
                         <tbody>
-                            @foreach ($user->mentor_skills as $mentor_skill)
+                            @foreach ($mentor_skills as $mentor_skill)
                                 <tr class="border">
                                     <td class="px-4 py-2 ">{{ $mentor_skill->skill_category->name }}</td>
                                     <td class="px-4 py-2">{{ $mentor_skill->experience_year }}年</td>

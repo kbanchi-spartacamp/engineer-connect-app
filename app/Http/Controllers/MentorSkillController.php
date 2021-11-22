@@ -31,10 +31,14 @@ class MentorSkillController extends Controller
      */
     public function create()
     {
+        $query = MentorSkill::query();
+        $query->where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id);
+        $mentor_skills =  $query->get();
+
         $mentorSkill_ids = Auth::guard(MentorConst::GUARD)->user()->mentor_skills->pluck("skill_category_id");
         $unregistered_skill_categories = SkillCategory::whereNotIn('id', $mentorSkill_ids)->get();
         $mentorSkill = new MentorSkill();
-        return view('mentors.mentor_skills.create', compact('mentorSkill', 'unregistered_skill_categories'));
+        return view('mentors.mentor_skills.create', compact('mentorSkill', 'unregistered_skill_categories', 'mentor_skills'));
     }
 
     /**

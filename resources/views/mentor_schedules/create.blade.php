@@ -123,7 +123,7 @@
                                     {{ $mentorIrregularSchedules->day->format('n/j') }}
                                 </td>
                                 <td class="px-4 py-2">
-                                    {{ $mentorIrregularSchedules->start_time }}</td>
+                                    {{ $mentorIrregularSchedules->start_time->format('H:i') }}</td>
                                 <td class="px-4 py-2 w-full">
                                     <form action="{{ route('mentor_schedules.destroy', $mentorIrregularSchedules) }}"
                                         method="post" class="w-full ">
@@ -155,14 +155,14 @@
                         </thead>
                         <tbody>
                             @foreach ($mentorRegularSchedules as $mentorRegularSchedule)
-                            <tr>
-                                <td class="border px-4 py-2">
+                            <tr class="border">
+                                <td class="px-4 py-2">
                                     {{ array_search($mentorRegularSchedule->day_of_week,
                                     DayOfWeekConst::DAY_OF_WEEK_LIST) }}
                                 </td>
-                                <td class="border px-4 py-2">
-                                    {{ $mentorRegularSchedule->start_time }}</td>
-                                <td class="border px-4 py-2 w-full">
+                                <td class="px-4 py-2">
+                                    {{ $mentorRegularSchedule->start_time->format('H:i') }}</td>
+                                <td class="px-4 py-2 w-full">
                                     <form action="{{ route('mentor_schedules.destroy', $mentorRegularSchedule) }}"
                                         method="post" class="w-full ">
                                         @csrf
