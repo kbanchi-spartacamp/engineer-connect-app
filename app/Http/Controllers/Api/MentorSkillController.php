@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Mentor;
 use App\Consts\MentorConst;
+use Illuminate\Support\Facades\DB;
 
 class MentorSkillController extends Controller
 {
@@ -30,10 +31,17 @@ class MentorSkillController extends Controller
     public function store(Request $request)
     {
         $mentorSkill = new MentorSkill();
-        $mentorSkill->mentor_id = Auth::guard(MentorConst::GUARD)->user()->id;
+        $mentorSkill->mentor_id = $request->mentor_id;
         $mentorSkill->skill_category_id = $request->skill_category_id;
         $mentorSkill->experience_year = $request->experience_year;
-        $mentorSkill->save();
+
+        DB::beginTransaction();
+        try {
+            $mentorSkill->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+        }
 
         return $mentorSkill;
     }
@@ -70,7 +78,16 @@ class MentorSkillController extends Controller
     public function destroy($id)
     {
         $mentorSkill = MentorSkill::find($id);
-        $mentorSkill->delete();
+        DB::beginTransaction();
+        try {
+            $mentorSkill->delete();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withInput()
+                ->withErrors('エラーが発生しました');
+        }
+
         return $mentorSkill;
     }
 }
