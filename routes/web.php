@@ -62,6 +62,6 @@ Route::get('/stripe', [
     App\Http\Controllers\StripePaymentsController::class, 'index'
 ])->name('index');
 
-// Route::get('/mail', [
-//     App\Http\Controllers\MailSendController::class, 'send'
-// ])->name('mail.send');
+Route::get('/mail', [
+    App\Http\Controllers\MailSendController::class, 'send'
+])->name('mail.send');

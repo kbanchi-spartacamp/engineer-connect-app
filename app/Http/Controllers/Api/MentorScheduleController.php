@@ -9,6 +9,9 @@ use App\Models\MentorSchedule;
 use App\Consts\MentorConst;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Consts\UserConst;
+use App\Models\Mentor;
+use App\Consts\DayOfWeekConst;
 
 class MentorScheduleController extends Controller
 {
@@ -17,10 +20,80 @@ class MentorScheduleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $mentorSchedules = MentorSchedule::all();
-        return $mentorSchedules;
+        $skillCategoryId = $request->skill_category_id;
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+        $day = $request->day;
+        $dayOfWeek = $request->day_of_week;
+        $bookmark = $request->bookmark;
+        $searchParam = [
+            'skill_category_id'  => $skillCategoryId,
+            'start_time'  => $startTime,
+            'end_time'  => $endTime,
+            'day'  => $day,
+            'day_of_week'  => $dayOfWeek,
+            'bookmark'  => $bookmark,
+        ];
+
+        // メンターおよびスケジュールの情報を取得
+        $query = Mentor::query();
+        // スキルカテゴリー条件
+        if (!empty($skillCategoryId)) {
+            $query->whereHas('mentor_skills', function ($q) use ($skillCategoryId) {
+                $q->where('skill_category_id', $skillCategoryId);
+            });
+        }
+        // 日付条件&開始終了時間条件
+        if (!empty($day) && !empty($dayOfWeek)) {
+            $day = new Carbon($day);
+            $dayOfWeek = DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$dayOfWeek];
+            if (!empty($startTime) && !empty($endTime)) {
+                $startTime = new Carbon($startTime);
+                $endTime = new Carbon($endTime);
+                $param = [
+                    'startTime' => $startTime,
+                    'endTime' => $endTime,
+                    'day' => $day,
+                    'dayOfWeek' => $dayOfWeek
+                ];
+                $query->whereHas('mentor_schedules', function ($q) use ($param) {
+                    $q->where('day', $param['day'])
+                        ->where('start_time', '>=', $param['startTime'])
+                        ->where('start_time', '<=', $param['endTime']);
+                });
+                $query->whereHas('mentor_schedules', function ($q) use ($param) {
+                    $q->orWhere('day_of_week', $param['dayOfWeek'])
+                        ->where('start_time', '>=', $param['startTime'])
+                        ->where('start_time', '<=', $param['endTime']);
+                });
+            } else {
+                $param = [
+                    'day' => $day,
+                    'dayOfWeek' => $dayOfWeek
+                ];
+                $query->whereHas('mentor_schedules', function ($q) use ($param) {
+                    $q->where('day', $param['day']);
+                });
+                $query->whereHas('mentor_schedules', function ($q) use ($param) {
+                    $q->orWhere('day_of_week', $param['dayOfWeek']);
+                });
+            }
+        }
+        // ブックマーク
+        if (!empty($bookmark) && ($bookmark == 'true')) {
+            $param = [
+                'user_id' => Auth::guard(UserConst::GUARD)->user()->id,
+            ];
+            $query->whereHas('bookmarks', function ($q) use ($param) {
+                $q->where('user_id', $param['user_id']);
+            });
+        }
+        // データの取得
+        $mentors = $query->get();
+
+        return $mentors;
     }
 
     /**
@@ -45,7 +118,7 @@ class MentorScheduleController extends Controller
             try {
                 while ($start_time < $end_time) {
                     $mentorSchedule = new MentorSchedule();
-                    $mentorSchedule->mentor_id = Auth::guard(MentorConst::GUARD)->user()->id;
+                    $mentorSchedule->mentor_id = $request->mentor_id;
                     $mentorSchedule->day = now();
                     $mentorSchedule->day_of_week = null;
                     $mentorSchedule->start_time = $start_time;
@@ -58,8 +131,6 @@ class MentorScheduleController extends Controller
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
-                return back()->withInput()
-                    ->withErrors('登録でエラーが発生しました');
             }
         }
         if (!empty($day_of_week) && !empty($open_time) && !empty($end_time)) {
@@ -69,7 +140,7 @@ class MentorScheduleController extends Controller
             try {
                 while ($start_time < $end_time) {
                     $mentorSchedule = new MentorSchedule();
-                    $mentorSchedule->mentor_id = Auth::guard(MentorConst::GUARD)->user()->id;
+                    $mentorSchedule->mentor_id = $request->mentor_id;
                     $mentorSchedule->day = null;
                     $mentorSchedule->day_of_week = $day_of_week;
                     $mentorSchedule->start_time = $start_time;
@@ -82,8 +153,6 @@ class MentorScheduleController extends Controller
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
-                return back()->withInput()
-                    ->withErrors('登録でエラーが発生しました');
             }
         }
 
@@ -121,9 +190,15 @@ class MentorScheduleController extends Controller
      */
     public function destroy($id)
     {
-        $mentorSchedule = MentorSchedule::find($id);
-        $mentorSchedule->delete();
 
-        return $mentorSchedule;
+        $mentorSchedule = MentorSchedule::find($id);
+
+        DB::beginTransaction();
+        try {
+            $mentorSchedule->delete();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Consts\MailConst;
 use App\Consts\MentorConst;
 use App\Models\Mentor;
 use App\Models\SkillCategory;
@@ -105,13 +106,8 @@ class ReservationController extends Controller
         }
 
         // $mentor = Mentor::find($reservation->mentor_id);
-        // $to = [
-        //     [
-        //         'email' => $mentor->email,
-        //         'name' => 'New Reservation',
-        //     ]
-        // ];
-        // Mail::to($to)->send(new SendMail());
+        // $reservation = Reservation::find($reservation->id)->with(['user', "mentor"])->first();
+        // Mail::to($mentor)->send(new SendMail(MailConst::RESERVATION, $reservation));
 
         return redirect()
             ->route('reservations.show', $reservation)

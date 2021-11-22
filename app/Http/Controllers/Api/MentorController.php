@@ -38,7 +38,8 @@ class MentorController extends Controller
      */
     public function show($id)
     {
-        //
+        $mentor = Mentor::find($id);
+        return $mentor;
     }
 
     /**

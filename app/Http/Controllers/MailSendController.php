@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Consts\MailConst;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMail;
@@ -16,6 +17,6 @@ class MailSendController extends Controller
                 'name' => 'Test',
             ]
         ];
-        Mail::to($to)->send(new SendMail());
+        Mail::to($to)->send(new SendMail(MailConst::TEST, $to));
     }
 }
