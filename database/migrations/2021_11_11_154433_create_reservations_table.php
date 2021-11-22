@@ -25,6 +25,7 @@ class CreateReservationsTable extends Migration
                 ->cascadeOnUpdate();
             $table->date('day');
             $table->time('start_time');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

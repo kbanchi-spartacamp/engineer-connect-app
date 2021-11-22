@@ -3,3 +3,4 @@
 <p>メンター : {{ $variable->mentor->name }}</p>
 <p>日付 : {{ $variable->day->format('Y-m-d') }}</p>
 <p>開始時間 : {{ $variable->start_time->format('H:i') }}</p>
+<p>概要 : {{ $variable->description }}</p>
