@@ -58,7 +58,7 @@ class ReservationController extends Controller
                 ->where('day', '>=', $today);
         }
 
-        $reservations = $query->get();
+        $reservations = $query->with(['user', 'mentor'])->get();
 
         return $reservations;
     }
