@@ -44,6 +44,10 @@ Route::resource('users.mentors.messages', App\Http\Controllers\MessageController
     ->only(['index', 'store'])
     ->middleware(['auth:users,mentors']);
 
+Route::resource('mentors.messages', App\Http\Controllers\MentorMessageController::class)
+    ->only(['index', 'store'])
+    ->middleware(['auth:mentors']);
+
 Route::resource('mentors.mentor_skills', App\Http\Controllers\MentorSkillController::class)
     ->middleware('auth:mentors');
 
