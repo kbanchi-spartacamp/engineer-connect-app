@@ -20,7 +20,9 @@ class MentorController extends Controller
      */
     public function index()
     {
-        //
+        $mentors = Mentor::all();
+        $skillCategories = SkillCategory::all();
+        return view('mentors.index', compact('mentors', 'skillCategories'));
     }
 
     /**
