@@ -21,30 +21,27 @@
                                     {{ $mentorSchedule->start_time }}
                                 </div>
                             </div>
-                            <div class="flex">
-                                <div class="m-4">
-                                    <form action="{{ route('reservations.store', $user) }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="mentor_id"
-                                            value="{{ $mentorSchedule->mentor_id }}">
-                                        <input type="hidden" name="day" value="{{ $day }}">
-                                        <input type="hidden" name="start_time"
-                                            value="{{ $mentorSchedule->start_time }}">
-                                        <input type="submit" value="予約"
-                                            class="w-full sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in duration-500 w-full sm:w-32">
-                                    </form>
-                                </div>
-                            </div>
                         </div>
-                    </div>
+                        <div class="m-4">
+                            <form action="{{ route('reservations.store', $user) }}" method="POST">
+                                @csrf
+                                <div class="flex justify-center">
+                                    <textarea rows="10" cols="60" name="description" placeholder="相談内容を記入してください"></textarea>
+                                </div>
+                                <div class="flex justify-center mt-4">
+                                    <input type="hidden" name="mentor_id" value="{{ $mentorSchedule->mentor_id }}">
+                                    <input type="hidden" name="day" value="{{ $day }}">
+                                    <input type="hidden" name="start_time" value="{{ $mentorSchedule->start_time }}">
+                                    <input type="submit" value="予約"
+                                        class="w-full sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in duration-500 w-full sm:w-32">
+                            </form>
+                        </div>
                 </article>
             </div>
             <div class="m-4">
                 <a href="{{ route('mentor_schedules.index') }}"
                     class="bg-transparent text-white bg-black hover:text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
-                戻る
+                    戻る
                 </a>
             </div>
-        </div>
-    </div>
 </x-app-layout>
