@@ -166,6 +166,11 @@ class MentorScheduleController extends Controller
             ->where('regular_type', 0)
             ->get();
 
+        //予約メッセージ
+        $description = [];
+        if(!empty($description))
+
+
         return view('mentor_schedules.create', compact('times', 'open_times', 'mentorIrregularSchedules', 'mentorRegularSchedules', 'regular_mentorSchedules', 'irregular_mentorSchedules'));
     }
 
