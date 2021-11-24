@@ -13,7 +13,7 @@
                     </label>
                 </div>
                 <div class="container flex justify-center mx-auto my-4">
-                    <h2 class="text-2xl mr-6">対応スキル</h2>
+                    <h2 class="text-2xl">対応スキル</h2>
                     @foreach ($mentor->mentor_skills as $mentor_skill)
                     <p class="text-center text-gray-1000 mx-2 mt-1">{{ $mentor_skill->skill_category->name }}</p>
                     @endforeach
@@ -26,7 +26,7 @@
                     <h2 class="text-2xl">自己紹介</h2>
                 </div>
                 <div class="container flex justify-center mx-auto my-4">
-                    <p class="text-gray-1000 text-base w-5/6">{!! nl2br(e($mentor->profile)) !!}</p>
+                    <p class="text-gray-1000 text-base w-2/3">{!! nl2br(e($mentor->profile)) !!}</p>
                 </div>
                 <hr class="boild">
                 @endforeach

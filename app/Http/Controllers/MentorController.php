@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Consts\DayOfWeekConst;
-use App\Models\MentorSchedule;
+use App\Models\MentorSkill;
 use App\Models\SkillCategory;
 use App\Models\Mentor;
 use Illuminate\Support\Facades\Auth;
+use App\Consts\MentorConst;
 use App\Consts\UserConst;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -20,9 +21,13 @@ class MentorController extends Controller
      */
     public function index()
     {
-        $mentors = Mentor::all();
-        $skillCategories = SkillCategory::all();
-        return view('mentors.index', compact('mentors', 'skillCategories'));
+        $mentor_skills = Mentorskill::all();
+        $query = Mentor::query();
+        $query->where('id', '<>', Auth::guard(MentorConst::GUARD)->user()->id);
+        $mentors = $query->get();
+
+
+        return view('mentors.index', compact('mentors', 'mentor_skills'));
     }
 
     /**
