@@ -26,7 +26,7 @@
                     <h2 class="text-2xl">自己紹介</h2>
                 </div>
                 <div class="container flex justify-center mx-auto my-4">
-                    <p class="text-gray-1000 text-base w-2/3">{!! nl2br(e($mentor->profile)) !!}</p>
+                    <p class="text-gray-1000 text-base text-center w-2/3">{!! nl2br(e($mentor->profile)) !!}</p>
                 </div>
                 <hr class="boild">
                 @endforeach

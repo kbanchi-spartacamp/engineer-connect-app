@@ -36,6 +36,12 @@
                             :active="request()->routeIs('mentors.mentor_skills.create')">
                             {{ __('スキル登録') }}
                         </x-jet-nav-link>
+                        <x-jet-nav-link
+                            href="{{ route('mentors.index', Auth::guard(MentorConst::GUARD)->user()) }}"
+                            :active="request()->routeIs('mentors.index')">
+                            {{ __('メンターに相談する') }}
+                        </x-jet-nav-link>
+
                     @endif
                     @if (!Auth::guard(UserConst::GUARD)->check() && !Auth::guard(MentorConst::GUARD)->check())
                         <x-jet-nav-link href="{{ route('user.login') }}" :active="request()->routeIs('user.login')">
