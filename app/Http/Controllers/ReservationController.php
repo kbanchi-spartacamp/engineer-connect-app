@@ -78,8 +78,8 @@ class ReservationController extends Controller
         $mentorScheduleId = $request->mentor_schedule_id;
         $day = $request->day;
         $mentorSchedule = MentorSchedule::find($mentorScheduleId);
-        
-        
+
+
         return view('reservations.create', compact('mentorSchedule', 'day'));
     }
 
@@ -109,7 +109,7 @@ class ReservationController extends Controller
                 ->withErrors('エラーが発生しました');
         }
         $description = $request->description;
-        
+
 
         // $mentor = Mentor::find($reservation->mentor_id);
         // $reservation = Reservation::find($reservation->id)->with(['user', "mentor"])->first();
@@ -132,7 +132,7 @@ class ReservationController extends Controller
         $mentorScheduleId = $reservation->mentor_schedule_id;
         $day = $reservation->day;
         $mentorSchedule = MentorSchedule::find($mentorScheduleId);
-        
+
         return view('reservations.show', compact('reservation', 'day', 'mentorSchedule', 'mentor'));
     }
 
