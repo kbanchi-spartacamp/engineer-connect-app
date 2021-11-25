@@ -36,8 +36,8 @@
                                 class="flex justify-center items-center text-center bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">
                                 メッセージ
                             </a>
-                            @if (Auth::guard(UserConst::GUARD)->check() && Auth::guard(UserConst::GUARD)->user()->can('delete', $reservasion))
-                                <form action="{{ route('reservation.destroy', $reservasion) }}" method="post"
+                            @if (Auth::guard(UserConst::GUARD)->check() && Auth::guard(UserConst::GUARD)->user()->can('delete', $reservation))
+                                <form action="{{ route('reservation.destroy', $reservation) }}" method="post"
                                     class="w-full sm:w-32">
                                     @csrf
                                     @method('DELETE')
@@ -67,8 +67,8 @@
                                 class="flex justify-center invisible items-center text-center bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">
                                 メッセージ
                             </a>
-                            @if (Auth::guard(UserConst::GUARD)->check() && Auth::guard(UserConst::GUARD)->user()->can('delete', $reservasion))
-                                <form action="{{ route('job_offers.destroy', $reservasion) }}" method="post"
+                            @if (Auth::guard(UserConst::GUARD)->check() && Auth::guard(UserConst::GUARD)->user()->can('delete', $reservation))
+                                <form action="{{ route('job_offers.destroy', $reservation) }}" method="post"
                                     class="w-full sm:w-32">
                                     @csrf
                                     @method('DELETE')
