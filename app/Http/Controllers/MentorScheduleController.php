@@ -38,7 +38,11 @@ class MentorScheduleController extends Controller
 
         // 時間帯のプルダウンを取得
         $date = now();
-        $start_time = $date->addMinutes(30 - $date->minute % 30);
+        if ($request->day == $date->format('Y-m-d')) {
+            $start_time = $date->addMinutes(30 - $date->minute % 30);
+        } else {
+            $start_time = new Carbon('00:00:00');
+        }
         $end_time = new Carbon('24:00:00');
         $times = [];
         while ($start_time < $end_time) {
