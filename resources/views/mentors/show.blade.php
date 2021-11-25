@@ -52,7 +52,7 @@
                             <div>
                                 <h2 class="text-2xl">対応スキル</h2>
                                 @foreach ($mentor->mentor_skills as $mentor_skill)
-                                    <p class="flex text-gray-1000">{{ $mentor_skill->skill_category->name }}</p>
+                                    <p class="flex text-gray-1000">・{{ $mentor_skill->skill_category->name }}</p>
                                 @endforeach
                             </div>
                             <div>
@@ -62,32 +62,93 @@
                             <div class="shadow-xl sm:rounded-lg">
                                 <div>
                                     <h2 class="text-2xl">空き状況</h2>
-                                </div>
-                                <table>
-                                    <tr>
-                                        @foreach ($dates as $date)
-                                            <th>
-                                                <a href="" class="text-2xl hover:text-blue-500">{{ $date }}</a>
-                                            </th>
-                                        @endforeach
-                                    </tr>
-                                    <tr>
-                                        <td>
+
+                                    <div class="flex justify center">
+                                        <a href=""
+                                            class="text-2xl hover:text-blue-500">{{ $today->format('m/d') }}</a>
+                                        <div class="flex justify center">
                                             @foreach ($mentor->mentor_schedules as $mentor_schedule)
-                                                <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                    class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-2 px-4 py-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                <div>
+                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                </div>
                                             @endforeach
-                                        </td>
-                                    </tr>
-                                </table>
-                                <div>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <div>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify center">
+                                        <a href=""
+                                            class="text-2xl hover:text-blue-500">{{ $tommorrow->format('m/d') }}</a>
+                                        <div class="flex justify center">
+                                            @foreach ($mentor->mentor_schedules as $mentor_schedule)
+                                                <div>
+                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="flex justify center">
+                                        <a href=""
+                                            class="text-2xl hover:text-blue-500">{{ $dayAfterTommorrow->format('m/d') }}</a>
+                                        <div class="flex justify center">
+                                            @foreach ($mentor->mentor_schedules as $mentor_schedule)
+                                                <div>
+                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="flex justify center">
+                                        <a href=""
+                                            class="text-2xl hover:text-blue-500">{{ $threeDaysLater->format('m/d') }}</a>
+                                        <div class="flex justify center">
+                                            @foreach ($mentor->mentor_schedules as $mentor_schedule)
+                                                <div>
+                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="flex justify center">
+                                        <a href=""
+                                            class="text-2xl hover:text-blue-500">{{ $fourDaysLater->format('m/d') }}</a>
+                                        <div class="flex justify center">
+                                            @foreach ($mentor->mentor_schedules as $mentor_schedule)
+                                                <div>
+                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="flex justify center">
+                                        <a href=""
+                                            class="text-2xl hover:text-blue-500">{{ $fiveDaysLater->format('m/d') }}</a>
+                                        <div class="flex justify center">
+                                            @foreach ($mentor->mentor_schedules as $mentor_schedule)
+                                                <div>
+                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="flex justify center">
+                                        <a href=""
+                                            class="text-2xl hover:text-blue-500">{{ $sixDaysLater->format('m/d') }}</a>
+                                        <div class="flex justify center">
+                                            @foreach ($mentor->mentor_schedules as $mentor_schedule)
+                                                <div>
+                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                 </article>
             </div>
             <div class="m-4">
