@@ -104,7 +104,6 @@ class ReservationController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e);
             return back()->withInput()
                 ->withErrors('エラーが発生しました');
         }
@@ -126,14 +125,9 @@ class ReservationController extends Controller
      * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function show(MentorSchedule $mentorSchedule, Reservation $reservation, Mentor $mentor)
+    public function show(Reservation $reservation)
     {
-        $mentorSchedule->mentor_id = $reservation->mentor_id;
-        $mentorScheduleId = $reservation->mentor_schedule_id;
-        $day = $reservation->day;
-        $mentorSchedule = MentorSchedule::find($mentorScheduleId);
-
-        return view('reservations.show', compact('reservation', 'day', 'mentorSchedule', 'mentor'));
+        return view('reservations.show', compact('reservation'));
     }
 
     /**

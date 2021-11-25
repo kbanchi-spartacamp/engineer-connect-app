@@ -88,7 +88,7 @@ class MessageController extends Controller
 
         return redirect()
             ->route('users.mentors.messages.index', [$user, $mentor])
-            ->with('notice', 'Send Message');
+            ->with('notice', 'メッセージを送信しました。');
     }
 
     /**
