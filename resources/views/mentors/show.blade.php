@@ -91,8 +91,10 @@
                 </article>
             </div>
             <div class="m-4">
-                <input type="submit" value="戻る"
+                <a href="{{ route('mentor_schedules.index') }}"
                     class="bg-black text-white font-bold py-2 px-10 rounded shadow-xl hover:bg-gray-dark hover:text-white">
+                戻る
+                </a>
             </div>
         </div>
     </div>
