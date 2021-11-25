@@ -7,12 +7,12 @@
                     class="w-4/5 flex flex-auto flex-col md:flex-row items-center justify-center p-10 xl:p-32 overflow-hidden">
                     <div class="absolute from-red-900 to-gray opacity-75 inset-0 z-0"></div>
                     <div class="w-4/5 z-10">
-                        <h2 class="text-5xl xl:text-6xl italic mb-6">now conn</h2>
+                        <h2 class="text-5xl xl:text-6xl italic mb-6">NuncOn</h2>
                         <div class="text-5xl sm:text-6xl xl:text-6xl font-bold leading-tight mb-6">
                             困った「今」<br>現役エンジニアに。
                         </div>
                         <div class="sm:text-sm xl:text-md text-black-200 font-normal">
-                            now conn は、「いま、困っている」エンジニアの悩みを解決するサービスです。</div>
+                            NuncOn は、「いま、困っている」エンジニアの悩みを解決するサービスです。</div>
                     </div>
                 </div>
             </div>
