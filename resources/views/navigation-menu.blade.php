@@ -36,10 +36,9 @@
                             :active="request()->routeIs('mentors.mentor_skills.create')">
                             {{ __('スキル登録') }}
                         </x-jet-nav-link>
-                        <x-jet-nav-link
-                            href="{{ route('mentors.index', Auth::guard(MentorConst::GUARD)->user()) }}"
+                        <x-jet-nav-link href="{{ route('mentors.index', Auth::guard(MentorConst::GUARD)->user()) }}"
                             :active="request()->routeIs('mentors.index')">
-                            {{ __('メンターに相談する') }}
+                            {{ __('メンター検索') }}
                         </x-jet-nav-link>
 
                     @endif
@@ -179,6 +178,10 @@
                         :active="request()->routeIs('mentors.mentor_skills.create')">
                         {{ __('スキル登録') }}
                     </x-jet-responsive-nav-link>
+                    <x-jet-responsive-nav-link href="{{ route('mentors.index') }}"
+                        :active="request()->routeIs('mentors.index')">
+                        {{ __('メンター検索') }}
+                    </x-jet-responsive-nav-link>
                 @endif
                 @if (!Auth::guard(UserConst::GUARD)->check() && !Auth::guard(MentorConst::GUARD)->check())
                     <x-jet-responsive-nav-link href="{{ route('user.login') }}"
@@ -228,7 +231,7 @@
 
                             <x-jet-responsive-nav-link href="{{ route($prefix . 'logout') }}"
                                 onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-jet-responsive-nav-link>
                         </form>

@@ -5,6 +5,9 @@
         <x-validation-errors :errors="$errors" />
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="flex justify-center mb-6">
+                <h2>メンター検索</h2>
+            </div>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <form action="{{ route('mentor_schedules.index') }}" method="get">
                     <ul class="">
@@ -51,17 +54,17 @@
                                 </select>
                             </div>
                             <div class="m-4">
-                                @if (strpos(url()->full(), 'bookmark=' . 'true'))
-                                    <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'false'])) }}"
-                                        class="text-3xl text-yellow-500 hover:text-yellow-600">ブックマーク</a>
-                                @else
-                                    <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'true'])) }}"
-                                        class="text-3xl hover:text-yellow-600">ブックマーク</a>
-                                @endif
-                            </div>
-                            <div class="m-4">
                                 <input type="submit" value="検索"
                                     class="w-full sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in duration-500 w-full sm:w-32">
+                            </div>
+                            <div class="flex justify-end flex-wrap content-center m-4">
+                                @if (strpos(url()->full(), 'bookmark=' . 'true'))
+                                    <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'false'])) }}"
+                                        class="text-xl text-yellow-500 hover:text-yellow-600">ブックマーク</a>
+                                @else
+                                    <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'true'])) }}"
+                                        class="text-xl hover:text-yellow-600">ブックマーク</a>
+                                @endif
                             </div>
                         </div>
                     </div>
