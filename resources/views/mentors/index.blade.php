@@ -5,6 +5,20 @@
                 <h2>メンター検索</h2>
             </div>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <form action="{{ route('mentors.index') }}" method="get">
+                    <div class="shadow flex">
+                        <input name="keyword" class="w-full rounded-full  py-2 px-4" type="text"
+                            placeholder="Search..." value="{{ old('keyword', $keyword) }}">
+                        <button type="submit"
+                            class="bg-white w-auto flex justify-end items-center text-green-400 p-2 hover:text-green-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
                 @foreach ($mentors as $mentor)
                     <div class="container flex justify-center mx-auto my-8">
                         <img src="{{ $mentor->profile_photo_url }}" class="rounded-full mr-4 ml-10 w-12 h-12">
