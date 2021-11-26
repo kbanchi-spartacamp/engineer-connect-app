@@ -6,7 +6,7 @@
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-center mb-6">
-                <h2>スキル設定画面</h2>
+                <h2>スキル登録</h2>
             </div>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg pt-3">
                 <div class="flex justify-center mt-1 mb-3">
@@ -14,15 +14,17 @@
                 </div>
                 <div class="flex justify-center">
                     <table class="table-fixed w-5/6 mb-7">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2 w-1/6 text-left">SkillName</th>
-                                <th class="px-4 py-2 text-left">Year</th>
-                                <th class="px-4 py-2 w-1/6"></th>
-                            </tr>
-                        </thead>
+                        @if (!empty($mentor_skills) && $mentor_skills->count() > 0)
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-2 w-1/6 text-left">スキル名</th>
+                                    <th class="px-4 py-2 text-left">経験年数</th>
+                                    <th class="px-4 py-2 w-1/6"></th>
+                                </tr>
+                            </thead>
+                        @endif
                         <tbody>
-                            @foreach ($user->mentor_skills as $mentor_skill)
+                            @foreach ($mentor_skills as $mentor_skill)
                                 <tr class="border">
                                     <td class="px-4 py-2 ">{{ $mentor_skill->skill_category->name }}</td>
                                     <td class="px-4 py-2">{{ $mentor_skill->experience_year }}年</td>
@@ -61,9 +63,9 @@
                         </div>
                         <div>
                             <label class="mr-3 w-3/10">
-                                対応年数
+                                経験年数
                             </label>
-                            <input type="text" name="experience_year" required placeholder="対応年数"
+                            <input type="text" name="experience_year" required placeholder="経験年数"
                                 value="{{ old('experience_year') }}" class="rounded w-6/10 ml-3">
                         </div>
                 </div>

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Consts\DayOfWeekConst;
-use App\Models\MentorSchedule;
+use App\Models\MentorSkill;
 use App\Models\SkillCategory;
 use App\Models\Mentor;
 use Illuminate\Support\Facades\Auth;
+use App\Consts\MentorConst;
 use App\Consts\UserConst;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -20,7 +21,14 @@ class MentorController extends Controller
      */
     public function index()
     {
-        //
+
+        $mentor_skills = Mentorskill::all();
+        $query = Mentor::query();
+        $query->where('id', '<>', Auth::guard(MentorConst::GUARD)->user()->id);
+        $mentors = $query->get();
+
+
+        return view('mentors.index', compact('mentors', 'mentor_skills'));
     }
 
     /**
@@ -52,12 +60,27 @@ class MentorController extends Controller
      */
     public function show(Request $request, Mentor $mentor)
     {
-        $dates = [];
-        $date = now();
-        for ($i = 0; $i < 7; $i++) {
-            $dates[] = $date->formatLocalized('%m/%d(%a)');
-            $date = $date->addDay();
-        }
+        // 本日の日付を取得
+        $today = Carbon::today();
+        
+        //2日目の日付を取得
+        $tommorrow = new Carbon('+1 day');
+        
+        // 3日目の日付を取得
+        $dayAfterTommorrow = new Carbon('+2 day');
+        
+        // // 4日目の日付を取得
+        $threeDaysLater = new Carbon('+3 day');
+        
+        // // 5日目の日付を取得
+        $fourDaysLater = new Carbon('+4 day');
+        
+        // // 6日目の日付を取得
+        $fiveDaysLater = new Carbon('+5 day');
+
+        // //7日目の日付を取得
+        $sixDaysLater = new Carbon('+6 day');
+        
 
         $skillCategories = SkillCategory::all();
 
@@ -134,14 +157,7 @@ class MentorController extends Controller
 
         //テーブルの時間取得
 
-        //1440をfor文で回す
-        $schedules = [];
-        $schedule = strtotime('00:00');
-        for ($i = 0; $i < 1440; $i += 30) {
-            $schedules[] = $schedule;
-        }
-
-        return view('mentors.show', compact('mentor', 'dates', 'skillCategories', 'times', 'searchParam', 'schedules'));
+        return view('mentors.show', compact('mentor', 'today', 'tommorrow','dayAfterTommorrow','threeDaysLater', 'fourDaysLater', 'fiveDaysLater', 'sixDaysLater', 'skillCategories', 'times', 'searchParam'));
     }
 
     /**

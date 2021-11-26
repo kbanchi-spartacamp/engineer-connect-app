@@ -5,26 +5,29 @@
         <x-validation-errors :errors="$errors" />
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="flex justify-center mb-6">
+                <h2>メンター検索</h2>
+            </div>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <form action="{{ route('mentor_schedules.index') }}" method="get">
-                    <ul class="flex">
-                        <li class="ml-10">
+                    <ul class="">
+                        <li class="flex justify-between text-center mx-10">
                             @foreach ($dates as $date)
                                 @if ((strpos(url()->full(), 'day=' . $date->format('Y-m-d'))) ||
                                 (!strpos(url()->full(), 'day=') && ($date->format('Y-m-d') == now()->format('Y-m-d'))))
                                 <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['day' => $date->format('Y-m-d'), 'day_of_week' => $date->formatLocalized('%a')])) }}"
-                                    class="text-3xl text-green-500 hover:text-blue-500">{{ $date->formatLocalized('%m/%d(%a)') }}</a>
+                                    class="text-2xl text-yellow-500 hover:text-yellow-600 w-1/6">{{ $date->formatLocalized('%m/%d(%a)') }}</a>
                                 <input type="hidden" name="day" value="{{ $date->format('Y-m-d') }}">
                                 <input type="hidden" name="day_of_week" value="{{ $date->formatLocalized('%a') }}">
                             @else
                                 <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['day' => $date->format('Y-m-d'), 'day_of_week' => $date->formatLocalized('%a')])) }}"
-                                    class="text-3xl hover:text-blue-500">{{ $date->formatLocalized('%m/%d(%a)') }}</a>
+                                    class="text-2xl hover:text-yellow-600 w-1/6">{{ $date->formatLocalized('%m/%d(%a)') }}</a>
                             @endif
                             @endforeach
                         </li>
                     </ul>
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div class="flex bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                        <div class="flex bg-white overflow-hidden sm:rounded-lg justify-center">
                             <div class="m-4">
                                 <select name="skill_category_id">
                                     @foreach ($skillCategories as $skillCategory)
@@ -51,17 +54,17 @@
                                 </select>
                             </div>
                             <div class="m-4">
+                                <input type="submit" value="検索"
+                                    class="w-full sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in duration-500 w-full sm:w-32">
+                            </div>
+                            <div class="flex justify-end flex-wrap content-center m-4">
                                 @if (strpos(url()->full(), 'bookmark=' . 'true'))
                                     <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'false'])) }}"
-                                        class="text-3xl text-green-500 hover:text-blue-500">ブックマーク</a>
+                                        class="text-xl text-yellow-500 hover:text-yellow-600">ブックマーク</a>
                                 @else
                                     <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'true'])) }}"
-                                        class="text-3xl hover:text-blue-500">ブックマーク</a>
+                                        class="text-xl hover:text-yellow-600">ブックマーク</a>
                                 @endif
-                            </div>
-                            <div class="m-4">
-                                <input type="submit" value="検索"
-                                    class="w-full sm:w-40 bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32">
                             </div>
                         </div>
                     </div>
@@ -101,12 +104,12 @@
                                             @if (empty($searchParam['day']) || empty($searchParam['day_of_week']))
                                                 @foreach ($mentor->my_schedules(now(), DayOfWeekConst::DAY_OF_WEEK_LIST_EN[now()->formatLocalized('%a')]) as $mentor_schedule)
                                                     <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ now()->format('Y-m-d') }}"
-                                                        class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-4 px-5 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 mx-2">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                        class="w-full text-center sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in duration-500 w-full sm:w-32">{{ $mentor_schedule->start_time->format('H:i') }}</a>
                                                 @endforeach
                                             @else
                                                 @foreach ($mentor->my_schedules($searchParam['day'], DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$searchParam['day_of_week']]) as $mentor_schedule)
                                                     <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 mt-4 px-5 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 mx-2">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                        class="w-full text-center sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in duration-500 w-full sm:w-32">{{ $mentor_schedule->start_time->format('H:i') }}</a>
                                                 @endforeach
                                             @endif
                                         </div>

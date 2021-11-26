@@ -4,9 +4,12 @@
         <x-flash-message :message="session('notice')" />
         <x-validation-errors :errors="$errors" />
 
-        <div class="flex justify-center text-3xl">以下のスケジュールで予約しました</div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="flex justify-center mb-6">
+                <h2>予約完了</h2>
+            </div>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <p>以下のスケジュールで予約しました。</p>
                 <article class="mb-4">
                     <div class='container mx-auto'>
                         <div class="flex justify-center">
@@ -15,19 +18,17 @@
                         </div>
                         <div class="flex justify-center">
                             <h2 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-1 text-3xl md:text-4xl">
-                                {{ $reservation->mentor->name }}</h2>
-                            <div
-                                class="flex justify-center text-xl bg-gradient-to-r text-gray-900 mt-4 px-5 py-3 rounded tracking-wide font-semibold mx-2">
-                                {{ $reservation->start_time->format('Y-m-d') }}
-                            </div>
-                            <div
-                                class="flex justify-center text-xl bg-gradient-to-r text-gray-900 mt-4 px-5 py-3 rounded tracking-wide font-semibold mx-2">
-                                {{ $reservation->start_time->format('H:i') }}
-                            </div>
+                                {{ $reservation->mentor->name }} さん</h2>
+                        </div>
+                        <div
+                            class="flex justify-center flex-wrap content-center text-xl bg-gradient-to-r text-gray-900 mt-4 px-5 py-3 rounded tracking-wide font-semibold mx-2">
+                            {{ $reservation->start_time->formatLocalized('%Y/%m/%d(%a) %H:%M') }} 〜
                         </div>
                         <div class="flex justify-center">
                             <a href="{{ route('users.mentors.messages.index', [$user, $reservation->mentor]) }}"
-                                class="w-full sm:w-40 bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32">
+                                class="w-full text-center sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500
+                                hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold cursor-pointer transition ease-in
+                                duration-500 w-full sm:w-32">
                                 メッセージ
                             </a>
                         </div>

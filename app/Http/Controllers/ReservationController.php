@@ -78,6 +78,8 @@ class ReservationController extends Controller
         $mentorScheduleId = $request->mentor_schedule_id;
         $day = $request->day;
         $mentorSchedule = MentorSchedule::find($mentorScheduleId);
+
+
         return view('reservations.create', compact('mentorSchedule', 'day'));
     }
 
@@ -94,6 +96,7 @@ class ReservationController extends Controller
         $reservation->mentor_id = $request->mentor_id;
         $reservation->day = $request->day;
         $reservation->start_time = $request->start_time;
+        $reservation->description = $request->description;
 
         DB::beginTransaction();
         try {
@@ -104,6 +107,8 @@ class ReservationController extends Controller
             return back()->withInput()
                 ->withErrors('エラーが発生しました');
         }
+        $description = $request->description;
+
 
         // $mentor = Mentor::find($reservation->mentor_id);
         // $reservation = Reservation::find($reservation->id)->with(['user', "mentor"])->first();
@@ -120,13 +125,9 @@ class ReservationController extends Controller
      * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function show(MentorSchedule $mentorSchedule, Reservation $reservation, Mentor $mentor)
+    public function show(Reservation $reservation)
     {
-        $mentorSchedule->mentor_id = $reservation->mentor_id;
-        $mentorScheduleId = $reservation->mentor_schedule_id;
-        $day = $reservation->day;
-        $mentorSchedule = MentorSchedule::find($mentorScheduleId);
-        return view('reservations.show', compact('reservation', 'day', 'mentorSchedule', 'mentor'));
+        return view('reservations.show', compact('reservation'));
     }
 
     /**
@@ -160,6 +161,19 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
-        //
+        if (Auth::guard(UserConst::GUARD)->user('delete', $reservation)) {
+            return redirect()->route('reservation.show', $reservation)
+                ->withErrors('自分の予約以外は削除できません');
+        }
+
+        try {
+            $reservation->delete();
+        } catch (\Exception $e) {
+            return back()->withInput()
+                ->withErrors('予約情報削除処理でエラーが発生しました');
+        }
+
+        return redirect()->route('reservation.index')
+            ->with('notice', '予約情報を削除しました');
     }
 }

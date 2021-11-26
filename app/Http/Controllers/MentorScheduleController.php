@@ -22,7 +22,7 @@ class MentorScheduleController extends Controller
      */
     public function index(Request $request)
     {
-        // 本日から一週間分の日付を取得
+        // 7日目の日付を取得
         $dates = [];
         $date = now();
         for ($i = 0; $i < 7; $i++) {
@@ -35,10 +35,13 @@ class MentorScheduleController extends Controller
 
         // ブックマーク情報を取得
 
-
         // 時間帯のプルダウンを取得
         $date = now();
-        $start_time = $date->addMinutes(30 - $date->minute % 30);
+        if ($request->day == $date->format('Y-m-d')) {
+            $start_time = $date->addMinutes(30 - $date->minute % 30);
+        } else {
+            $start_time = new Carbon('00:00:00');
+        }
         $end_time = new Carbon('24:00:00');
         $times = [];
         while ($start_time < $end_time) {
@@ -75,8 +78,8 @@ class MentorScheduleController extends Controller
             $day = new Carbon($day);
             $dayOfWeek = DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$dayOfWeek];
             if (!empty($startTime) && !empty($endTime)) {
-                $startTime = new Carbon($startTime);
-                $endTime = new Carbon($endTime);
+                $startTime = new Carbon($day->format('Y-m-d') . ' ' . $startTime);
+                $endTime = new Carbon($day->format('Y-m-d') . ' ' . $endTime);
                 $param = [
                     'startTime' => $startTime,
                     'endTime' => $endTime,
@@ -87,8 +90,6 @@ class MentorScheduleController extends Controller
                     $q->where('day', $param['day'])
                         ->where('start_time', '>=', $param['startTime'])
                         ->where('start_time', '<=', $param['endTime']);
-                });
-                $query->whereHas('mentor_schedules', function ($q) use ($param) {
                     $q->orWhere('day_of_week', $param['dayOfWeek'])
                         ->where('start_time', '>=', $param['startTime'])
                         ->where('start_time', '<=', $param['endTime']);
