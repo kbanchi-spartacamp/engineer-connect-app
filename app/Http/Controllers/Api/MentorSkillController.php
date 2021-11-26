@@ -17,9 +17,10 @@ class MentorSkillController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, $id)
     {
-        //
+        $mentor_skills = MentorSkill::with('skill_category')->where('mentor_id', $id)->get();
+        return $mentor_skills;
     }
 
     /**
