@@ -21,6 +21,7 @@ class MentorController extends Controller
      */
     public function index()
     {
+
         $mentor_skills = Mentorskill::all();
         $query = Mentor::query();
         $query->where('id', '<>', Auth::guard(MentorConst::GUARD)->user()->id);

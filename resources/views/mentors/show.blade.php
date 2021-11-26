@@ -22,7 +22,7 @@
                     <div class="flex justify-end">
                         <div class="m-4">
                             <input type="submit" value="お気に入り"
-                                class="w-full sm:w-40 bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32">
+                                class="w-full sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in duration-500 w-full sm:w-32">
                         </div>
                         <div class="m-4 content">
                             <form action="{{ route('payment') }}" method="post">
@@ -41,10 +41,10 @@
                             <div class="m-4">
                                 @if (strpos(url()->full(), 'bookmark=' . 'true'))
                                     <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'false'])) }}"
-                                        class="text-3xl text-green-500 hover:text-blue-500">ブックマーク</a>
+                                        class="text-3xl text-yellow-500 hover:text-yellow-600">ブックマーク</a>
                                 @else
                                     <a href="/mentor_schedules?{{ http_build_query(array_merge($searchParam, ['bookmark' => 'true'])) }}"
-                                        class="text-2xl hover:text-blue-500">ブックマーク</a>
+                                        class="text-2xl hover:text-yellow-500">ブックマーク</a>
                                 @endif
                             </div>
                         </div>
