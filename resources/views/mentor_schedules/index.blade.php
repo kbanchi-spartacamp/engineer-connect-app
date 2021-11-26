@@ -91,25 +91,25 @@
                                     </div>
                                     <h2 class="text-lg text-gray-700 font-semibold">
                                         {{ $mentor->name }}</h2>
-                                    <div class="flex justify-between items-center">
-                                        <div class="mt-4 flex items-center space-x-4 py-6">
+                                    <div class="flex flex-wrap justify-between items-center ">
+                                        <div class="mt-4 flex items-center  py-6 w-1/12">
                                             <div>
                                                 <a href="{{ route('mentors.show', $mentor) }}">
                                                     <img src="{{ $mentor->profile_photo_url }}"
-                                                        class="rounded-full w-20 h-20 mr-4 ml-10">
+                                                        class="rounded-full w-16 h-16 mr-4 ml-10">
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="flex">
+                                        <div class="flex overflow-x-auto w-9/12 ">
                                             @if (empty($searchParam['day']) || empty($searchParam['day_of_week']))
                                                 @foreach ($mentor->my_schedules(now(), DayOfWeekConst::DAY_OF_WEEK_LIST_EN[now()->formatLocalized('%a')]) as $mentor_schedule)
                                                     <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ now()->format('Y-m-d') }}"
-                                                        class="w-full text-center sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in duration-500 w-full sm:w-32">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                        class="text-center  bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full  font-semibold  cursor-pointer transition ease-in duration-500  ">{{ $mentor_schedule->start_time->format('H:i') }}</a>
                                                 @endforeach
                                             @else
                                                 @foreach ($mentor->my_schedules($searchParam['day'], DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$searchParam['day_of_week']]) as $mentor_schedule)
                                                     <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="w-full text-center sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in duration-500 w-full sm:w-32">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                        class="text-center   bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full  font-semibold  cursor-pointer transition ease-in duration-500  ">{{ $mentor_schedule->start_time->format('H:i') }}</a>
                                                 @endforeach
                                             @endif
                                         </div>
