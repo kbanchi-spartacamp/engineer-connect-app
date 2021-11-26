@@ -62,87 +62,101 @@
                             <div class="shadow-xl sm:rounded-lg">
                                 <div>
                                     <h2 class="text-2xl">空き状況</h2>
-
                                     <div class="flex justify center">
                                         <a href=""
-                                            class="text-2xl hover:text-blue-500">{{ $today->format('m/d') }}</a>
+                                            class="text-2xl hover:text-blue-500">{{ $today->formatLocalized('%m/%d(%a)') }}</a>
                                         <div class="flex justify center">
                                             @foreach ($mentor->mentor_schedules as $mentor_schedule)
                                                 <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    @if(!empty($mentor_schedule->day))
+                                                    @if ((DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$today->formatLocalized('%a')] == $mentor_schedule->day_of_week) || (($mentor_schedule->day->format('Y-m-d') == now()->format('Y-m-d')) && ($mentor_schedule->start_time >= now())))
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                            class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    @endif
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
                                     <div class="flex justify center">
                                         <a href=""
-                                            class="text-2xl hover:text-blue-500">{{ $tommorrow->format('m/d') }}</a>
+                                            class="text-2xl hover:text-blue-500">{{ $tommorrow->formatLocalized('%m/%d(%a)') }}</a>
                                         <div class="flex justify center">
                                             @foreach ($mentor->mentor_schedules as $mentor_schedule)
                                                 <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    {{-- @if ((DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$tommorrow->formatLocalized('%a')] == $mentor_schedule->day_of_week) || ($mentor_schedule->day->format('Y-m-d') == $tommorrow->format('Y-m-d'))) --}}
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                            class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    {{-- @endif --}}
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
                                     <div class="flex justify center">
                                         <a href=""
-                                            class="text-2xl hover:text-blue-500">{{ $dayAfterTommorrow->format('m/d') }}</a>
+                                            class="text-2xl hover:text-blue-500">{{ $dayAfterTommorrow->formatLocalized('%m/%d(%a)') }}</a>
                                         <div class="flex justify center">
                                             @foreach ($mentor->mentor_schedules as $mentor_schedule)
                                                 <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    @if ($mentor_schedule->day->format('Y-m-d') == $dayAfterTommorrow->format('Y-m-d') )
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                            class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    @endif
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
                                     <div class="flex justify center">
                                         <a href=""
-                                            class="text-2xl hover:text-blue-500">{{ $threeDaysLater->format('m/d') }}</a>
+                                            class="text-2xl hover:text-blue-500">{{ $threeDaysLater->formatLocalized('%m/%d(%a)') }}</a>
                                         <div class="flex justify center">
                                             @foreach ($mentor->mentor_schedules as $mentor_schedule)
                                                 <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    @if ($mentor_schedule->day->format('Y-m-d') == $threeDaysLater->format('Y-m-d') )
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                            class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    @endif
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
                                     <div class="flex justify center">
                                         <a href=""
-                                            class="text-2xl hover:text-blue-500">{{ $fourDaysLater->format('m/d') }}</a>
+                                            class="text-2xl hover:text-blue-500">{{ $fourDaysLater->formatLocalized('%m/%d(%a)') }}</a>
                                         <div class="flex justify center">
                                             @foreach ($mentor->mentor_schedules as $mentor_schedule)
                                                 <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    @if ($mentor_schedule->day->format('Y-m-d') == $fourDaysLater->format('Y-m-d') )
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                            class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    @endif
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
                                     <div class="flex justify center">
                                         <a href=""
-                                            class="text-2xl hover:text-blue-500">{{ $fiveDaysLater->format('m/d') }}</a>
+                                            class="text-2xl hover:text-blue-500">{{ $fiveDaysLater->formatLocalized('%m/%d(%a)') }}</a>
                                         <div class="flex justify center">
                                             @foreach ($mentor->mentor_schedules as $mentor_schedule)
                                                 <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    @if ($mentor_schedule->day->format('Y-m-d') == $fiveDaysLater->format('Y-m-d') )
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                            class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    @endif
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
                                     <div class="flex justify center">
                                         <a href=""
-                                            class="text-2xl hover:text-blue-500">{{ $sixDaysLater->format('m/d') }}</a>
+                                            class="text-2xl hover:text-blue-500">{{ $sixDaysLater->formatLocalized('%m/%d(%a)') }}</a>
                                         <div class="flex justify center">
                                             @foreach ($mentor->mentor_schedules as $mentor_schedule)
                                                 <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    @if ($mentor_schedule->day->format('Y-m-d') == $sixDaysLater->format('Y-m-d') )
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
+                                                            class="flex bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    @endif
                                                 </div>
                                             @endforeach
                                         </div>
@@ -154,7 +168,7 @@
             <div class="m-4">
                 <a href="{{ route('mentor_schedules.index') }}"
                     class="bg-black text-white font-bold py-2 px-10 rounded shadow-xl hover:bg-gray-dark hover:text-white">
-                戻る
+                    戻る
                 </a>
             </div>
         </div>
