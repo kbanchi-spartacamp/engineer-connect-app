@@ -17,7 +17,7 @@
             @endif
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 @foreach ($reservations as $reservation)
-                    @if ($reservation->start_time >= now())
+                    @if ($reservation->day >= now() || ($reservation->day->toDateString() == now()->toDateString() && $reservation->start_time >= now()))
                         <div class="container flex justify-center mx-auto my-1">
                             @if (Auth::guard(UserConst::GUARD)->check())
                                 <a href="{{ route('mentors.show', $reservation->mentor) }}">
@@ -35,12 +35,11 @@
                                 {{ $reservation->start_time->format('G:i') }} 〜
                             </label>
                             <a href="{{ route('users.mentors.messages.index', [$reservation->user, $reservation->mentor]) }}"
-                                class="flex justify-center items-center text-center bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">
+                                class="flex justify-center items-center text-center bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-full">
                                 メッセージ
                             </a>
-                            @if (Auth::guard(UserConst::GUARD)->check() &&
-    Auth::guard(UserConst::GUARD)->user()->can('delete', $reservation))
-                                <form action="{{ route('reservation.destroy', $reservation) }}" method="post"
+                            @if (Auth::guard(UserConst::GUARD)->check())
+                                <form action="{{ route('reservations.destroy', $reservation) }}" method="post"
                                     class="w-full sm:w-32">
                                     @csrf
                                     @method('DELETE')
@@ -50,7 +49,6 @@
                             @endif
                         </div>
                         <hr class="boild">
-
                     @else
                         <div class="container flex justify-center mx-auto my-2 bg-gray-500">
                             @if (Auth::guard(UserConst::GUARD)->check())
@@ -67,17 +65,16 @@
                                 {{ $reservation->start_time->format('G:i') }} 〜
                             </label>
                             <a href="{{ route('users.mentors.messages.index', [$reservation->user, $reservation->mentor]) }}"
-                                class="flex justify-center invisible items-center text-center bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">
+                                class="flex justify-center invisible items-center text-center bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-full">
                                 メッセージ
                             </a>
-                            @if (Auth::guard(UserConst::GUARD)->check() &&
-    Auth::guard(UserConst::GUARD)->user()->can('delete', $reservation))
-                                <form action="{{ route('job_offers.destroy', $reservation) }}" method="post"
+                            @if (Auth::guard(UserConst::GUARD)->check())
+                                <form action="{{ route('reservations.destroy', $reservation) }}" method="post"
                                     class="w-full sm:w-32">
                                     @csrf
                                     @method('DELETE')
                                     <input type="submit" value="削除" onclick="if(!confirm('削除しますか？')){return false};"
-                                        class="bg-gradient-to-r from-pink-500 to-purple-600 hover:bg-gradient-to-l hover:from-purple-500 hover:to-pink-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32">
+                                        class="bg-gradient-to-r invisible from-pink-500 to-purple-600 hover:bg-gradient-to-l hover:from-purple-500 hover:to-pink-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32">
                                 </form>
                             @endif
                         </div>

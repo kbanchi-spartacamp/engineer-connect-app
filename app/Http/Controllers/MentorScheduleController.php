@@ -22,7 +22,7 @@ class MentorScheduleController extends Controller
      */
     public function index(Request $request)
     {
-        // 本日から一週間分の日付を取得
+        // 7日目の日付を取得
         $dates = [];
         $date = now();
         for ($i = 0; $i < 7; $i++) {
@@ -34,7 +34,6 @@ class MentorScheduleController extends Controller
         $skillCategories = SkillCategory::all();
 
         // ブックマーク情報を取得
-
 
         // 時間帯のプルダウンを取得
         $date = now();
