@@ -11,6 +11,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <article class="mb-4">
                     <div class='container mx-auto'>
+                        @if (empty($reservation))
                         <div class="flex justify-center">
                             <img src="{{ $mentorSchedule->mentor->profile_photo_url }}" alt=""
                                 class="h-20 w-20 rounded-full object-cover ">
@@ -24,10 +25,12 @@
                             {{ $mentorSchedule->start_time->formatLocalized('%Y/%m/%d(%a) %H:%M') }} 〜
                         </div>
                         <div class="m-4">
-                            <form action="{{ route('reservations.store', $user) }}" method="POST" onsubmit="checkDoubleSubmit(document.getElementById('sendBtn'))">
+                            <form action="{{ route('reservations.store', $user) }}" method="POST"
+                                onsubmit="checkDoubleSubmit(document.getElementById('sendBtn'))">
                                 @csrf
                                 <div class="flex justify-center">
-                                    <textarea rows="10" cols="60" name="description" placeholder="ざっくりと相談内容を記載してください。例) PHPについて教えてください"></textarea>
+                                    <textarea rows="10" cols="60" name="description"
+                                        placeholder="ざっくりと相談内容を記載してください。例) PHPについて教えてください"></textarea>
                                 </div>
                                 <div class="flex justify-center mt-4">
                                     <div class="m-4">
@@ -44,6 +47,33 @@
                                 </div>
                             </form>
                         </div>
+                        @else
+                        <h2 class="flex justify-center font-bold text-red-500 m-5 text-1xl md:text-2xl">
+                            すでに予約が入っています。</h2>
+                        <div class="flex justify-center">
+                            <img src="{{ $mentorSchedule->mentor->profile_photo_url }}" alt=""
+                                class="h-20 w-20 rounded-full object-cover ">
+                        </div>
+                        <div class="flex justify-center">
+                            <h2 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-1 text-3xl md:text-4xl">
+                                {{ $mentorSchedule->mentor->name }} さん</h2>
+                        </div>
+                        <div
+                            class="flex justify-center flex-wrap content-center text-xl bg-gradient-to-r text-gray-900 mt-4 px-5 py-3 rounded tracking-wide font-semibold mx-2">
+                            {{ $mentorSchedule->start_time->formatLocalized('%Y/%m/%d(%a) %H:%M') }} 〜
+                        </div>
+                        <div class="m-4">
+                            <div class="flex justify-center mt-4">
+                                <div class="m-4">
+                                    <button type="button" onclick="location.href='/mentor_schedules'"
+                                        class="w-full sm:w-40 bg-gradient-to-r from-gray-300 to-gray-500 hover:bg-gradient-to-l hover:from-gray-500 hover:to-gray-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in duration-500">
+                                        戻る
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
                 </article>
             </div>
             <script>

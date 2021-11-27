@@ -84,8 +84,16 @@ class ReservationController extends Controller
         $day = $request->day;
         $mentorSchedule = MentorSchedule::find($mentorScheduleId);
 
+        $query = Reservation::query();
+        $query->where('day', $day)
+            ->where('mentor_id', $mentorSchedule->mentor->id)
+            ->where('start_time', $mentorSchedule->start_time->format('H:i:s'));
+        $reservation = $query->first();
 
-        return view('reservations.create', compact('mentorSchedule', 'day'));
+        if (!empty($reservation)) {
+            $messages['reservation'] = '予定が入っています。';
+        }
+        return view('reservations.create', compact('mentorSchedule', 'day', 'reservation'));
     }
 
     /**

@@ -70,12 +70,8 @@
                         </div>
                 </div>
                 <div class="flex justify-center mb-5">
-                    <a href=""
-                        class="mr-2 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-                        戻る
-                    </a>
                     <input type="submit" value="更新" id="sendBtn"
-                        class="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded ml-2">
+                        class="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded w-1/2">
                     </form>
                 </div>
             </div>
