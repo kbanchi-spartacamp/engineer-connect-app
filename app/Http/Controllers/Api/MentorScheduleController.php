@@ -50,8 +50,8 @@ class MentorScheduleController extends Controller
             $day = new Carbon($day);
             $dayOfWeek = DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$dayOfWeek];
             if (!empty($startTime) && !empty($endTime)) {
-                $startTime = new Carbon($startTime);
-                $endTime = new Carbon($endTime);
+                $startTime = new Carbon($day->format('Y-m-d') . ' ' . $startTime);
+                $endTime = new Carbon($day->format('Y-m-d') . ' ' . $endTime);
                 $param = [
                     'startTime' => $startTime,
                     'endTime' => $endTime,
@@ -62,8 +62,6 @@ class MentorScheduleController extends Controller
                     $q->where('day', $param['day'])
                         ->where('start_time', '>=', $param['startTime'])
                         ->where('start_time', '<=', $param['endTime']);
-                });
-                $query->whereHas('mentor_schedules', function ($q) use ($param) {
                     $q->orWhere('day_of_week', $param['dayOfWeek'])
                         ->where('start_time', '>=', $param['startTime'])
                         ->where('start_time', '<=', $param['endTime']);
