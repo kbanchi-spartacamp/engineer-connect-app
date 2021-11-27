@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\Review;
 
 class ReviewController extends Controller
 {
@@ -23,9 +25,33 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $mentor_id)
     {
-        //
+        $review = Review::where('user_id', $request->user_id)
+            ->where('mentor_id', $mentor_id)
+            ->first();
+
+        if (empty($review)) {
+            $review = new Review();
+            $review->user_id = $request->user_id;
+            $review->mentor_id = $mentor_id;
+            $review->star = $request->review;
+        } else {
+            $review->star = $request->review;
+        }
+
+        DB::beginTransaction();
+        try {
+            $review->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            dd($e);
+            DB::rollBack();
+            return back()->withInput()
+                ->withErrors('エラーが発生しました');
+        }
+
+        return $review;
     }
 
     /**

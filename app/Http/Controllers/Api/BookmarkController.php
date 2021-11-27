@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Bookmark;
+use Illuminate\Support\Facades\DB;
 
 class BookmarkController extends Controller
 {
@@ -23,9 +25,23 @@ class BookmarkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $mentor_id)
     {
-        //
+        $bookmark = new Bookmark();
+        $bookmark->user_id = $request->user_id;
+        $bookmark->mentor_id = $mentor_id;
+
+        DB::beginTransaction();
+        try {
+            $bookmark->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withInput()
+                ->withErrors('エラーが発生しました');
+        }
+
+        return $bookmark;
     }
 
     /**
@@ -57,8 +73,19 @@ class BookmarkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($mentor_id, $bookmark_id)
     {
-        //
+
+        $bookmark = Bookmark::find($bookmark_id);
+
+        DB::beginTransaction();
+        try {
+            $bookmark->delete();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withInput()
+                ->withErrors('エラーが発生しました');
+        }
     }
 }
