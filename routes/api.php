@@ -25,6 +25,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::apiResource('mentors.mentor_skills', App\Http\Controllers\Api\MentorSkillController::class);
     Route::apiResource('mentors', App\Http\Controllers\Api\MentorController::class);
     Route::apiResource('skill_categories', App\Http\Controllers\Api\SkillCategoryController::class);
+    Route::apiResource('mentors.bookmarks', App\Http\Controllers\Api\BookmarkController::class);
+    Route::apiResource('mentors.reviews', App\Http\Controllers\Api\ReviewController::class);
 });
 
 Route::post('/user/register', [App\Http\Controllers\Api\UserRegisterController::class, 'register']);
