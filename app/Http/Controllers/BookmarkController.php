@@ -39,18 +39,24 @@ class BookmarkController extends Controller
      */
     public function store(Request $request, Mentor $mentor)
     {
-        $bookmark = new Bookmark();
-        $bookmark->user_id = Auth::guard(UserConst::GUARD)->user()->id;
-        $bookmark->mentor_id = $mentor->id;
 
-        DB::beginTransaction();
-        try {
-            $bookmark->save();
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withInput()
-                ->withErrors('エラーが発生しました');
+        $bookmark = Bookmark::where('user_id', Auth::guard(UserConst::GUARD)->user()->id)
+            ->where('mentor_id', $mentor->id)->first();
+
+        if (empty($bookmark)) {
+            $bookmark = new Bookmark();
+            $bookmark->user_id = Auth::guard(UserConst::GUARD)->user()->id;
+            $bookmark->mentor_id = $mentor->id;
+
+            DB::beginTransaction();
+            try {
+                $bookmark->save();
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return back()->withInput()
+                    ->withErrors('エラーが発生しました');
+            }
         }
 
         return redirect()->route('mentors.show', $mentor)
@@ -99,16 +105,20 @@ class BookmarkController extends Controller
      */
     public function destroy(Mentor $mentor, Bookmark $bookmark)
     {
-        DB::beginTransaction();
-        try {
-            $bookmark->delete();
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withInput()
-                ->withErrors('エラーが発生しました');
-        }
+        $bookmark = Bookmark::where('user_id', Auth::guard(UserConst::GUARD)->user()->id)
+            ->where('mentor_id', $mentor->id)->first();
 
+        if (!empty($bookmark)) {
+            DB::beginTransaction();
+            try {
+                $bookmark->delete();
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return back()->withInput()
+                    ->withErrors('エラーが発生しました');
+            }
+        }
         return redirect()->route('mentors.show', $mentor)
             ->with('notice', 'ブックマークを取り消しました');
     }
