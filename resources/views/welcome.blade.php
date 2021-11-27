@@ -109,7 +109,7 @@
         </div>
         <div class="flex mb-10">
             <div class="w-full lg:w-9/12 px-4 ">
-                <h2 class="text-4xl font-semibold text-blueGray-700">
+                <h2 class="text-4xl font-semibold text-blueGray-700 mt-10">
                     「今」困っていることを気軽に相談する方法がない
                 </h2>
                 <p class="text-lg leading-relaxed mt-4 mb-4 text-blueGray-600">
@@ -124,11 +124,11 @@
         </div>
 
         <div class="flex mb-10">
-            <div class="w-full lg:w-3/12 lg:max-w-lg md:w-1/2">
-                <img class="object-cover object-center rounded-lg h-60" alt="hero" src="images/welcom_image_2.jpg">
+            <div class="w-full lg:w-8/12 lg:max-w-lg md:w-1/2">
+                <img class="object-cover object-center rounded-lg h-60 ml-10" alt="hero" src="images/welcom_image_2.jpg">
             </div>
-            <div class="w-full lg:w-9/12 px-4 ">
-                <h2 class="text-4xl font-semibold text-blueGray-700">
+            <div class="w-full lg:w-7/12 px-4 ">
+                <h2 class="text-4xl font-semibold text-blueGray-700 mt-10">
                     文章ではなく、直接話したい
                 </h2>
                 <p class="text-lg leading-relaxed mt-4 mb-4 text-blueGray-600">
@@ -141,8 +141,8 @@
         </div>
 
         <div class="flex mb-10">
-            <div class="w-full lg:w-9/12 px-4 ">
-                <h2 class="text-4xl font-semibold text-blueGray-700">
+            <div class="w-full lg:w-11/12 px-4 ">
+                <h2 class="text-4xl font-semibold text-blueGray-700 mt-10">
                     エンジニア同士の新しい相談コミュニティ
                 </h2>
                 <p class="text-lg leading-relaxed mt-4 mb-4 text-blueGray-600">
@@ -150,7 +150,7 @@
                     お互いがお互いを助け合い、エンジニアの新しいコミュニティを創りあげる
                 </p>
             </div>
-            <div class="w-full lg:w-6/12 lg:max-w-lg md:w-1/2 ">
+            <div class="w-full lg:w-5/12 lg:max-w-lg md:w-1/2 ">
                 <img class="object-cover object-center rounded-lg h-60" alt="hero" src="images/welcom_image_3.jpg">
             </div>
         </div>
