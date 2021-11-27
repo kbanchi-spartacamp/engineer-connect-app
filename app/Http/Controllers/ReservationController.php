@@ -166,8 +166,9 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
-        if (Auth::guard(UserConst::GUARD)->user('delete', $reservation)) {
-            return redirect()->route('reservation.show', $reservation)
+
+        if ($reservation->user_id != Auth::guard(UserConst::GUARD)->user()->id) {
+            return redirect()->route('reservations.show', $reservation)
                 ->withErrors('自分の予約以外は削除できません');
         }
 
@@ -178,7 +179,7 @@ class ReservationController extends Controller
                 ->withErrors('予約情報削除処理でエラーが発生しました');
         }
 
-        return redirect()->route('reservation.index')
+        return redirect()->route('reservations.index')
             ->with('notice', '予約情報を削除しました');
     }
 }

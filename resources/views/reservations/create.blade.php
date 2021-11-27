@@ -13,7 +13,7 @@
                     <div class='container mx-auto'>
                         <div class="flex justify-center">
                             <img src="{{ $mentorSchedule->mentor->profile_photo_url }}" alt=""
-                                class="h-20 w-20 rounded-full object-cover mr-3">
+                                class="h-20 w-20 rounded-full object-cover ">
                         </div>
                         <div class="flex justify-center">
                             <h2 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-1 text-3xl md:text-4xl">
@@ -24,11 +24,10 @@
                             {{ $mentorSchedule->start_time->formatLocalized('%Y/%m/%d(%a) %H:%M') }} 〜
                         </div>
                         <div class="m-4">
-                            <form action="{{ route('reservations.store', $user) }}" method="POST">
+                            <form action="{{ route('reservations.store', $user) }}" method="POST" onsubmit="checkDoubleSubmit(document.getElementById('sendBtn'))">
                                 @csrf
                                 <div class="flex justify-center">
-                                    <textarea rows="10" cols="60" name="description" placeholder="ざっくりと相談内容を記載してください。
-例) PHPについて教えてください"></textarea>
+                                    <textarea rows="10" cols="60" name="description" placeholder="ざっくりと相談内容を記載してください。例) PHPについて教えてください"></textarea>
                                 </div>
                                 <div class="flex justify-center mt-4">
                                     <div class="m-4">
@@ -40,10 +39,21 @@
                                     <input type="hidden" name="mentor_id" value="{{ $mentorSchedule->mentor_id }}">
                                     <input type="hidden" name="day" value="{{ $day }}">
                                     <input type="hidden" name="start_time" value="{{ $mentorSchedule->start_time }}">
-                                    <input type="submit" value="予約"
-                                        class="w-full sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in duration-500">
+                                    <input type="submit" value="予約" id="sendBtn"
+                                        class="m-4 w-full h-full sm:w-40 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in duration-500">
+                                </div>
                             </form>
                         </div>
                 </article>
             </div>
+            <script>
+                function checkDoubleSubmit(obj) {
+                        if (obj.disabled) {
+                            return false;
+                        } else {
+                            obj.disabled = true;
+                            return true;
+                        }
+                    }
+            </script>
 </x-app-layout>
