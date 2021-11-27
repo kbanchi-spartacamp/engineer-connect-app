@@ -80,4 +80,14 @@
             </div>
         </div>
     </div>
+    <script>
+        function checkDoubleSubmit(obj) {
+                    if (obj.disabled) {
+                        return false;
+                    } else {
+                        obj.disabled = true;
+                        return true;
+                    }
+                }
+    </script>
 </x-mentor-layout>

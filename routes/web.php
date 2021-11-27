@@ -39,11 +39,11 @@ Route::resource('mentor_schedules', App\Http\Controllers\MentorScheduleControlle
     ->middleware('auth:users');
 
 Route::resource('mentor_schedules', App\Http\Controllers\MentorScheduleController::class)
-    ->only(['create', 'store', 'destory'])
+    ->only(['create', 'store', 'destroy'])
     ->middleware('auth:mentors');
 
 Route::resource('reservations', App\Http\Controllers\ReservationController::class)
-    ->only(['index', 'create', 'store', 'show', 'destory'])
+    ->only(['index', 'create', 'store', 'show', 'destroy'])
     ->middleware(['auth:users,mentors']);
 
 Route::resource('users.mentors.messages', App\Http\Controllers\MessageController::class)
@@ -55,7 +55,7 @@ Route::resource('mentors.messages', App\Http\Controllers\MentorMessageController
     ->middleware(['auth:mentors']);
 
 Route::resource('mentors.mentor_skills', App\Http\Controllers\MentorSkillController::class)
-    ->only(['create', 'store', 'destory'])
+    ->only(['create', 'store', 'destroy'])
     ->middleware('auth:mentors');
 
 Route::resource('mentors', App\Http\Controllers\MentorController::class)
