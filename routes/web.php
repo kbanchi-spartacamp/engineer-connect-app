@@ -35,9 +35,15 @@ Route::get('/register', function () {
 require __DIR__ . '/auth.php';
 
 Route::resource('mentor_schedules', App\Http\Controllers\MentorScheduleController::class)
-    ->middleware('auth:users,mentors');
+    ->only(['index'])
+    ->middleware('auth:users');
+
+Route::resource('mentor_schedules', App\Http\Controllers\MentorScheduleController::class)
+    ->only(['create', 'store', 'destroy'])
+    ->middleware('auth:mentors');
 
 Route::resource('reservations', App\Http\Controllers\ReservationController::class)
+    ->only(['index', 'create', 'store', 'show', 'destroy'])
     ->middleware(['auth:users,mentors']);
 
 Route::resource('users.mentors.messages', App\Http\Controllers\MessageController::class)
@@ -49,10 +55,24 @@ Route::resource('mentors.messages', App\Http\Controllers\MentorMessageController
     ->middleware(['auth:mentors']);
 
 Route::resource('mentors.mentor_skills', App\Http\Controllers\MentorSkillController::class)
+    ->only(['create', 'store', 'destroy'])
     ->middleware('auth:mentors');
 
 Route::resource('mentors', App\Http\Controllers\MentorController::class)
-    ->middleware('auth:users,mentors');
+    ->only('show')
+    ->middleware('auth:users');
+
+Route::resource('mentors', App\Http\Controllers\MentorController::class)
+    ->only('index')
+    ->middleware('auth:mentors');
+
+Route::resource('mentors.bookmarks', App\Http\Controllers\BookmarkController::class)
+    ->only(['store', 'destroy'])
+    ->middleware('auth:users');
+
+Route::resource('mentors.reviews', App\Http\Controllers\ReviewController::class)
+    ->only(['store'])
+    ->middleware('auth:users');
 
 Route::post('/stripe/payment', [
     App\Http\Controllers\StripePaymentsController::class, 'payment'

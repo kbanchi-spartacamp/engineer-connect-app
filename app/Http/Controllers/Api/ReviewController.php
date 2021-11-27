@@ -2,25 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\MentorSkill;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Mentor;
-use App\Consts\MentorConst;
 use Illuminate\Support\Facades\DB;
+use App\Models\Review;
 
-class MentorSkillController extends Controller
+class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $id)
+    public function index()
     {
-        $mentor_skills = MentorSkill::with('skill_category')->where('mentor_id', $id)->get();
-        return $mentor_skills;
+        //
     }
 
     /**
@@ -29,22 +25,33 @@ class MentorSkillController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $mentor_id)
     {
-        $mentorSkill = new MentorSkill();
-        $mentorSkill->mentor_id = $request->mentor_id;
-        $mentorSkill->skill_category_id = $request->skill_category_id;
-        $mentorSkill->experience_year = $request->experience_year;
+        $review = Review::where('user_id', $request->user_id)
+            ->where('mentor_id', $mentor_id)
+            ->first();
+
+        if (empty($review)) {
+            $review = new Review();
+            $review->user_id = $request->user_id;
+            $review->mentor_id = $mentor_id;
+            $review->star = $request->review;
+        } else {
+            $review->star = $request->review;
+        }
 
         DB::beginTransaction();
         try {
-            $mentorSkill->save();
+            $review->save();
             DB::commit();
         } catch (\Exception $e) {
+            dd($e);
             DB::rollBack();
+            return back()->withInput()
+                ->withErrors('エラーが発生しました');
         }
 
-        return $mentorSkill;
+        return $review;
     }
 
     /**
@@ -78,17 +85,6 @@ class MentorSkillController extends Controller
      */
     public function destroy($id)
     {
-        $mentorSkill = MentorSkill::find($id);
-        DB::beginTransaction();
-        try {
-            $mentorSkill->delete();
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withInput()
-                ->withErrors('エラーが発生しました');
-        }
-
-        return $mentorSkill;
+        //
     }
 }

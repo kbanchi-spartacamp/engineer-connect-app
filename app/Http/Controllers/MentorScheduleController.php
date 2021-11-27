@@ -22,7 +22,7 @@ class MentorScheduleController extends Controller
      */
     public function index(Request $request)
     {
-        // 本日から一週間分の日付を取得
+        // 7日目の日付を取得
         $dates = [];
         $date = now();
         for ($i = 0; $i < 7; $i++) {
@@ -34,7 +34,6 @@ class MentorScheduleController extends Controller
         $skillCategories = SkillCategory::all();
 
         // ブックマーク情報を取得
-
 
         // 時間帯のプルダウンを取得
         $date = now();
@@ -134,7 +133,7 @@ class MentorScheduleController extends Controller
         $query->where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
             ->where('regular_type', '0')
             ->where('day_of_week', '<>', null);
-        $regular_mentorSchedules = $query->get();
+            $regular_mentorSchedules = $query->get();
 
         $query = MentorSchedule::query();
         $query->where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
@@ -162,10 +161,14 @@ class MentorScheduleController extends Controller
         $mentorIrregularSchedules = MentorSchedule::where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
             ->where('regular_type', 1)
             ->whereDate('day', now())
+            ->orderBy('day')
+            ->orderBy('start_time')
             ->get();
 
         $mentorRegularSchedules = MentorSchedule::where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
             ->where('regular_type', 0)
+            ->orderBy('day_of_week')
+            ->orderBy('start_time')
             ->get();
 
         return view('mentor_schedules.create', compact('times', 'open_times', 'mentorIrregularSchedules', 'mentorRegularSchedules', 'regular_mentorSchedules', 'irregular_mentorSchedules'));

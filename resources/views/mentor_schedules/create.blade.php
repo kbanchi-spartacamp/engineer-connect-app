@@ -12,7 +12,7 @@
                 <div class="flex justify-center mt-4 mb-5 ">
                     <img src="{{ $user->profile_photo_url }}" class="rounded-full object-cover w-20 h-20 ">
                 </div>
-                <form action="{{ route('mentor_schedules.store') }}" method="POST" class="rounded pb-4 ">
+                <form action="{{ route('mentor_schedules.store') }}" method="POST" class="rounded pb-4 " onsubmit="checkDoubleSubmit(document.getElementById('sendBtn'))">
                     @csrf
                     <div class="flex justify-center w-2/6 mb-5">
                         <p>本日の予定を登録してください</p>
@@ -50,7 +50,7 @@
                                         </select>
                                     </td>
                                     <td class="px-4 w-1/4">
-                                        <input type="submit" value="追加"
+                                        <input type="submit" value="追加" id="sendBtn"
                                             class="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded w-full">
                                     </td>
                                 </tr>
@@ -58,7 +58,7 @@
                         </table>
                     </div>
                 </form>
-                <form action="{{ route('mentor_schedules.store') }}" method="POST" class="rounded">
+                <form action="{{ route('mentor_schedules.store') }}" method="POST" class="rounded" onsubmit="checkDoubleSubmit(document.getElementById('btn'))">
                     @csrf
                     <div class="flex justify-center w-2/6 mb-5">
                         <p>定期的な予定を登録してください</p>
@@ -98,7 +98,7 @@
                                         </select>
                                     </td>
                                     <td class="px-4 w-1/4">
-                                        <input type="submit" value="追加"
+                                        <input type="submit" value="追加" id="btn"
                                             class="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded w-full">
                                     </td>
                                 </tr>
@@ -187,4 +187,14 @@
             </div>
         </div>
     </div>
+    <script>
+        function checkDoubleSubmit(obj) {
+                            if (obj.disabled) {
+                                return false;
+                            } else {
+                                obj.disabled = true;
+                                return true;
+                            }
+                        }
+    </script>
 </x-app-layout>

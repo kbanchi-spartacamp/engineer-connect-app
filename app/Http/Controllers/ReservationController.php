@@ -37,7 +37,10 @@ class ReservationController extends Controller
         $query = Reservation::query();
         if (Auth::guard(UserConst::GUARD)->check()) {
             $query->where('user_id', Auth::guard(UserConst::GUARD)->user()->id)
-                ->where('day', '>=', $today);
+                ->where('day', '>=', $today)
+                ->orderBy('day')
+                ->orderBy('start_time');
+
             if (empty($query->id)) {
                 $messages['reservation'] = '予定が入っていません。';
             }
@@ -58,7 +61,9 @@ class ReservationController extends Controller
             // $reservation = Reservation::find(Auth::guard(MentorConst::GUARD)->user()->id);
 
             $query->where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
-                ->where('day', '>=', $today);
+                ->where('day', '>=', $today)
+                ->orderBy('day')
+                ->orderBy('start_time');
         }
 
         $reservations = $query->get();
@@ -79,8 +84,16 @@ class ReservationController extends Controller
         $day = $request->day;
         $mentorSchedule = MentorSchedule::find($mentorScheduleId);
 
+        $query = Reservation::query();
+        $query->where('day', $day)
+            ->where('mentor_id', $mentorSchedule->mentor->id)
+            ->where('start_time', $mentorSchedule->start_time->format('H:i:s'));
+        $reservation = $query->first();
 
-        return view('reservations.create', compact('mentorSchedule', 'day'));
+        if (!empty($reservation)) {
+            $messages['reservation'] = '予定が入っています。';
+        }
+        return view('reservations.create', compact('mentorSchedule', 'day', 'reservation'));
     }
 
     /**
@@ -161,8 +174,9 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
-        if (Auth::guard(UserConst::GUARD)->user('delete', $reservation)) {
-            return redirect()->route('reservation.show', $reservation)
+
+        if ($reservation->user_id != Auth::guard(UserConst::GUARD)->user()->id) {
+            return redirect()->route('reservations.show', $reservation)
                 ->withErrors('自分の予約以外は削除できません');
         }
 
@@ -173,7 +187,7 @@ class ReservationController extends Controller
                 ->withErrors('予約情報削除処理でエラーが発生しました');
         }
 
-        return redirect()->route('reservation.index')
+        return redirect()->route('reservations.index')
             ->with('notice', '予約情報を削除しました');
     }
 }
