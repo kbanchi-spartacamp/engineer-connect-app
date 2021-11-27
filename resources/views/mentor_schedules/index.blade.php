@@ -106,12 +106,12 @@
                                             @if (empty($searchParam['day']) || empty($searchParam['day_of_week']))
                                                 @foreach ($mentor->my_schedules(now(), DayOfWeekConst::DAY_OF_WEEK_LIST_EN[now()->formatLocalized('%a')]) as $mentor_schedule)
                                                     <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ now()->format('Y-m-d') }}"
-                                                        class="text-center  bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full  font-semibold  cursor-pointer transition ease-in duration-500  ">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                        class="text-center bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full  font-semibold  cursor-pointer transition ease-in duration-500 mr-4 ">{{ $mentor_schedule->start_time->format('H:i') }}</a>
                                                 @endforeach
                                             @else
                                                 @foreach ($mentor->my_schedules($searchParam['day'], DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$searchParam['day_of_week']]) as $mentor_schedule)
                                                     <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="text-center   bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full  font-semibold  cursor-pointer transition ease-in duration-500  ">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                        class="text-center  bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 p-2 rounded-full  font-semibold  cursor-pointer transition ease-in duration-500 mr-4 ">{{ $mentor_schedule->start_time->format('H:i') }}</a>
                                                 @endforeach
                                             @endif
                                         </div>

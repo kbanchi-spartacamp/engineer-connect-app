@@ -37,7 +37,10 @@ class ReservationController extends Controller
         $query = Reservation::query();
         if (Auth::guard(UserConst::GUARD)->check()) {
             $query->where('user_id', Auth::guard(UserConst::GUARD)->user()->id)
-                ->where('day', '>=', $today);
+                ->where('day', '>=', $today)
+                ->orderBy('day')
+                ->orderBy('start_time');
+
             if (empty($query->id)) {
                 $messages['reservation'] = '予定が入っていません。';
             }
@@ -58,7 +61,9 @@ class ReservationController extends Controller
             // $reservation = Reservation::find(Auth::guard(MentorConst::GUARD)->user()->id);
 
             $query->where('mentor_id', Auth::guard(MentorConst::GUARD)->user()->id)
-                ->where('day', '>=', $today);
+                ->where('day', '>=', $today)
+                ->orderBy('day')
+                ->orderBy('start_time');
         }
 
         $reservations = $query->get();
