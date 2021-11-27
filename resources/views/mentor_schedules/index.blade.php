@@ -84,9 +84,11 @@
                                                     ★
                                                 @endforeach
                                             @endif
-                                            @foreach (range($mentor->my_review(), 4) as $i)
-                                                ☆
-                                            @endforeach
+                                            @if ($mentor->my_review() == 0)
+                                                @foreach (range($mentor->my_review(), 4) as $i)
+                                                    ☆
+                                                @endforeach
+                                            @endif
                                         </div>
                                     </div>
                                     <h2 class="text-lg text-gray-700 font-semibold">

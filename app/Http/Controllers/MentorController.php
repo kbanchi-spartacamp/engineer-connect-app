@@ -9,6 +9,7 @@ use App\Models\Mentor;
 use Illuminate\Support\Facades\Auth;
 use App\Consts\MentorConst;
 use App\Consts\UserConst;
+use App\Models\Bookmark;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -120,55 +121,11 @@ class MentorController extends Controller
             'bookmark'  => $bookmark,
         ];
 
-        // メンターおよびスケジュールの情報を取得
-        $query = Mentor::query();
-        // スキルカテゴリー条件
-        if (!empty($skillCategoryId)) {
-            $query->whereHas('mentor_skills', function ($q) use ($skillCategoryId) {
-                $q->where('skill_category_id', $skillCategoryId);
-            });
-        }
-        // 日付条件&開始終了時間条件
-        if (!empty($startTime) && !empty($endTime)) {
-            $startTime = new Carbon($startTime);
-            $endTime = new Carbon($endTime);
-            if (!empty($day) && !empty($dayOfWeek)) {
-                $day = new Carbon($day);
-                $dayOfWeek = DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$dayOfWeek];
-            }
-            $param = [
-                'startTime' => $startTime,
-                'endTime' => $endTime,
-                'day' => $day,
-                'dayOfWeek' => $dayOfWeek
-            ];
-            $query->whereHas('mentor_schedules', function ($q) use ($param) {
-                $q->where('day', $param['day'])
-                    ->where('start_time', '>=', $param['startTime'])
-                    ->where('start_time', '<=', $param['endTime']);
-            });
-            $query->whereHas('mentor_schedules', function ($q) use ($param) {
-                $q->orWhere('day_of_week', $param['dayOfWeek'])
-                    ->where('start_time', '>=', $param['startTime'])
-                    ->where('start_time', '<=', $param['endTime']);
-            });
-        }
+        $bookmark = Bookmark::where('user_id', Auth::guard(UserConst::GUARD)->user()->id)
+            ->where('mentor_id', $mentor->id)
+            ->first();
 
-        // ブックマーク
-        if (!empty($bookmark) && ($bookmark == 'true')) {
-            $param = [
-                'user_id' => Auth::guard(UserConst::GUARD)->user()->id,
-            ];
-            $query->whereHas('bookmarks', function ($q) use ($param) {
-                $q->where('user_id', $param['user_id']);
-            });
-        }
-        // データの取得
-        $mentors = $query->get();
-
-        //テーブルの時間取得
-
-        return view('mentors.show', compact('mentor', 'today', 'tommorrow', 'dayAfterTommorrow', 'threeDaysLater', 'fourDaysLater', 'fiveDaysLater', 'sixDaysLater', 'skillCategories', 'times', 'searchParam'));
+        return view('mentors.show', compact('mentor', 'bookmark', 'today', 'tommorrow', 'dayAfterTommorrow', 'threeDaysLater', 'fourDaysLater', 'fiveDaysLater', 'sixDaysLater', 'skillCategories', 'times', 'searchParam'));
     }
 
     /**
