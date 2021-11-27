@@ -66,6 +66,14 @@ Route::resource('mentors', App\Http\Controllers\MentorController::class)
     ->only('index')
     ->middleware('auth:mentors');
 
+Route::resource('mentors.bookmarks', App\Http\Controllers\BookmarkController::class)
+    ->only(['store', 'destroy'])
+    ->middleware('auth:users');
+
+Route::resource('mentors.reviews', App\Http\Controllers\ReviewController::class)
+    ->only(['store'])
+    ->middleware('auth:users');
+
 Route::post('/stripe/payment', [
     App\Http\Controllers\StripePaymentsController::class, 'payment'
 ])->name('payment');
