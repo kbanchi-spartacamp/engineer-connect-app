@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => ['api']], function () {
+Route::group(['middleware' => ['api', 'auth:sanctum']], function () {
     Route::apiResource('users.mentors.messages', App\Http\Controllers\Api\MessageController::class);
     Route::apiResource('mentor_schedules', App\Http\Controllers\Api\MentorScheduleController::class);
     Route::apiResource('reservations', App\Http\Controllers\Api\ReservationController::class);
