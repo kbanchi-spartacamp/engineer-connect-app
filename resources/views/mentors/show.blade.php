@@ -19,14 +19,14 @@
                         <div class="flex justify-end border-gray-900 px-2 h-7 leading-7 m-6 rounded-full text-right">
                             平均評価 :
                             @if ($mentor->my_review() != 0)
-                            @foreach (range(1, $mentor->my_review()) as $i)
-                            ★
-                            @endforeach
+                                @foreach (range(1, $mentor->my_review()) as $i)
+                                    ★
+                                @endforeach
                             @endif
                             @if ($mentor->my_review() == 0)
-                            @foreach (range($mentor->my_review(), 4) as $i)
-                            ☆
-                            @endforeach
+                                @foreach (range($mentor->my_review(), 4) as $i)
+                                    ☆
+                                @endforeach
                             @endif
                         </div>
                         <div class="flex justify-end border-gray-900 px-2  leading-7 m-2 rounded-full text-right">
@@ -46,29 +46,30 @@
                         <div class="flex justify-end m-2">
                             <div class="m-4">
                                 @if (empty($bookmark))
-                                <form action="{{ route('mentors.bookmarks.store', $mentor) }}" method="post" onsubmit="checkDoubleSubmit(document.getElementById('sendBtn'))" >
-                                    @csrf
-                                    <input type="submit" value="ブックマーク" id="sendBtn"
-                                        class="text-xl hover:text-yellow-500 bg-transparent text-black font-medium">
-                                </form>
+                                    <form action="{{ route('mentors.bookmarks.store', $mentor) }}" method="post"
+                                        onsubmit="checkDoubleSubmit(document.getElementById('sendBtn'))">
+                                        @csrf
+                                        <input type="submit" value="ブックマーク" id="sendBtn"
+                                            class="text-xl hover:text-yellow-500 bg-transparent text-black font-medium">
+                                    </form>
                                 @else
-                                <form action="{{ route('mentors.bookmarks.destroy', [$mentor, $bookmark]) }}"
-                                    method="post" onsubmit="checkDoubleSubmit(document.getElementById('sendBtn'))">
-                                    @csrf
-                                    @method('delete')
-                                    <input type="submit" value="ブックマーク" id="sendBtn"
-                                        class="text-xl text-yellow-500 hover:text-black bg-transparent font-medium">
-                                </form>
+                                    <form action="{{ route('mentors.bookmarks.destroy', [$mentor, $bookmark]) }}"
+                                        method="post" onsubmit="checkDoubleSubmit(document.getElementById('sendBtn'))">
+                                        @csrf
+                                        @method('delete')
+                                        <input type="submit" value="ブックマーク" id="sendBtn"
+                                            class="text-xl text-yellow-500 hover:text-black bg-transparent font-medium">
+                                    </form>
                                 @endif
                             </div>
                             <div class="m-4 content pr-4">
-                                <form action="{{ route('payment') }}" method="post" >
+                                <form action="{{ route('payment') }}" method="post">
                                     {{ csrf_field() }}
-                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                        data-key="{{ env('STRIPE_KEY') }}" data-amount="500" data-name="Stripe Demo"
-                                        data-label="決済をする" data-description="Online course about integrating Stripe"
-                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                                        data-locale="auto" data-currency="JPY">
+                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="{{ env('STRIPE_KEY') }}"
+                                                                        data-amount="500" data-name="Stripe Demo" data-label="決済をする"
+                                                                        data-description="Online course about integrating Stripe"
+                                                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                                                        data-locale="auto" data-currency="JPY">
                                     </script>
                                 </form>
                             </div>
@@ -80,7 +81,7 @@
                                 </div>
                                 <div class="flex justify-center">
                                     @foreach ($mentor->mentor_skills as $mentor_skill)
-                                    <p class="text-gray-1000 m-4">・{{ $mentor_skill->skill_category->name }}</p>
+                                        <p class="text-gray-1000 m-4">・{{ $mentor_skill->skill_category->name }}</p>
                                     @endforeach
                                 </div>
                                 <div class="flex justify-center">
@@ -99,14 +100,11 @@
                                             <p class="text-2xl hover:text-blue-500">
                                                 {{ $today->formatLocalized('%m/%d(%a)') }}</p>
                                             <div class="flex overflow-x-auto">
-                                                @foreach ($mentor->my_schedules($today,
-                                                DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$today->formatLocalized('%a')]) as
-                                                $mentor_schedule)
-                                                <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-300 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{
-                                                        $mentor_schedule->start_time->format('H:i') }}</a>
-                                                </div>
+                                                @foreach ($mentor->my_schedules($today, DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$today->formatLocalized('%a')]) as $mentor_schedule)
+                                                    <div>
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $today->format('Y-m-d') }}"
+                                                            class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-300 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    </div>
                                                 @endforeach
                                             </div>
                                         </div>
@@ -114,14 +112,11 @@
                                             <p class="text-2xl hover:text-blue-500">
                                                 {{ $tommorrow->formatLocalized('%m/%d(%a)') }}</p>
                                             <div class="flex overflow-x-auto">
-                                                @foreach ($mentor->my_schedules($tommorrow,
-                                                DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$tommorrow->formatLocalized('%a')])
-                                                as $mentor_schedule)
-                                                <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{
-                                                        $mentor_schedule->start_time->format('H:i') }}</a>
-                                                </div>
+                                                @foreach ($mentor->my_schedules($tommorrow, DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$tommorrow->formatLocalized('%a')]) as $mentor_schedule)
+                                                    <div>
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $tommorrow->format('Y-m-d') }}"
+                                                            class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    </div>
                                                 @endforeach
                                             </div>
                                         </div>
@@ -129,14 +124,11 @@
                                             <p class="text-2xl hover:text-blue-500">
                                                 {{ $dayAfterTommorrow->formatLocalized('%m/%d(%a)') }}</p>
                                             <div class="flex overflow-x-auto">
-                                                @foreach ($mentor->my_schedules($dayAfterTommorrow,
-                                                DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$dayAfterTommorrow->formatLocalized('%a')])
-                                                as $mentor_schedule)
-                                                <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{
-                                                        $mentor_schedule->start_time->format('H:i') }}</a>
-                                                </div>
+                                                @foreach ($mentor->my_schedules($dayAfterTommorrow, DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$dayAfterTommorrow->formatLocalized('%a')]) as $mentor_schedule)
+                                                    <div>
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $dayAfterTommorrow->format('Y-m-d') }}"
+                                                            class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    </div>
                                                 @endforeach
                                             </div>
                                         </div>
@@ -144,14 +136,11 @@
                                             <p class="text-2xl hover:text-blue-500">
                                                 {{ $threeDaysLater->formatLocalized('%m/%d(%a)') }}</p>
                                             <div class="flex overflow-x-auto">
-                                                @foreach ($mentor->my_schedules($threeDaysLater,
-                                                DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$threeDaysLater->formatLocalized('%a')])
-                                                as $mentor_schedule)
-                                                <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{
-                                                        $mentor_schedule->start_time->format('H:i') }}</a>
-                                                </div>
+                                                @foreach ($mentor->my_schedules($threeDaysLater, DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$threeDaysLater->formatLocalized('%a')]) as $mentor_schedule)
+                                                    <div>
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $threeDaysLater->format('Y-m-d') }}"
+                                                            class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    </div>
                                                 @endforeach
                                             </div>
                                         </div>
@@ -159,14 +148,11 @@
                                             <p class="text-2xl hover:text-blue-500">
                                                 {{ $fourDaysLater->formatLocalized('%m/%d(%a)') }}</p>
                                             <div class="flex overflow-x-auto">
-                                                @foreach ($mentor->my_schedules($fourDaysLater,
-                                                DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$fourDaysLater->formatLocalized('%a')])
-                                                as $mentor_schedule)
-                                                <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{
-                                                        $mentor_schedule->start_time->format('H:i') }}</a>
-                                                </div>
+                                                @foreach ($mentor->my_schedules($fourDaysLater, DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$fourDaysLater->formatLocalized('%a')]) as $mentor_schedule)
+                                                    <div>
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $fourDaysLater->format('Y-m-d') }}"
+                                                            class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    </div>
                                                 @endforeach
                                             </div>
                                         </div>
@@ -174,14 +160,11 @@
                                             <p class="text-2xl hover:text-blue-500">
                                                 {{ $fiveDaysLater->formatLocalized('%m/%d(%a)') }}</p>
                                             <div class="flex overflow-x-auto">
-                                                @foreach ($mentor->my_schedules($fiveDaysLater,
-                                                DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$fiveDaysLater->formatLocalized('%a')])
-                                                as $mentor_schedule)
-                                                <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{
-                                                        $mentor_schedule->start_time->format('H:i') }}</a>
-                                                </div>
+                                                @foreach ($mentor->my_schedules($fiveDaysLater, DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$fiveDaysLater->formatLocalized('%a')]) as $mentor_schedule)
+                                                    <div>
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $fiveDaysLater->format('Y-m-d') }}"
+                                                            class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    </div>
                                                 @endforeach
                                             </div>
                                         </div>
@@ -189,20 +172,16 @@
                                             <p class="text-2xl hover:text-blue-500">
                                                 {{ $sixDaysLater->formatLocalized('%m/%d(%a)') }}</p>
                                             <div class="flex overflow-x-auto">
-                                                @foreach ($mentor->my_schedules($sixDaysLater,
-                                                DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$sixDaysLater->formatLocalized('%a')])
-                                                as $mentor_schedule)
-                                                <div>
-                                                    <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $searchParam['day'] }}"
-                                                        class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{
-                                                        $mentor_schedule->start_time->format('H:i') }}</a>
-                                                </div>
+                                                @foreach ($mentor->my_schedules($sixDaysLater, DayOfWeekConst::DAY_OF_WEEK_LIST_EN[$sixDaysLater->formatLocalized('%a')]) as $mentor_schedule)
+                                                    <div>
+                                                        <a href="/reservations/create?mentor_schedule_id={{ $mentor_schedule->id }}&day={{ $fiveDaysLater->format('Y-m-d') }}"
+                                                            class="flex bg-gradient-to-r from-yellow-300 to-yellow-500 hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-200 text-gray-100 ml-10 px-7 py-3 rounded-full tracking-wide font-semibold  cursor-pointer transition ease-in">{{ $mentor_schedule->start_time->format('H:i') }}</a>
+                                                    </div>
                                                 @endforeach
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                 </article>
@@ -217,12 +196,12 @@
     </div>
     <script>
         function checkDoubleSubmit(obj) {
-                if (obj.disabled) {
-                    return false;
-                } else {
-                    obj.disabled = true;
-                    return true;
-                }
+            if (obj.disabled) {
+                return false;
+            } else {
+                obj.disabled = true;
+                return true;
             }
+        }
     </script>
 </x-app-layout>
